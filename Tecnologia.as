@@ -16,6 +16,7 @@
 		protected var _nomeTecnologia : String;
 		protected var _planeta : Planeta;
 		protected var _nivel : uint;
+		protected var _custoMinerioLevelUp : uint;
 		
 		public function Tecnologia(codigoTecnologia : uint = 0, planeta : Planeta = null, nivel : uint = 0)
 		{
@@ -23,6 +24,8 @@
 			_planeta = planeta;
 			_nivel = nivel;
 			gotoAndStop(_codigoTecnologia + 1);
+			
+			
 
 			switch(_codigoTecnologia)
 			{
@@ -76,6 +79,16 @@
 		
 		
 
+		public function get custoMinerioLevelUp():uint
+		{
+			return _custoMinerioLevelUp;
+		}
+
+		public function set custoMinerioLevelUp(value:uint):void
+		{
+			_custoMinerioLevelUp = value;
+		}
+
 		public function get nomeTecnologia():String
 		{
 			return _nomeTecnologia;
@@ -96,6 +109,7 @@
 				{
 					planeta.atmosfera.percentagemDioxidoDeCarbono -= planeta.atmosfera.percentagemDioxidoDeCarbono * 0.1 * modificador;
 					planeta.temperatura -= 0.3 * modificador;
+
 					break;
 				}
 					
@@ -142,6 +156,10 @@
 				}
 					
 			}
+			planeta.recursos.minerio += 1000*nivel * modificador;
+			_custoMinerioLevelUp = 1000*nivel;
+			
+			
 			planeta.atualizaAparencia();
 
 		}

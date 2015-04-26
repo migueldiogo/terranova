@@ -11,8 +11,8 @@
 		public function Recursos() {
 			minerio = 1000;
 			energia = 3000;
-			_minerioTaxa = 10;
-			_minerioTaxa = 20;
+			_minerioTaxa = 5;
+			_energiaTaxa = 1;
 		}
 
 		public function get energiaTaxa():uint
