@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <atmosfera>
+        <CO2>
+            <descricao>Dióxido de Carbono</descricao>
+            <parametros>
+                <minimo>100</minimo>
+                <maximo>400</maximo>
+            </parametros>
+        </CO2>
+        
+        <CH4>
+            <descricao>Metano</descricao>
+            <parametros>
+                <minimo>0.5</minimo>
+                <maximo>3.0</maximo>
+            </parametros>
+        </CH4>
+        
+        <N2>
+            <descricao>Azoto</descricao>
+            <parametros>
+                <minimo>600000</minimo>
+                <maximo>900000</maximo>
+            </parametros>
+        </N2>
+        
+        <O2>
+            <descricao>Oxigénio</descricao>
+            <parametros>
+                <minimo>100000</minimo>
+                <maximo>400000</maximo>
+            </parametros>
+        </O2>
+        
+        <O3>
+            <descricao>Ozono</descricao>
+            <parametros>
+                <minimo>0.04</minimo>
+                <maximo>0.15</maximo>
+            </parametros>
+        </O3>
+    </atmosfera>
+    
+    <fisica>
+        <gravidade>
+            <descricao>Gravidade</descricao>
+            <parametros>
+                <minimo>8.5</minimo>
+                <maximo>10.0</maximo>
+            </parametros>
+        </gravidade>
+        
+        <luas>
+            <descricao>Luas</descricao>
+            <parametros>
+                <minimo>1</minimo>
+                <maximo>3</maximo>
+            </parametros>
+        </luas>
+    </fisica>
+    
+</data>

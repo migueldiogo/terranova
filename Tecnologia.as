@@ -4,80 +4,43 @@
 
 	public class Tecnologia extends MovieClip implements AlteradorPlaneta
 	{
-		protected static var FILTRO_DE_CARBONO : uint = 0;
-		protected static var PRODUTOR_DE_OZONO : uint = 1;
-		protected static var DESTRUIDOR_DE_LUAS : uint = 2;		
-		protected static var MODIFICADOR_ROTACIONAL : uint = 3;		
-		protected static var EXPLORADOR_DE_MINERIO : uint = 4;
-		protected static var ENERGIAS_RENOVAVEIS : uint = 5;
-		
-		
+
+			
 		protected var _codigoTecnologia : uint;
 		protected var _nomeTecnologia : String;
 		protected var _planeta : Planeta;
 		protected var _nivel : uint;
 		protected var _custoMinerioLevelUp : uint;
+		protected var _taxaEnergiaCurrentLevel : uint;
+		protected var _taxaEnergiaLevelUp : uint;
+		protected var _descricao : String;
 		
-		public function Tecnologia(codigoTecnologia : uint = 0, planeta : Planeta = null, nivel : uint = 0)
+		public function Tecnologia(codigoTecnologia : uint = 0, planeta : Planeta = null, nivel : uint = 0, nomeTecnologia : String = null, descricao : String = null, custoMinerioLevelUp : uint = NaN)
 		{
+			stop();
 			_codigoTecnologia = codigoTecnologia;
 			_planeta = planeta;
 			_nivel = nivel;
-			gotoAndStop(_codigoTecnologia + 1);
-			
-			
-
-			switch(_codigoTecnologia)
-			{
-				case FILTRO_DE_CARBONO:
-				{
-					_nomeTecnologia = "Filtro de Carbono";
-					break;
-				}
-					
-				case PRODUTOR_DE_OZONO:
-				{
-					_nomeTecnologia = "Produtor de Ozono";
-					break;
-				}
-					
-				case DESTRUIDOR_DE_LUAS:
-				{
-					_nomeTecnologia = "Destruidor de Luas";
-					break;
-				}
-					
-				case MODIFICADOR_ROTACIONAL:
-				{
-					_nomeTecnologia = "Modificador Rotacional";
-					break;
-				}
-					
-				case EXPLORADOR_DE_MINERIO:
-				{
-					_nomeTecnologia = "Explorador de Minério";
-					break;
-				}
-					
-				case ENERGIAS_RENOVAVEIS:
-				{
-					_nomeTecnologia = "Energias Renováveis";
-					break;
-				}
-					
-				default:
-				{
-					break;
-				}
-					
-			}
+			_nomeTecnologia = nomeTecnologia;
+			_custoMinerioLevelUp = custoMinerioLevelUp;
+			_descricao = descricao;
 			
 			tecnologiaTextLabel.text = _nomeTecnologia;
-			
-			
+			custoLabel.text = "Minerio: " + _custoMinerioLevelUp;	
+			descricaoLabel.text = _descricao;
 		}
 		
 		
+
+		public function get descricao():String
+		{
+			return _descricao;
+		}
+
+		public function set descricao(value:String):void
+		{
+			_descricao = value;
+		}
 
 		public function get custoMinerioLevelUp():uint
 		{
@@ -103,6 +66,7 @@
 			var modificador : uint = (direcao) ? 1 : -1;
 			
 			
+			/*
 			switch(_codigoTecnologia)
 			{
 				case FILTRO_DE_CARBONO:
@@ -156,6 +120,7 @@
 				}
 					
 			}
+			*/
 			planeta.recursos.minerio += 1000*nivel * modificador;
 			_custoMinerioLevelUp = 1000*nivel;
 			

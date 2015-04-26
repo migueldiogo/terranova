@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <terra>
+        <nome>Terra</nome>
+        <distanciaEstelaMae>1</distanciaEstelaMae>
+        <periodoTraslacao>365</periodoTraslacao>
+        <periodoRotacao>24</periodoRotacao>
+        
+        <atmosfera>
+            <gas>
+                <nome>Dióxido de Carbono</nome>
+                <parametro>
+                    <valor>397</valor>
+                    <minimo>100</minimo>
+                    <maximo>400</maximo>
+                </parametro>
+            </gas>
+            
+            <gas>
+                <nome>Metano</nome>
+                <parametro>
+                    <valor>1.79</valor>
+                    <minimo>0.5</minimo>
+                    <maximo>3.0</maximo>
+                </parametro>
+            </gas>
+            
+            <gas>
+                <nome>Azoto</nome>
+                <parametro>
+                    <valor>780840</valor>
+                    <minimo>600000</minimo>
+                    <maximo>900000</maximo>
+                </parametro>
+            </gas>
+            
+            <gas>
+                <nome>Oxigénio</nome>
+                <parametro>
+                    <valor>209460</valor>
+                    <minimo>100000</minimo>
+                    <maximo>400000</maximo>
+                </parametro>
+            </gas>
+            
+            <gas>
+                <nome>Ozono</nome>
+                <parametro>
+                    <valor>0.085</valor>
+                    <minimo>0.04</minimo>
+                    <maximo>0.15</maximo>
+                </parametro>
+            </gas>
+        </atmosfera>
+        
+        <geodinamica>
+            <elemento>
+                <nome>Gravidade</nome>
+                <parametro>
+                    <valor>9.8</valor>
+                    <minimo>8.5</minimo>
+                    <maximo>10</maximo>
+                </parametro>
+            </elemento>
+            
+            <elemento>
+                <nome>Luas</nome>
+                <parametro>
+                    <valor>1</valor>
+                    <minimo>1</minimo>
+                    <maximo>3</maximo>
+                </parametro>
+            </elemento>
+        </geodinamica>
+        
+    </terra>
+    
+    <planeta>
+        <nome>Pliubos</nome>
+        <distanciaEstelaMae>1.4</distanciaEstelaMae>
+        <periodoTraslacao>412.4</periodoTraslacao>
+        <periodoRotacao>30.3</periodoRotacao>
+        <atmosfera>
+            <gas>
+                <nome>Dióxido de Carbono</nome>
+                <valor>500</valor>
+            </gas>
+            
+            <gas>
+                <nome>Metano</nome>
+                <valor>4.3</valor>
+
+            </gas>
+            
+            <gas>
+                <nome>Azoto</nome>
+                <valor>100000</valor>
+            </gas>
+            
+            <gas>
+                <nome>Oxigénio</nome>
+                <valor>20000</valor>
+            </gas>
+            
+            <gas>
+                <nome>Ozono</nome>
+                <valor>0.005</valor>
+            </gas>
+        </atmosfera>
+        
+        <geodinamica>
+            <elemento>
+                <nome>Gravidade</nome>
+                <valor>6.6</valor>
+            </elemento>
+            
+            <elemento>
+                <nome>Luas</nome>
+                <valor>1</valor>
+            </elemento>
+        </geodinamica>
+    </planeta>
+
+</data>
