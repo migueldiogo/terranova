@@ -9,12 +9,12 @@ package
 	{		
 		public static var DIOXIDO_DE_CARBONO : uint = 0;
 		public static var METANO : uint = 1;
-		public static var AZOTO : uint = 2;
 		public static var OXIGENIO : uint = 3;
 		public static var OZONO : uint = 4;
 		
-		public static var GRAVIDADE : uint = 0;
-		public static var LUAS : uint = 1;
+		public var GRAVIDADE : uint = 0;
+		public var GRAVIDADEEXT : uint = 1;
+		public var SPIN : uint = 2;
 
 		private var _distanciaEstrelaMae : Number;
 		private var _periodoTranslacao : Number;

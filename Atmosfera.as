@@ -2,21 +2,17 @@
 	
 	public class Atmosfera {
 
-		public static var _oxigenio : uint;
-		public static var _azoto : uint;
-		public static var _dioxidoDeCarbono : uint;
-		public static var _ozono : uint;
-		public static var _metano : uint;
+		public var CO2 : uint = 0;
+		public var CH4 : uint = 1;
+		public var O2 : uint = 2
+		public var O3 : uint = 3;
+
 		
-		
-		private var _percentagemOxigenio : Number;
-		private var _percentagemAzoto : Number;
-		private var _percentagemDioxidoDeCarbono : Number;
-		private var _percentagemOzono : Number;
-		private var _percentagemMetano : Number;
+		private var _gases : Vector.<double>;
 		
 		public function Atmosfera() {
 			// constructor code
+			gases : new Vector.<double>(4);
 		}
 
 		
@@ -25,6 +21,17 @@
 		//
 		
 		
+
+
+		public function get gases():Vector.<double>
+		{
+			return _gases;
+		}
+
+		public function set gases(value:Vector.<double>):void
+		{
+			_gases = value;
+		}
 
 	}
 	

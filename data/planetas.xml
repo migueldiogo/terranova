@@ -2,8 +2,8 @@
 <data>
     <terra>
         <nome>Terra</nome>
-        <distanciaEstelaMae>1</distanciaEstelaMae>
-        <periodoTraslacao>365</periodoTraslacao>
+        <distanciaEstrelaMae>1</distanciaEstrelaMae>
+        <periodoTranslacao>365</periodoTranslacao>
         <periodoRotacao>24</periodoRotacao>
         
         <atmosfera>
@@ -25,14 +25,6 @@
                 </parametro>
             </gas>
             
-            <gas>
-                <nome>Azoto</nome>
-                <parametro>
-                    <valor>780840</valor>
-                    <minimo>600000</minimo>
-                    <maximo>900000</maximo>
-                </parametro>
-            </gas>
             
             <gas>
                 <nome>Oxigénio</nome>
@@ -77,8 +69,8 @@
     
     <planeta>
         <nome>Pliubos</nome>
-        <distanciaEstelaMae>1.4</distanciaEstelaMae>
-        <periodoTraslacao>412.4</periodoTraslacao>
+        <distanciaEstrelaMae>1.4</distanciaEstrelaMae>
+        <periodoTranslacao>412.4</periodoTranslacao>
         <periodoRotacao>30.3</periodoRotacao>
         <atmosfera>
             <gas>
@@ -90,11 +82,6 @@
                 <nome>Metano</nome>
                 <valor>4.3</valor>
 
-            </gas>
-            
-            <gas>
-                <nome>Azoto</nome>
-                <valor>100000</valor>
             </gas>
             
             <gas>
@@ -115,8 +102,13 @@
             </elemento>
             
             <elemento>
-                <nome>Luas</nome>
-                <valor>1</valor>
+                <nome>Gravidade Externa</nome>
+                <valor>2.2</valor>
+            </elemento>
+            
+            <elemento>
+                <nome>Spin</nome>
+                <valor>24</valor>
             </elemento>
         </geodinamica>
     </planeta>

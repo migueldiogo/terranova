@@ -7,58 +7,146 @@
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
         <custos>
-            <minerio>1030</minerio>
-            <energia>100</energia>
+            <minerio>100</minerio>
+            <energia>75</energia>
         </custos>
         <actions>
-            <CO2>
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
                 <valor>-50</valor>
             </CO2>
             
-            <CH4>
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
                 <valor>0</valor>
                 
             </CH4>
             
-            <N2>
-                <valor>0</valor>
-            </N2>
-            
-            <O2>
+            <O2 type="atmosfera">
+                <nome>O2</nome>
                 <valor>50000</valor>
             </O2>
             
-            <O3>
+            <O3 type="atmosfera">
+                <nome>O3</nome>
                 <valor>0</valor>
-            </O3>
+            </O3 type="atmosfera">
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            <GravidadeExt>
+                <nome>Gravidade Externa</nome>
+                <valor>0</valor>
+            </GravidadeExt>
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
         </actions>
     </tecnologia>
     
     <tecnologia>
-        <nome>XXXXXX</nome>
-        <descricao></descricao>
+        <nome>Filtro de Carbono</nome>
+        <descricao>O Filtro de Carbono é uma infraestrutura responsável pela purificação de dióxido de carbono em oxigéno essencial ao ser humano. Esta tecnologia irá baixar o volume de dióxido de carbono na atmosfera e consequentemente aumentar a de oxigénio.
+        </descricao>
+        <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
-        
-        <CO2>
-            <valor>-100</valor>
-        </CO2>
-        
-        <CH4>
-            <valor>0</valor>
+        <custos>
+            <minerio>100</minerio>
+            <energia>75</energia>
+        </custos>
+        <actions>
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
+                <valor>-50</valor>
+            </CO2>
             
-        </CH4>
-        
-        <N2>
-            <valor>0</valor>
-        </N2>
-        
-        <O2>
-            <valor>0</valor>
-        </O2>
-        
-        <O3>
-            <valor>0</valor>
-        </O3>
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
+                <valor>0</valor>
+                
+            </CH4>
+            
+            <O2 type="atmosfera">
+                <nome>O2</nome>
+                <valor>50000</valor>
+            </O2>
+            
+            <O3 type="atmosfera">
+                <nome>O3</nome>
+                <valor>0</valor>
+            </O3 type="atmosfera">
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            <GravidadeExt>
+                <nome>Gravidade Externa</nome>
+                <valor>0</valor>
+            </GravidadeExt>
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+        </actions>
     </tecnologia>
-
+    
+    <tecnologia>
+        <nome>Filtro de Carbono</nome>
+        <descricao>O Filtro de Carbono é uma infraestrutura responsável pela purificação de dióxido de carbono em oxigéno essencial ao ser humano. Esta tecnologia irá baixar o volume de dióxido de carbono na atmosfera e consequentemente aumentar a de oxigénio.
+        </descricao>
+        <imageURL>data/tecnologiasImages/FC.png</imageURL>
+        <categoria>Atmosfera</categoria>
+        <custos>
+            <minerio>100</minerio>
+            <energia>75</energia>
+        </custos>
+        <actions>
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
+                <valor>-50</valor>
+            </CO2>
+            
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
+                <valor>0</valor>
+                
+            </CH4>
+            
+            <O2 type="atmosfera">
+                <nome>O2</nome>
+                <valor>50000</valor>
+            </O2>
+            
+            <O3 type="atmosfera">
+                <nome>O3</nome>
+                <valor>0</valor>
+            </O3 type="atmosfera">
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            <GravidadeExt>
+                <nome>Gravidade Externa</nome>
+                <valor>0</valor>
+            </GravidadeExt>
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+        </actions>
+    </tecnologia>
 </data>
