@@ -4,46 +4,80 @@ package
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.text.TextField;
+	
 
 	public class Planeta extends Astro
 	{		
-		public static var DIOXIDO_DE_CARBONO : uint = 0;
-		public static var METANO : uint = 1;
+		// constantes de acesso ao vetor _dados
+		public static var TAXA_MINERIO : uint = 0;
+		public static var DIOXIDO_DE_CARBONO : uint = 1;
+		public static var METANO : uint = 2;
 		public static var OXIGENIO : uint = 3;
 		public static var OZONO : uint = 4;
 		
-		public var GRAVIDADE : uint = 0;
-		public var GRAVIDADEEXT : uint = 1;
-		public var SPIN : uint = 2;
-
+		public static var GRAVIDADE : uint = 5;
+		public static var SPIN : uint = 6;
+		public static var LAPSE : uint = 7;
+		public static var TEMPERATURA : uint = 8;
+		
+		public static var TSUNAMI: uint = 9;
+		public static var VULCOES: uint = 10;
+		public static var METEORITOS: uint = 11;
+		
+		
+		
 		private var _distanciaEstrelaMae : Number;
 		private var _periodoTranslacao : Number;
 		private var _periodoRotacao : Number;
 		
 		private var _habitavel : Boolean;
-		//private var _estrela : Estrela;
 		
-		private var _atmosfera : Vector.<Parametro>;
-		private var _geodinamica : Vector.<Parametro>;
+		private var _dados : Vector.<Parametro>;
 		
 		private var _recursos : Recursos;
-		private var _catastrofes : Array;
 		private var _laboratorio : Laboratorio;
 		
+		private var _modelo : Planeta;
 		
-		public function Planeta(nome : String = null, raio : Number = NaN, gravidade : Number = NaN, massa : Number = NaN, temperatura : Number = NaN)
+		
+		public function Planeta(modelo : Planeta = null)
 		{
 			super();
-			_atmosfera = new Vector.<Parametro>();
-			_geodinamica = new Vector.<Parametro>();
-			_catastrofes = new Array(3);
-			catastrofes[Catastrofe.TSUNAMI] = new Catastrofe(Catastrofe.TSUNAMI, 0.5);
-			catastrofes[Catastrofe.ERUPSAO] = new Catastrofe(Catastrofe.ERUPSAO, 0.5);
-			catastrofes[Catastrofe.METEORITO] = new Catastrofe(Catastrofe.METEORITO, 0.5);	
-			
+			_modelo = modelo;
+			_dados = new Vector.<Parametro>();			
 			_recursos = new Recursos();
 			
 
+		}
+		
+		public function atualizaDados()
+		{
+			
+			for (var i : uint  = 0; i < _dados.length; i++) {
+				var texto : String = "";
+				
+				if (_dados[i].valor < _modelo.dados[i].valorOtimoMinimo || _dados[i].valor > _modelo.dados[i].valorOtimoMaximo) {
+					texto += '<font color="#FF0000">';
+					texto += _dados[i].valor + "</font>\n";
+				}
+				else if (isNaN(_modelo.dados[i].valorOtimoMinimo) || isNaN(_modelo.dados[i].valorOtimoMaximo)) {
+					texto += _dados[i].valor + "\n";
+				}
+				else {
+					texto += '<font color="#00FF00">';
+					texto += _dados[i].valor + "</font>\n";
+				}
+				
+				_dados[i].valorLabel.htmlText = _dados[i].nome + ": " + texto;
+
+				trace(texto);
+			}
+			
+			
+
+			
+			
 		}
 		
 		
@@ -54,25 +88,17 @@ package
 		// Getters and Setters
 		// 
 		
-		public function get geodinamica():Vector.<Parametro>
+		public function get dados():Vector.<Parametro>
 		{
-			return _geodinamica;
+			return _dados;
 		}
 
-		public function set geodinamica(value:Vector.<Parametro>):void
+		public function set dados(value:Vector.<Parametro>):void
 		{
-			_geodinamica = value;
+			_dados = value;
 		}
 
-		public function get atmosfera():Vector.<Parametro>
-		{
-			return _atmosfera;
-		}
-
-		public function set atmosfera(value:Vector.<Parametro>):void
-		{
-			_atmosfera = value;
-		}
+		
 
 		public function get laboratorio():Laboratorio
 		{
@@ -84,15 +110,7 @@ package
 			_laboratorio = value;
 		}
 
-		public function get catastrofes():Array
-		{
-			return _catastrofes;
-		}
 
-		public function set catastrofes(value:Array):void
-		{
-			_catastrofes = value;
-		}
 
 		public function get recursos():Recursos
 		{
@@ -105,17 +123,7 @@ package
 		}
 
 
-/*
-		public function get estrela():Estrela
-		{
-			return _estrela;
-		}
 
-		public function set estrela(value:Estrela):void
-		{
-			_estrela = value;
-		}
-*/
 		public function get habitavel():Boolean
 		{
 			return _habitavel;

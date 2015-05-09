@@ -1,19 +1,37 @@
 package
 {
-	public class Parametro
+	import flash.display.MovieClip;
+	import flash.events.MouseEvent;
+	
+
+	public class Parametro extends MovieClip
 	{
 		private var _nome : String;
+		private var _codigo : uint;
 		private var _valor : Number;
 		private var _valorOtimoMinimo : Number;
 		private var _valorOtimoMaximo : Number;
 		
 		
-		public function Parametro(nome:String = null, valor : Number = NaN, valorOtimoMinimo : Number = NaN, valorOtimoMaximo : Number = NaN)
+		public function Parametro(nome:String = null, codigo : uint = NaN, valor : Number = NaN, valorOtimoMinimo : Number = NaN, valorOtimoMaximo : Number = NaN)
 		{
 			_nome = nome;
+			_codigo = codigo;
 			_valor = valor;
 			_valorOtimoMinimo = valorOtimoMinimo;
 			_valorOtimoMaximo = valorOtimoMaximo;
+			
+			valorLabel.htmlText = "";
+			icon.source = "media/parametros/data" + _codigo + ".png";
+			
+			icon.addEventListener(MouseEvent.MOUSE_OVER, popToolTip);
+			
+		}
+		
+
+		
+		private function popToolTip(e : MouseEvent) {
+			
 		}
 
 		

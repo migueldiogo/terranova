@@ -1,85 +1,80 @@
 ﻿package
 {
 	import flash.display.MovieClip;
+	import flash.events.MouseEvent;
 
 	public class Tecnologia extends MovieClip implements AlteradorPlaneta
 	{
-		public var ACTION_CO2 : uint = 0;
-		public var ACTION_CH4 : uint = 1;
-		public var ACTION_O2 : uint = 2
-		public var ACTION_O3 : uint = 3;
-		public var ACTION_GRAVIDADE : uint = 4;
-		public var ACTION_GRAVIDADEEXT : uint = 5;
-		public var ACTION_SPIN : uint = 6;
-
-			
+		public static var PRECISAO_NUMBER : uint = 100;
+		
+		protected var _mainScreen : MovieClip;	
 		protected var _nomeTecnologia : String;
 		protected var _planeta : Planeta;
 		protected var _nivel : uint;
-		protected var _custoMinerioBase : uint;
-		protected var _custoMinerioAtual : uint;
-		protected var _taxaEnergiaBase : uint;
+		protected var _custoMinerioBase : int;
+		protected var _custoMinerioAtual : int;
+		protected var _custoEnergiaBase : int;
+		protected var _custoEnergiaAtual : int;
+		protected var _taxaEnergiaBase : int;
 		protected var _descricao : String;
-		protected var _actionsAtmosfera : Vector.<Parametro>;
-		protected var _actionsGeodinamica : Vector.<Parametro>;
+		protected var _actions : Vector.<Parametro>;
+		//protected var _actionsGeodinamica : Vector.<Parametro>;
 	
 		
-		public function Tecnologia(planeta : Planeta = null, nivel : uint = 0, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : uint = NaN)
+		public function Tecnologia(mainScreen : MovieClip = null, planeta : Planeta = null, nivel : uint = 0, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : int = NaN, custoEnergiaBase :int = NaN)
 		{
 			stop();
-			_actionsAtmosfera = new Vector.<Parametro>();
-			_actionsGeodinamica = new Vector.<Parametro>();
+			_mainScreen = mainScreen;
+			_actions = new Vector.<Parametro>();
+			//_actionsGeodinamica = new Vector.<Parametro>();
 
 			_planeta = planeta;
 			_nivel = nivel;
 			_nomeTecnologia = nomeTecnologia;
 			_custoMinerioBase = _custoMinerioAtual = custoMinerioBase;
+			_custoEnergiaBase = _custoEnergiaAtual = custoEnergiaBase;
 			_descricao = descricao;
+			
 			tecnologiaTextLabel.text = _nomeTecnologia;
 			nivelLabel.text = "Nível " + _nivel;
-			custoLabel.text = "Minerio: " + _custoMinerioBase*Math.pow(2,nivel);	
+			custoLabel.text = "Minerio: " + _custoMinerioBase*Math.pow(2,nivel) + "\t Energia: " + _custoEnergiaBase*Math.pow(2,nivel);	
 			descricaoLabel.text = _descricao;
 		}
 		
-		public function get actionsGeodinamica():Vector.<Parametro>
-		{
-			return _actionsGeodinamica;
-		}
+		/**
+		 * Funcao despoletadora da evolucao de uma tecnologia ao clicar no botao de "evoluir"
+		 */
+		public function evoluiTecnologia (e : MouseEvent) {
 
-		public function set actionsGeofisica(value:Vector.<Parametro>):void
-		{
-			_actionsGeodinamica = value;
-		}
+			planeta.recursos.minerio -= _custoMinerioAtual;
+			planeta.recursos.energia -= _custoEnergiaAtual;
+			
+			_nivel++;
+			atualizaTecnologia();
+			_mainScreen.atualizaSimulacao(null);
 
-		public function get actionsAtmosfera():Vector.<Parametro>
-		{
-			return _actionsAtmosfera;
+		}	
+		/**
+		 * Funcao despoletadora da venda de uma tecnologia ao clicar no botao de "vender"
+		 */
+		public function vendeTecnologia (e : MouseEvent) {
+			//TODO
 		}
+		
 
-		public function set actionsAtmosfera(value:Vector.<Parametro>):void
-		{
-			_actionsAtmosfera = value;
-		}
 
-		public function get custoMinerioAtual():uint
-		{
-			return _custoMinerioAtual;
-		}
-
-		public function set custoMinerioAtual(value:uint):void
-		{
-			_custoMinerioAtual = value;
-		}
-
+		/**
+		 * Atualiza actions para proximo nivel
+		 */
 		public function atualizaActions() : void {
 			
 
 			var texto : String = "";
 			var contador = 0;
-			for(var i = 0; i < actionsAtmosfera.length; i++) {
-				if (actionsAtmosfera[i].valor != 0) {
+			for(var i = 0; i < actions.length; i++) {
+				if (actions[i].valor != 0) {
 					contador++;
-					texto += actionsAtmosfera[i].nome + ": " + actionsAtmosfera[i].valor + "\t\t";
+					texto += actions[i].nome + ": " + actions[i].valor + "\t\t";
 				}
 				if (contador>4) {
 					texto += "\n";
@@ -87,43 +82,51 @@
 				}	
 				
 			}
-			
-			for(i = 0; i < actionsGeodinamica.length; i++) {
-				contador++;
-				if (actionsGeodinamica[i].valor != 0) {
-					contador++;
-					texto += actionsGeodinamica[i].nome + ": " + actionsGeodinamica[i].valor + "\t\t";
-				}
-				if (contador>4) {
-					texto += "\n";
-					contador = 0;
-				}
-				
-			}
-			
+
 			actionsLabel.text = texto;	
 			
 			
 		}
 		
-		public function atualiza() : void {
+		/**
+		 * Atualiza custos da tecnologia, nivel e aplica as actions no planeta
+		 */
+		public function atualizaTecnologia() : void {
 			// atualiza custo para proximo nivel e nivel
-			custoMinerioAtual = _custoMinerioBase*Math.pow(2,nivel);
+			_custoMinerioAtual = _custoMinerioBase*Math.pow(2, nivel);
+			_custoEnergiaAtual = _custoEnergiaBase*Math.pow(2, nivel);
 			nivelLabel.text = "Nível " + _nivel;
-			custoLabel.text = "Minerio: " + custoMinerioAtual;	
-			// consequencias para o planeta
-			for (var i : uint; i < planeta.atmosfera.length; i++) {
-				planeta.atmosfera[i].valor += actionsAtmosfera[i].valor;
-			}
+			custoLabel.text = "Minerio: " + _custoMinerioAtual + "\tEnergia: " + _custoEnergiaAtual;
 			
-			for (var j : uint; j < planeta.geodinamica.length; j++) {
-				planeta.geodinamica[j].valor += actionsGeodinamica[j].valor;
-			}
+			// altera planeta
+			alteraPlaneta(true);
 			
+			// atualiza actions da tecnologia do proximo nivel
 			atualizaActions();
 
 		}
 		
+		/**
+		 * altera o planeta com actions da tecnologia recem evoluida
+		 */
+		public function alteraPlaneta(direcao : Boolean) : void {
+			// consequencias para o planeta
+			for (var i : uint = 0; i < planeta.dados.length; i++) {
+				planeta.dados[i].valor += actions[i].valor;
+				
+				// arredonda consoante precisao definida
+				planeta.dados[i].valor = Math.round(planeta.dados[i].valor * PRECISAO_NUMBER) / PRECISAO_NUMBER;
+				planeta.atualizaDados();
+			}
+			
+		}
+		
+		
+		
+		
+		//
+		// GETTERS AND SETTERS
+		//
 		
 
 		public function get descricao():String
@@ -136,12 +139,12 @@
 			_descricao = value;
 		}
 
-		public function get custoMinerioBase():uint
+		public function get custoMinerioBase():int
 		{
 			return _custoMinerioBase;
 		}
 
-		public function set custoMinerioBase(value:uint):void
+		public function set custoMinerioBase(value:int):void
 		{
 			_custoMinerioBase = value;
 		}
@@ -155,25 +158,7 @@
 		{
 			_nomeTecnologia = value;
 		}
-
-		public function alteraPlaneta(direcao : Boolean) : void {
-			var modificador : uint = (direcao) ? 1 : -1;
-
-			planeta.recursos.minerio += 1000*nivel * modificador;
-			_custoMinerioBase = 1000*nivel;
 			
-			
-			planeta.atualizaAparencia();
-
-		}
-		
-		
-		//
-		// GETTERS AND SETTERS
-		//
-		
-
-		
 		public function get nivel():uint
 		{
 			return _nivel;
@@ -192,6 +177,47 @@
 		public function set planeta(value:Planeta):void
 		{
 			_planeta = value;
+		}
+		
+		public function get custoEnergiaAtual():int
+		{
+			return _custoEnergiaAtual;
+		}
+		
+		public function set custoEnergiaAtual(value:int):void
+		{
+			_custoEnergiaAtual = value;
+		}
+		
+		public function get custoEnergiaBase():int
+		{
+			return _custoEnergiaBase;
+		}
+		
+		public function set custoEnergiaBase(value:int):void
+		{
+			_custoEnergiaBase = value;
+		}
+		
+		public function get actions():Vector.<Parametro>
+		{
+			return _actions;
+		}
+		
+		public function set actions(value:Vector.<Parametro>):void
+		{
+			_actions = value;
+		}
+		
+		
+		public function get custoMinerioAtual():uint
+		{
+			return _custoMinerioAtual;
+		}
+		
+		public function set custoMinerioAtual(value:uint):void
+		{
+			_custoMinerioAtual = value;
 		}
 	}
 }

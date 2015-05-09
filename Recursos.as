@@ -12,7 +12,7 @@
 			minerio = 1000;
 			energia = 3000;
 			_minerioTaxa = 5;
-			_energiaTaxa = 1;
+			_energiaTaxa = 0;
 		}
 
 		public function get energiaTaxa():uint

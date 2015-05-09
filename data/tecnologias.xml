@@ -1,8 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
     <tecnologia>
-        <nome>Filtro de Carbono</nome>
-        <descricao>O Filtro de Carbono é uma infraestrutura responsável pela purificação de dióxido de carbono em oxigéno essencial ao ser humano. Esta tecnologia irá baixar o volume de dióxido de carbono na atmosfera e consequentemente aumentar a de oxigénio.
+        <nome>Mina de Minério</nome>
+        <descricao>A Mina de Minério é uma fábrica que visa a exploração de minério.
+        </descricao>
+        <imageURL>data/tecnologiasImages/FC.png</imageURL>
+        <categoria>Recursos</categoria>
+        <custos>
+            <minerio>100</minerio>
+            <energia>75</energia>
+        </custos>
+        <actions>
+            <taxaMinerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>5</valor>
+            </taxaMinerio>
+            
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
+                <valor>20</valor>
+            </CO2>
+            
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
+                <valor>0</valor>
+                
+            </CH4>
+            
+            <O2 type="atmosfera">
+                <nome>O2</nome>
+                <valor>0</valor>
+            </O2>
+            
+            <O3 type="atmosfera">
+                <nome>O3</nome>
+                <valor>0</valor>
+            </O3 type="atmosfera">
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0.5</valor>
+            </Temperatura>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+        </actions>
+    </tecnologia>
+
+<tecnologia>
+    <nome>Planície Fotoelétrica</nome>
+    <descricao>A Planície Fotoelétrica é uma grande extenção de terreno coberto por painéis solares básicos.
+    </descricao>
+    <imageURL>data/tecnologiasImages/FC.png</imageURL>
+    <categoria>Recursos</categoria>
+    <custos>
+        <minerio>200</minerio>
+        <energia>-100</energia>
+    </custos>
+    <actions>
+        <taxaMinerio type="recursos">
+            <nome>Taxa Minerio</nome>
+            <valor>0</valor>
+        </taxaMinerio>
+        
+        <CO2 type="atmosfera">
+            <nome>CO2</nome>
+            <valor>0</valor>
+        </CO2>
+        
+        <CH4 type="atmosfera">
+            <nome>CH4</nome>
+            <valor>0</valor>
+            
+        </CH4>
+        
+        <O2 type="atmosfera">
+            <nome>O2</nome>
+            <valor>0</valor>
+        </O2>
+        
+        <O3 type="atmosfera">
+            <nome>O3</nome>
+            <valor>0</valor>
+        </O3 type="atmosfera">
+        
+        <Gravidade type="geodinamica">
+            <nome>Gravidade</nome>
+            <valor>0</valor>
+        </Gravidade>
+        
+        
+        <Spin type="geodinamica">
+            <nome>Spin</nome>
+            <valor>0</valor>
+        </Spin>
+        
+        <Lapse type="geodinamica">
+            <nome>Lapse</nome>
+            <valor>0</valor>
+        </Lapse>
+        
+        <Temperatura type="geodinamica">
+            <nome>Temperatura</nome>
+            <valor>0</valor>
+        </Temperatura>
+        
+        <Tsunamis type="catastrofe">
+            <nome>Spin</nome>
+            <valor>0</valor>
+        </Tsunamis>
+        
+        <Vulcoes type="catastrofe">
+            <nome>Lapse</nome>
+            <valor>0</valor>
+        </Vulcoes>
+        
+        <Meteoritos type="catastrofe">
+            <nome>Temperatura</nome>
+            <valor>0</valor>
+        </Meteoritos>
+        
+    </actions>
+</tecnologia>
+
+    <tecnologia>
+        <nome>Incubadora Vegetal</nome>
+        <descricao>A Incubadora Vegetal é uma infraestrutura responsável pela purificação de dióxido de carbono em oxigéno essencial ao ser humano. Este complexo irá baixar o volume de dióxido de carbono na atmosfera e consequentemente aumentar a de oxigénio.
         </descricao>
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
@@ -11,6 +163,11 @@
             <energia>75</energia>
         </custos>
         <actions>
+            <taxaMinerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>5</valor>
+            </taxaMinerio>
+                    
             <CO2 type="atmosfera">
                 <nome>CO2</nome>
                 <valor>-50</valor>
@@ -37,44 +194,69 @@
                 <valor>0</valor>
             </Gravidade>
             
-            <GravidadeExt>
-                <nome>Gravidade Externa</nome>
-                <valor>0</valor>
-            </GravidadeExt>
             
             <Spin type="geodinamica">
                 <nome>Spin</nome>
                 <valor>0</valor>
             </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>1.2</valor>
+            </Temperatura>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Meteoritos>
             
         </actions>
     </tecnologia>
     
     <tecnologia>
-        <nome>Filtro de Carbono</nome>
-        <descricao>O Filtro de Carbono é uma infraestrutura responsável pela purificação de dióxido de carbono em oxigéno essencial ao ser humano. Esta tecnologia irá baixar o volume de dióxido de carbono na atmosfera e consequentemente aumentar a de oxigénio.
+        <nome>Incubadora Microbiótica</nome>
+        <descricao>A Incubadora Microbiótica é uma infraestrutura responsável pela criação de bactérias metanotróficas cujo a fonte de energia durante o seu metabolismo é o metano. Estes organismos são capazes de diminuir significativamente os níveis de metano no ambiente.
         </descricao>
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
         <custos>
-            <minerio>100</minerio>
-            <energia>75</energia>
+            <minerio>315</minerio>
+            <energia>-40</energia>
         </custos>
         <actions>
+            <Minerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>0</valor>
+            </Minerio>
             <CO2 type="atmosfera">
                 <nome>CO2</nome>
-                <valor>-50</valor>
+                <valor>0</valor>
             </CO2>
             
             <CH4 type="atmosfera">
                 <nome>CH4</nome>
-                <valor>0</valor>
+                <valor>0.1</valor>
                 
             </CH4>
             
             <O2 type="atmosfera">
                 <nome>O2</nome>
-                <valor>50000</valor>
+                <valor>0</valor>
             </O2>
             
             <O3 type="atmosfera">
@@ -87,33 +269,58 @@
                 <valor>0</valor>
             </Gravidade>
             
-            <GravidadeExt>
-                <nome>Gravidade Externa</nome>
-                <valor>0</valor>
-            </GravidadeExt>
             
             <Spin type="geodinamica">
                 <nome>Spin</nome>
                 <valor>0</valor>
             </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Temperatura>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Meteoritos>
             
         </actions>
     </tecnologia>
     
     <tecnologia>
-        <nome>Filtro de Carbono</nome>
-        <descricao>O Filtro de Carbono é uma infraestrutura responsável pela purificação de dióxido de carbono em oxigéno essencial ao ser humano. Esta tecnologia irá baixar o volume de dióxido de carbono na atmosfera e consequentemente aumentar a de oxigénio.
+        <nome>Incentivo Nuclear</nome>
+        <descricao>O Incentivo Nuclear, nome dado pelo cientista e vencedor de um Nobel da Física em 2034, é um procedimento que é efetuado quando um planeta não exerce gravidade semelhante ao planeta Terra. Esta expedição consiste numa nave remota que se entranha nas várias camadas extraterrestres do planeta e explode diversas bombas de hidrogénio de modo a que o astro rode mais depressa, aumentando assim a aceleração centrífuga cuja a força simula um aumento de gravidade.
         </descricao>
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
         <custos>
-            <minerio>100</minerio>
-            <energia>75</energia>
+            <minerio>550</minerio>
+            <energia>-300</energia>
         </custos>
         <actions>
+            <Minerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>0</valor>
+            </Minerio>
             <CO2 type="atmosfera">
                 <nome>CO2</nome>
-                <valor>-50</valor>
+                <valor>0</valor>
             </CO2>
             
             <CH4 type="atmosfera">
@@ -124,7 +331,7 @@
             
             <O2 type="atmosfera">
                 <nome>O2</nome>
-                <valor>50000</valor>
+                <valor>0</valor>
             </O2>
             
             <O3 type="atmosfera">
@@ -137,15 +344,36 @@
                 <valor>0</valor>
             </Gravidade>
             
-            <GravidadeExt>
-                <nome>Gravidade Externa</nome>
-                <valor>0</valor>
-            </GravidadeExt>
             
             <Spin type="geodinamica">
                 <nome>Spin</nome>
-                <valor>0</valor>
+                <valor>2</valor>
             </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Temperatura>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Meteoritos>
             
         </actions>
     </tecnologia>

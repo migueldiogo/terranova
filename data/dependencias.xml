@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+        <CO2 type="atmosfera">
+            <nome>CH4</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                        <nome>CO2</nome>
+                        <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>0</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </CO2>
+        
+        
+        <CH4 type="atmosfera">
+            <nome>CH4</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+                
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+            
+        </CH4>
+        
+        <O2 type="atmosfera">
+            <nome>O2</nome>
+            <valor>50000</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+                
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </O2>
+        
+        <O3 type="atmosfera">
+            <nome>O3</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+            
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </O3>
+        
+        <Gravidade type="geodinamica">
+            <nome>Gravidade</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+            
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </Gravidade>
+        
+       
+        
+        <Spin type="geodinamica">
+            <nome>Spin</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>1</valor>
+                </Gravidade>
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </Spin>
+        
+        <Lapse type="geodinamica">
+            <nome>Spin</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>1</valor>
+                </Gravidade>
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </Lapse>
+        
+        <Temperatura type="geodinamica">
+            <nome>Temperatura</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </Temperatura>
+        
+        <Tsunamis type="catastrofe">
+            <nome>Spin</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </Tsunamis>
+        
+        <Vulcoes type="catastrofe">
+            <nome>Spin</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </Vulcoes>
+        
+        <Meteoritos type="catastrofe">
+            <nome>Spin</nome>
+            <valor>0</valor>
+            <sideEffects>
+                <CO2 type="atmosfera">
+                    <nome>CO2</nome>
+                    <valor>0</valor>
+                </CO2>
+                
+                <CH4 type="atmosfera">
+                    <nome>CH4</nome>
+                    <valor>0</valor>
+                    
+                </CH4>
+                
+                <O2 type="atmosfera">
+                    <nome>O2</nome>
+                    <valor>0</valor>
+                </O2>
+                
+                <O3 type="atmosfera">
+                    <nome>O3</nome>
+                    <valor>0</valor>
+                </O3 type="atmosfera">
+                
+                <Gravidade type="geodinamica">
+                    <nome>Gravidade</nome>
+                    <valor>0</valor>
+                </Gravidade>
+                
+                <Spin type="geodinamica">
+                    <nome>Spin</nome>
+                    <valor>0</valor>
+                </Spin>
+                
+                <Lapse>
+                    <nome>Lapse</nome>
+                    <valor>0</valor>
+                </Lapse>
+                <Temperatura>
+                    <nome>Temperatura</nome>
+                    <valor>-0.5</valor>
+                </Temperatura>
+                
+                <Tsunamis>
+                    <nome>Tsunamis</nome>
+                    <valor>0</valor>
+                </Tsunamis>
+                
+                <Vulcoes>
+                    <nome>Vulcões</nome>
+                    <valor>5</valor>
+                </Vulcoes>
+                
+                <Meteoritos>
+                    <nome>Meteoritos</nome>
+                    <valor>0</valor>
+                </Meteoritos>
+            </sideEffects>
+        </Meteoritos>
+        
+</data>

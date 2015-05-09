@@ -4,6 +4,9 @@
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
+	import flash.filters.BitmapFilterQuality;
+	import flash.filters.BlurFilter;
+	import flash.filters.GlowFilter;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.text.TextField;
@@ -13,9 +16,13 @@
 	import fl.containers.ScrollPane;
 	import fl.controls.Button;
 	import fl.controls.ScrollPolicy;
-	
+	import flash.display.StageScaleMode;
+
 	
 	public class ProjetoMultimedia extends MovieClip {
+		private var clock : uint;
+		private var clockDisplay : TextField;
+		
 		private var planeta : Planeta;
 		private var terra : Planeta;
 		private var laboratorio : ScrollPane;
@@ -23,30 +30,31 @@
 		private var minerioTextField : TextField;
 		private var energiaTextField : TextField;
 		private var tecnologias : Vector.<Tecnologia>;
+		private var dependencias : Vector.<Vector.<Number>>;
+		
+		private var formatoTextPlaneta : TextFormat;
 
 		
 		private var planetaTextField : TextField;
 
 		
 		public function ProjetoMultimedia() {
+			stage.scaleMode = StageScaleMode.NO_SCALE;
 			
-			planeta = new Planeta("Terra", 1, 10, 1, 15);	
+			clock = 0;
+			clockDisplay = new TextField();
+			clockDisplay.text = intToTime(clock);
+			
+			
+			planeta = new Planeta();	
 			tecnologias = new Vector.<Tecnologia>();
+			dependencias = new Vector.<Vector.<Number>>();
 			
 			planetaTextField = new TextField();
 
-			init();
-
-
-		}
-		
-		/**
-		 * Instancializa ecrã.
-		 */
-		private function init() : void {
 			
 			// DADOS DO PLANETA - LAYOUT
-			var formatoTextPlaneta : TextFormat = new TextFormat();
+			formatoTextPlaneta  = new TextFormat();
 			formatoTextPlaneta.font = "Arial";
 			formatoTextPlaneta.size = 12;
 			formatoTextPlaneta.color = 0xFFFFFF;
@@ -60,6 +68,21 @@
 			planetaTextField.wordWrap = true;
 			
 			addChild(planetaTextField);
+			
+			
+			init();
+			
+
+
+
+		}
+		
+		/**
+		 * Instancializa ecrã.
+		 */
+		public function init() : void {
+			
+
 
 			
 			
@@ -74,10 +97,10 @@
 			
 			// TECNOLOGIAS PANEL
 			laboratorio = new ScrollPane();
-			laboratorio.opaqueBackground = 0x2b2f43;
+			//laboratorio.opaqueBackground = 0x2b2f43;
 			
 			laboratorio.y = 40;
-			laboratorio.height = 440;
+			laboratorio.height = 325;
 			laboratorio.width = 640;
 			laboratorio.horizontalScrollPolicy = ScrollPolicy.OFF;
 			laboratorio.visible = false;
@@ -108,7 +131,19 @@
 			addChild(minerioTextField);
 			addChild(energiaTextField);
 	
+			// CLOCK DISPLAY
+			clockDisplay.x = 550;
+			clockDisplay.y = 5;
+			clockDisplay.height = 30;
+			clockDisplay.defaultTextFormat = formatoTextRecursos;
+			addChild(clockDisplay);
+
 			
+			// Loading dos dados das dependencias	
+			var dataDependencias:XML = new XML();
+			var xml_LoaderDependencias:URLLoader = new URLLoader();
+			xml_LoaderDependencias.load(new URLRequest("data/dependencias.xml"));			
+			xml_LoaderDependencias.addEventListener(Event.COMPLETE, do_XMLDependencias);
 			
 			// Loading dos dados dos planetas
 			var dataPlanetas:XML = new XML();
@@ -132,20 +167,30 @@
 		 * Timer para a atualizção da simulação.
 		 * @see atualizaSimulacao
 		 */
-		private function setTimer() : void {
+		public function setTimer() : void {
 			var timerUpdate : Timer = new Timer(1000, 1);
 			timerUpdate.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaSimulacao);
 			timerUpdate.start();
 		}
 		
+		private function intToTime(clock : uint) : String {
+			var seconds : int = Math.floor(clock);
+			var minutes : int = Math.floor(seconds/60);
+			seconds -= minutes*60;
+			
+			return minutes + ":" + String(seconds+100).substr(1,2);
+		}
+		
 		/**
 		 * Atualiza os dados apresentados no ecra (label, butoes ativados). Pode ser despoletada por um timer ou de forma forçada com limitações.
 		 */
-		private function atualizaSimulacao (e : Event) {
+		public function atualizaSimulacao (e : Event) {
 			// incrementa recursos so quando a funcao for despoletada pelo temporizador 
 			if (e != null) {
-				planeta.recursos.minerio += planeta.recursos.minerioTaxa;
-				planeta.recursos.energia += planeta.recursos.energiaTaxa;
+				planeta.recursos.minerio += planeta.dados[Planeta.TAXA_MINERIO].valor;
+				clock++;
+				clockDisplay.text = intToTime(clock);
+				
 				setTimer();
 
 			}
@@ -157,15 +202,15 @@
 				
 				if (tecnologias[i].custoMinerioAtual > planeta.recursos.minerio) {
 					tecnologias[i].nivelButtons.disabled = true;
-					tecnologias[i].nivelButtons.nivelUpButton.removeEventListener(MouseEvent.CLICK, evoluiTecnologia);
-					tecnologias[i].nivelButtons.nivelUpButton.removeEventListener(MouseEvent.CLICK, vendeTecnologia);
+					tecnologias[i].nivelButtons.nivelUpButton.removeEventListener(MouseEvent.CLICK, tecnologias[i].evoluiTecnologia);
+					tecnologias[i].nivelButtons.nivelUpButton.removeEventListener(MouseEvent.CLICK, tecnologias[i].vendeTecnologia);
 					
 				}
 				else {
 					tecnologias[i].nivelButtons.disabled = false;
 					tecnologias[i].nivelButtons.buttonMode = true;
-					tecnologias[i].nivelButtons.nivelUpButton.addEventListener(MouseEvent.CLICK, evoluiTecnologia);
-					tecnologias[i].nivelButtons.nivelUpButton.addEventListener(MouseEvent.CLICK, vendeTecnologia);
+					tecnologias[i].nivelButtons.nivelUpButton.addEventListener(MouseEvent.CLICK, tecnologias[i].evoluiTecnologia);
+					tecnologias[i].nivelButtons.nivelUpButton.addEventListener(MouseEvent.CLICK, tecnologias[i].vendeTecnologia);
 
 				}
 
@@ -178,50 +223,30 @@
 		/**
 		 * Funcao despoletadora do click do butao de laboratorio
 		 */
-		private function labButtonClick (e : MouseEvent) {
-			if (laboratorio.visible)
+		public function labButtonClick (e : MouseEvent) {
+			
+
+			if (laboratorio.visible) {
 				laboratorio.visible = false;
-			else
+				background.filters = [];
+				alienPlanet.filters = [];
+
+			}
+			else {
 				laboratorio.visible = true;
-		}
-		
-		private function atualizaDadosPlaneta () : void {
-			var texto : String = "Nome: " + planeta.nome + "\n" + 
-				"Distancia Estrela: " + planeta.distanciaEstrelaMae + "\n" + 
-				"Periodo de Translação: " + planeta.periodoTranslacao + "\n" + 
-				"Periodo de Rotação: " + planeta.periodoRotacao + "\n";
-			
-			texto += "\n";
-			for (var i  = 0; i<planeta.atmosfera.length; i++) {
 				
-				texto += planeta.atmosfera[i].nome + ": " + planeta.atmosfera[i].valor + "\n";
-				trace(texto);
+				var blurFilter:BlurFilter = new BlurFilter();
+				blurFilter.blurX = 64;
+				blurFilter.blurY = 64;
+
+				blurFilter.quality = BitmapFilterQuality.HIGH;
+				
+				background.filters = [blurFilter];
+				alienPlanet.filters = [blurFilter];
 			}
-			texto += "\n";
-			
-			for (i = 0; i<planeta.geodinamica.length; i++) {
-				texto += planeta.geodinamica[i].nome + ": " + planeta.geodinamica[i].valor + "\n";
-			}
-			
-			planetaTextField.text = texto;
 		}
 		
-		/**
-		 * Funcao despoletadora da evolucao de uma tecnologia ao clicar no botao de "evoluir"
-		 */
-		private function evoluiTecnologia (e : MouseEvent) {
-			planeta.recursos.minerio -= e.target.parent.parent.parent.parent.custoMinerioAtual;
-			e.target.parent.parent.parent.parent.nivel++;
-			e.target.parent.parent.parent.parent.atualiza();
-			atualizaSimulacao(null);
-			atualizaDadosPlaneta();
-		}	
-		/**
-		 * Funcao despoletadora da venda de uma tecnologia ao clicar no botao de "vender"
-		 */
-		private function vendeTecnologia (e : MouseEvent) {
-			//TODO
-		}		
+		
 		
 		
 		
@@ -235,33 +260,47 @@
 			terra = new Planeta();
 			terra.nome = data.terra.nome;
 			terra.distanciaEstrelaMae = data.terra.distanciaEstrelaMae;
-			terra.periodoTranslacao = data.terra.periodoTranslacao;
-			terra.periodoRotacao = data.terra.periodoRotacao;
-			for (i = 0; i<data.terra.atmosfera.gas.length(); i++) {
-				terra.atmosfera[i] = new Parametro(data.terra.atmosfera.gas[i].nome, data.terra..atmosfera.gas[i].valor, data.terra.atmosfera.gas[i].minimo, data.terra.atmosfera.gas[i].maximo);
+			terra.periodoTranslacao = data.terra.dado[Planeta.LAPSE];
+			terra.periodoRotacao = data.terra.dado[Planeta.SPIN];
+			for (i = 0; i<data.terra.dado.length(); i++) {
+				terra.dados[i] = new Parametro(data.terra.dado[i].nome, i, data.terra.dado[i].parametro.valor, data.terra.dado[i].parametro.minimo, data.terra.dado[i].parametro.maximo);
 				
 			}
-			for (i = 0; i<data.geodinamica.elemento.length(); i++) {
-				terra.geodinamica[i] = new Parametro(data.terra.geodinamica.elemento[i].nome, data.terra.geodinamica.elemento[i].valor, data.terra.geodinamica.elemento[i].minimo, data.terra.geodinamica.elemento[i].maximo);
-			}
 			
-			
-			planeta = new Planeta();
+			planeta = new Planeta(terra);
 			planeta.nome = data.planeta.nome;
 			planeta.distanciaEstrelaMae = data.planeta.distanciaEstrelaMae;
 			planeta.periodoTranslacao = data.planeta.periodoTranslacao;
 			planeta.periodoRotacao = data.planeta.periodoRotacao;
-			for (i = 0; i<data.planeta.atmosfera.gas.length(); i++) {
-				planeta.atmosfera[i] = new Parametro(data.planeta.atmosfera.gas[i].nome, data.planeta.atmosfera.gas[i].valor);
+			
+			var contadorColunas : uint = 0;
+			var contadorLinhas : uint = 0;
+			
+			for (i = 0; i<data.planeta.dado.length(); i++) {
+				
+				planeta.dados[i] = new Parametro(data.planeta.dado[i].nome, i, data.planeta.dado[i].parametro.valor);
+				planeta.dados[i].x = 160*contadorColunas;
+				planeta.dados[i].y = 370 + contadorLinhas * 35;
+				planeta.dados[i].valorLabel.setStyle("textFormat", formatoTextPlaneta);
+				addChild(planeta.dados[i]);
+				trace(data.planeta.dado[i].valor);
+				
+				// ajustar em colunas 
+				if (contadorColunas >= 3) {
+					contadorColunas = 0;
+					contadorLinhas++;
+					trace("muda linha");
+				}
+				else {
+					contadorColunas++;
+					trace("muda col");
+				}
+				
 				
 			}
-			for (i = 0; i<data.planeta.geodinamica.elemento.length(); i++) {
-				planeta.geodinamica[i] = new Parametro(data.planeta.geodinamica.elemento[i].nome, data.planeta.geodinamica.elemento[i].valor);
-			}
 			
-			
-			atualizaDadosPlaneta();
-			
+			planeta.atualizaDados();
+						
 			
 			
 		}
@@ -274,19 +313,13 @@
 			var tecnologiasContainer : MovieClip = new MovieClip();
 			for (var i : uint = 0; i<data.tecnologia.length(); i++) {
 				
-
-				
-				tecnologias[i] = new Tecnologia(planeta, 0, data.tecnologia[i].nome, data.tecnologia[i].descricao, data.tecnologia[i].custos.minerio);
+				tecnologias[i] = new Tecnologia(this, planeta, 0, data.tecnologia[i].nome, data.tecnologia[i].descricao, data.tecnologia[i].custos.minerio, data.tecnologia[i].custos.energia);
 				
 				for(var j : uint = 0; j<data.tecnologia[i].actions[0].*.length();j++) {
-					if (data.tecnologia[i].actions.*[j].@type == "atmosfera") {
-						tecnologias[i].actionsAtmosfera.push(new Parametro(data.tecnologia[i].actions.*[j].nome, data.tecnologia[i].actions.*[j].valor));
-					}
-					else {
-						tecnologias[i].actionsGeodinamica.push(new Parametro(data.tecnologia[i].actions.*[j].nome, data.tecnologia[i].actions.*[j].valor));
-					}
+					tecnologias[i].actions.push(new Parametro(data.tecnologia[i].actions.*[j].nome, i, data.tecnologia[i].actions.*[j].valor));
+
 					
-					tecnologias[i].imagemTecnologia.source = "http://cdn.radiolive.co.nz/radiolive/AM/2014/12/21/67690/tech-advances-dance-music.jpg";
+					tecnologias[i].imagemTecnologia.source = "media/parametros/data0.png";
 					
 					tecnologias[i].imagemTecnologia.scaleContent = true; 
 					
@@ -314,6 +347,22 @@
 				addChild(laboratorio);
 			}
 			setTimer();
+			
+		}
+		
+		/**
+		 * Funcao de loading de dependencias
+		 */
+		private function do_XMLDependencias (e : Event) {
+			var data : XML = new XML(e.target.data);
+			
+			for (var i : uint = 0; i < data.*.length(); i++) {
+				dependencias[i] = new Vector.<Number>;
+				for (var j : uint = 0; j < data.*[i].sideEffects.*.length(); j++) {
+					dependencias[i][j] = data.*[i].sideEffects.*[j].valor;
+				}
+			}
+			
 			
 		}
 		
