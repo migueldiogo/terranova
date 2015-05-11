@@ -11,7 +11,7 @@ package
 		private var _valor : Number;
 		private var _valorOtimoMinimo : Number;
 		private var _valorOtimoMaximo : Number;
-		
+		private var _correto : Boolean;
 		
 		public function Parametro(nome:String = null, codigo : uint = NaN, valor : Number = NaN, valorOtimoMinimo : Number = NaN, valorOtimoMaximo : Number = NaN)
 		{
@@ -20,6 +20,7 @@ package
 			_valor = valor;
 			_valorOtimoMinimo = valorOtimoMinimo;
 			_valorOtimoMaximo = valorOtimoMaximo;
+			_correto = false;
 			
 			valorLabel.htmlText = "";
 			icon.source = "media/parametros/data" + _codigo + ".png";
@@ -30,6 +31,16 @@ package
 		
 
 		
+		public function get correto():Boolean
+		{
+			return _correto;
+		}
+
+		public function set correto(value:Boolean):void
+		{
+			_correto = value;
+		}
+
 		private function popToolTip(e : MouseEvent) {
 			
 		}

@@ -126,7 +126,7 @@
         <dado type="atmosfera">
             <nome>CO2</nome>
             <parametro>
-                <valor>397</valor>
+                <valor>500</valor>
                 <minimo>100</minimo>
                 <maximo>400</maximo>
             </parametro>
@@ -198,7 +198,7 @@
         <dado type="catastrofe">
             <nome>Tsunami</nome>
             <parametro>
-                <valor>0.5</valor>
+                <valor>0.2</valor>
                 <minimo>1</minimo>
                 <maximo>3</maximo>
             </parametro>
@@ -207,7 +207,7 @@
         <dado type="catastrofe">
             <nome>Vulcao</nome>
             <parametro>
-                <valor>0.5</valor>
+                <valor>0.2</valor>
                 <minimo>1</minimo>
                 <maximo>3</maximo>
             </parametro>
@@ -216,7 +216,7 @@
         <dado type="catastrofe">
             <nome>Meteorito</nome>
             <parametro>
-                <valor>0.5</valor>
+                <valor>0.2</valor>
                 <minimo>1</minimo>
                 <maximo>3</maximo>
             </parametro>

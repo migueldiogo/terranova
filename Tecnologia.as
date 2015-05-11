@@ -19,11 +19,13 @@
 		protected var _descricao : String;
 		protected var _actions : Vector.<Parametro>;
 		//protected var _actionsGeodinamica : Vector.<Parametro>;
+		
 	
 		
 		public function Tecnologia(mainScreen : MovieClip = null, planeta : Planeta = null, nivel : uint = 0, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : int = NaN, custoEnergiaBase :int = NaN)
 		{
 			stop();
+			
 			_mainScreen = mainScreen;
 			_actions = new Vector.<Parametro>();
 			//_actionsGeodinamica = new Vector.<Parametro>();
@@ -34,6 +36,13 @@
 			_custoMinerioBase = _custoMinerioAtual = custoMinerioBase;
 			_custoEnergiaBase = _custoEnergiaAtual = custoEnergiaBase;
 			_descricao = descricao;
+			
+			tecnologiaTextLabel.setStyle("textFormat", mainScreen.pretty.heading1);
+			nivelLabel.setStyle("textFormat", mainScreen.pretty.body);
+			custoLabel.setStyle("textFormat", mainScreen.pretty.body);
+			descricaoLabel.setStyle("textFormat", mainScreen.pretty.body);
+			
+			
 			
 			tecnologiaTextLabel.text = _nomeTecnologia;
 			nivelLabel.text = "Nível " + _nivel;
@@ -83,6 +92,7 @@
 				
 			}
 
+			actionsLabel.setStyle("textFormat", _mainScreen.pretty.body);
 			actionsLabel.text = texto;	
 			
 			

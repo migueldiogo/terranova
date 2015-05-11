@@ -57,21 +57,26 @@ package
 			for (var i : uint  = 0; i < _dados.length; i++) {
 				var texto : String = "";
 				
+				// valor incorreto
 				if (_dados[i].valor < _modelo.dados[i].valorOtimoMinimo || _dados[i].valor > _modelo.dados[i].valorOtimoMaximo) {
 					texto += '<font color="#FF0000">';
 					texto += _dados[i].valor + "</font>\n";
+					_dados[i].correto = false;
 				}
+				// valor nao importante para vencer o nivel
 				else if (isNaN(_modelo.dados[i].valorOtimoMinimo) || isNaN(_modelo.dados[i].valorOtimoMaximo)) {
 					texto += _dados[i].valor + "\n";
+					dados[i].correto = true;
 				}
+				// valor correto
 				else {
 					texto += '<font color="#00FF00">';
 					texto += _dados[i].valor + "</font>\n";
+					dados[i].correto = true;
 				}
 				
 				_dados[i].valorLabel.htmlText = _dados[i].nome + ": " + texto;
 
-				trace(texto);
 			}
 			
 			
