@@ -8,15 +8,13 @@
 	
 	public class NivelButtons extends MovieClip {
 		private var _disabled : Boolean;
-		private var pretty : Pretty;
 		
 		public function NivelButtons() {
 			// constructor code
 			stop();
-			pretty = new Pretty();
 			
-			nivelUpButton.label.setStyle("textFormat", pretty.bodyBold);
-			nivelDownButton.label.setStyle("textFormat", pretty.bodyBold);
+			nivelUpButton.label.setStyle("textFormat", Pretty.BODY_BOLD);
+			nivelDownButton.label.setStyle("textFormat", Pretty.BODY_BOLD);
 
 			nivelUpButton.label.text = "evoluir";
 			nivelDownButton.label.text = "vender";	

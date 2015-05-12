@@ -7,8 +7,8 @@
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Recursos</categoria>
         <custos>
-            <minerio>100</minerio>
-            <energia>75</energia>
+            <minerio>-100</minerio>
+            <energia>-75</energia>
         </custos>
         <actions>
             <taxaMinerio type="recursos">
@@ -83,8 +83,8 @@
     <imageURL>data/tecnologiasImages/FC.png</imageURL>
     <categoria>Recursos</categoria>
     <custos>
-        <minerio>200</minerio>
-        <energia>-100</energia>
+        <minerio>-200</minerio>
+        <energia>100</energia>
     </custos>
     <actions>
         <taxaMinerio type="recursos">
@@ -159,8 +159,8 @@
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
         <custos>
-            <minerio>100</minerio>
-            <energia>75</energia>
+            <minerio>-100</minerio>
+            <energia>-75</energia>
         </custos>
         <actions>
             <taxaMinerio type="recursos">
@@ -235,8 +235,8 @@
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
         <custos>
-            <minerio>315</minerio>
-            <energia>-40</energia>
+            <minerio>-315</minerio>
+            <energia>40</energia>
         </custos>
         <actions>
             <Minerio type="recursos">
@@ -310,8 +310,8 @@
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
         <custos>
-            <minerio>550</minerio>
-            <energia>-300</energia>
+            <minerio>-550</minerio>
+            <energia>300</energia>
         </custos>
         <actions>
             <Minerio type="recursos">

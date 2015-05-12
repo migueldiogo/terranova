@@ -18,17 +18,14 @@
 		protected var _taxaEnergiaBase : int;
 		protected var _descricao : String;
 		protected var _actions : Vector.<Parametro>;
-		//protected var _actionsGeodinamica : Vector.<Parametro>;
 		
 	
 		
-		public function Tecnologia(mainScreen : MovieClip = null, planeta : Planeta = null, nivel : uint = 0, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : int = NaN, custoEnergiaBase :int = NaN)
+		public function Tecnologia( planeta : Planeta, nivel : uint, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : int = NaN, custoEnergiaBase :int = NaN)
 		{
 			stop();
 			
-			_mainScreen = mainScreen;
 			_actions = new Vector.<Parametro>();
-			//_actionsGeodinamica = new Vector.<Parametro>();
 
 			_planeta = planeta;
 			_nivel = nivel;
@@ -37,10 +34,12 @@
 			_custoEnergiaBase = _custoEnergiaAtual = custoEnergiaBase;
 			_descricao = descricao;
 			
-			tecnologiaTextLabel.setStyle("textFormat", mainScreen.pretty.heading1);
-			nivelLabel.setStyle("textFormat", mainScreen.pretty.body);
-			custoLabel.setStyle("textFormat", mainScreen.pretty.body);
-			descricaoLabel.setStyle("textFormat", mainScreen.pretty.body);
+			trace("MINERIO" + ": " + _custoMinerioBase);
+			
+			tecnologiaTextLabel.setStyle("textFormat", Pretty.HEADING_1);
+			nivelLabel.setStyle("textFormat", Pretty.BODY);
+			custoLabel.setStyle("textFormat", Pretty.BODY);
+			descricaoLabel.setStyle("textFormat", Pretty.BODY);
 			
 			
 			
@@ -55,12 +54,13 @@
 		 */
 		public function evoluiTecnologia (e : MouseEvent) {
 
-			planeta.recursos.minerio -= _custoMinerioAtual;
-			planeta.recursos.energia -= _custoEnergiaAtual;
+			_planeta.recursos.minerio += _custoMinerioAtual;
+			_planeta.recursos.energia += _custoEnergiaAtual;
 			
 			_nivel++;
 			atualizaTecnologia();
-			_mainScreen.atualizaSimulacao(null);
+			
+			_planeta.game.atualizaSimulacao(null);
 
 		}	
 		/**
@@ -80,7 +80,7 @@
 
 			var texto : String = "";
 			var contador = 0;
-			for(var i = 0; i < actions.length; i++) {
+			for(var i : uint = 0; i < actions.length; i++) {
 				if (actions[i].valor != 0) {
 					contador++;
 					texto += actions[i].nome + ": " + actions[i].valor + "\t\t";
@@ -92,7 +92,7 @@
 				
 			}
 
-			actionsLabel.setStyle("textFormat", _mainScreen.pretty.body);
+			actionsLabel.setStyle("textFormat", Pretty.BODY);
 			actionsLabel.text = texto;	
 			
 			
@@ -126,7 +126,7 @@
 				
 				// arredonda consoante precisao definida
 				planeta.dados[i].valor = Math.round(planeta.dados[i].valor * PRECISAO_NUMBER) / PRECISAO_NUMBER;
-				planeta.atualizaDados();
+				planeta.verificaDados();
 			}
 			
 		}
@@ -220,12 +220,12 @@
 		}
 		
 		
-		public function get custoMinerioAtual():uint
+		public function get custoMinerioAtual():int
 		{
 			return _custoMinerioAtual;
 		}
 		
-		public function set custoMinerioAtual(value:uint):void
+		public function set custoMinerioAtual(value:int):void
 		{
 			_custoMinerioAtual = value;
 		}

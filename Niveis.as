@@ -2,33 +2,40 @@ package
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
+	import flash.filters.BitmapFilterQuality;
+	import flash.filters.BlurFilter;
 	import flash.text.TextField;
 	
 	import fl.containers.UILoader;
 	import fl.controls.Label;
+	import fl.motion.Color;
 	
 	
 	public class Niveis
 	{
 		private var _niveis : Array;
-		private var _pretty : Pretty;
+		private var container : MovieClip;
+		private var _main : MovieClip;
+		private var _jogador : Jogador;
 		
-		public function Niveis(mainMovieClip : MovieClip = null)
+		public function Niveis(main : MovieClip, jogador : Jogador)
 		{
+			_jogador = jogador;
+			_main = main;
 			_niveis = new Array;
-			_pretty = new Pretty();
-			super();
-			gotoAndStop(1);
+			container = new MovieClip();
+			
+			_main.gotoAndStop(1);
 			
 			var title : TextField = new TextField();
 			title.width = 640;
-			title.defaultTextFormat = _pretty.title1;
+			title.defaultTextFormat = Pretty.TITLE_1;
 			
 			title.text = "TERRA NOVA";
 			
 			title.x = 0;
 			title.y = 20;
-			addChild(title);
+			container.addChild(title);
 			
 			var colunas : uint = 0;
 			var linhas : uint = 0;
@@ -36,7 +43,7 @@ package
 				// adiciona label do nivel
 				var label : Label = new Label;
 				label.text = "Nivel " + (i+1);
-				label.setStyle("textFormat", _pretty.heading1); 
+				label.setStyle("textFormat", Pretty.HEADING_1); 
 				label.x = 54 + colunas*120;
 				label.y = 120 + linhas * 180;
 				
@@ -46,13 +53,24 @@ package
 				nivelLoader.width = 114;
 				nivelLoader.height = 114;
 				nivelLoader.source = "media/parametros/data" + i + ".png";
+
 				nivelLoader.x = label.x - 40;
 				nivelLoader.y = label.y + 20;
-				nivelLoader.buttonMode = true;
-				nivelLoader.addEventListener(MouseEvent.CLICK, startLevel);
 				
-				addChild(label);
-				addChild(nivelLoader);
+				// niveis estao bloqueados consoante o progresso do jogador
+				if (i+1 <= _jogador.proximoNivel) {
+
+					nivelLoader.buttonMode = true;
+					nivelLoader.addEventListener(MouseEvent.CLICK, startLevel);
+				}
+				else {
+					nivelLoader.buttonMode = false;
+					nivelLoader.alpha = 0.4; 	//filters[new BlurFilter(20,20, BitmapFilterQuality.HIGH)];
+
+				}
+				
+				container.addChild(label);
+				container.addChild(nivelLoader);
 				
 				if (colunas == 4) {
 					linhas++;
@@ -63,17 +81,9 @@ package
 				}
 			}
 			
+			_main.addChild(container);
 			
-		}
-		
-		public function get pretty():Pretty
-		{
-			return _pretty;
-		}
-		
-		public function set pretty(value:Pretty):void
-		{
-			_pretty = value;
+			
 		}
 		
 		public function get niveis():Array
@@ -91,7 +101,8 @@ package
 			for (var i :uint = 0; i < _niveis.length && !encontrado; i++) {
 				if (e.currentTarget == _niveis[i]) {
 					encontrado = true;
-					new MainGame(this, i);
+					new MainGame(_main, i+1, _jogador);
+					_main.removeChild(container);
 				}
 				
 			}

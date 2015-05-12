@@ -114,6 +114,7 @@
     
     <planeta>
         <nome>Calipo</nome>
+        <nivel>1</nivel>
         <distanciaEstrelaMae>1.4</distanciaEstrelaMae>
         <dado type="recurso">
             <nome>Taxa de Minerio</nome>
