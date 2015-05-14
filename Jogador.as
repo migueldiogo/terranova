@@ -1,36 +1,39 @@
 ﻿package  {
+	import flash.net.registerClassAlias;
 	
 	public class Jogador {
 
 		private var _nome : String;
-		private var _pontuacao : int;
-		private var _medalhas : int;
-		private var _planetas : Array;
-		private var _proximoNivel : uint;
+		private var _pontuacoesMaximas : Vector.<uint>;
+		//private var _medalhas : int;						// a retirar ??????
+		//private var _planetas : Vector.<Planeta>;			// a retirar
+		//private var _proximoNivel : uint;
 		
-		public function Jogador(nome : String) {
+		public function Jogador(nome : String = "", pontuacoesMaximas : Vector.<uint> = null) {
 			_nome = nome;
-			_planetas = new Array();
-			_proximoNivel = 1;
+			_pontuacoesMaximas = pontuacoesMaximas;
+
+			
+
 			
 		}
 
-		public function get proximoNivel():uint
+		public function proximoNivel():uint
 		{
-			return _proximoNivel;
+			return _pontuacoesMaximas.length + 1;;
 		}
-
+/*
 		public function set proximoNivel(value:uint):void
 		{
 			_proximoNivel = value;
 		}
-
-		public function get planetas():Array
+/*
+		public function get planetas():Vector.<Planeta>
 		{
 			return _planetas;
 		}
 
-		public function set planetas(value:Array):void
+		public function set planetas(value:Vector.<Planeta>):void
 		{
 			_planetas = value;
 		}
@@ -44,15 +47,15 @@
 		{
 			_medalhas = value;
 		}
-
-		public function get pontuacao():int
+*/
+		public function get pontuacoesMaximas():Vector.<uint>
 		{
-			return _pontuacao;
+			return _pontuacoesMaximas;
 		}
 
-		public function set pontuacao(value:int):void
+		public function set pontuacoesMaximas(value:Vector.<uint>):void
 		{
-			_pontuacao = value;
+			_pontuacoesMaximas = value;
 		}
 
 		public function get nome():String

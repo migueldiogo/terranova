@@ -1,4 +1,5 @@
 ﻿package  {
+	import flash.net.registerClassAlias;
 	
 	public class Recursos {
 
@@ -9,6 +10,8 @@
 		private var _energiaTaxa : uint;
 		
 		public function Recursos() {
+			
+
 			minerio = 1000;
 			energia = 3000;
 			_minerioTaxa = 5;

@@ -15,29 +15,38 @@ package
 		private var _inputText : TextInput;
 		private var _okButton : Button;
 		private var _cancelarButton : Button;
+		private var _backButton : BackArrow;
 
 		
 		public function InputDialog(parent : MovieClip, descricao : String = "")
 		{
 			super();
 			
+			// seta para volta para tras
+			backButton = new BackArrow();
+			backButton.buttonMode = true;
+			backButton.x = 15;
+			backButton.y = 15;
+			addChild(backButton);
+			
 			var popUpWidth : Number = parent.stage.stageWidth/2;
 			var popUpHeight : Number = parent.stage.stageHeight/2-130;
 			var popUpX : Number = parent.stage.stageWidth/2 - popUpWidth/2;
 			var popUpY : Number = parent.stage.stageHeight/2 - popUpHeight/2;
 			
-			graphics.beginFill(0xAA99FF, 0.8);
+			graphics.beginFill(0x4E4770, 0.8);
 			graphics.drawRect(popUpX, popUpY, popUpWidth, popUpHeight);
 			graphics.endFill();
 			
 			
 			// descricao do input
-			var inputDescription = new TextField();
+			inputDescription = new TextField();
 			inputDescription.defaultTextFormat = Pretty.BODY_BOLD;
 			
 			inputDescription.x = popUpX + 10;
 			inputDescription.y = popUpY + 10;
 			inputDescription.width = popUpWidth - 10;
+			
 			
 			
 			inputDescription.text = descricao;
@@ -53,6 +62,7 @@ package
 			_inputText.y = inputDescription.y + 30;
 			_inputText.width = popUpWidth - 20;
 			_inputText.height = 20;
+			
 			
 			addChild(_inputText);
 			
@@ -74,9 +84,21 @@ package
 			
 			
 			addChild(_cancelarButton);
+			
 		}
 		
 		
+		
+		public function get backButton():BackArrow
+		{
+			return _backButton;
+		}
+
+		public function set backButton(value:BackArrow):void
+		{
+			_backButton = value;
+		}
+
 		public function get cancelarButton():Button
 		{
 			return _cancelarButton;

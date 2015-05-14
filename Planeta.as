@@ -4,6 +4,7 @@ package
 	import flash.events.Event;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.net.registerClassAlias;
 	import flash.text.TextField;
 	
 
@@ -49,39 +50,21 @@ package
 		
 		
 		
-		public function Planeta(game : MainGame, jogador : Jogador, nivel : uint, reset : Boolean)
+		public function Planeta(game : MainGame = null, jogador : Jogador = null, nivel : uint = NaN, reset : Boolean = false)
 		{
-
+			
 			super();
 			_game = game;
 			_loadersCompleted = 0;
 			
 			_jogador = jogador;
 			_nivel = nivel;
-
+			_dados = new Vector.<Parametro>();			
+			_recursos = new Recursos();
+			_tecnologias = new Vector.<Tecnologia>;
+			_habitavel = false;
 			
-			// planeta ainda nao jogado ? entao vai buscar valores default a ficheiro, se nao vai a sharedObject do jogador
-			if (reset) {
-				
-				_dados = new Vector.<Parametro>();			
-				_recursos = new Recursos();
-				_tecnologias = new Vector.<Tecnologia>;
-				_habitavel = false;
-				resetPlaneta();
-			}
-			else {
-				_dados = _jogador.planetas[nivel-1].dados;
-				_recursos = _jogador.planetas[nivel-1].recursos;
-				_tecnologias = _jogador.planetas[nivel-1].tecnologias;
-				_habitavel = _jogador.planetas[nivel-1].habitavel;
-				
-				_game.init();		// inicia jogo
-			}
-			
-
-			
-			
-			
+	
 
 		}
 

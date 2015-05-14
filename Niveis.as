@@ -1,9 +1,14 @@
 package
 {
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
+	import flash.net.SharedObject;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
+	import flash.net.drm.AddToDeviceGroupSetting;
 	import flash.text.TextField;
 	
 	import fl.containers.UILoader;
@@ -17,15 +22,43 @@ package
 		private var container : MovieClip;
 		private var _main : MovieClip;
 		private var _jogador : Jogador;
+
+		private var _numeroDeNiveis :uint;
 		
 		public function Niveis(main : MovieClip, jogador : Jogador)
 		{
+			
 			_jogador = jogador;
 			_main = main;
 			_niveis = new Array;
 			container = new MovieClip();
 			
+			
 			_main.gotoAndStop(1);
+			
+			// Loading dos dados do planeta
+			var dataPlanetas:XML = new XML();
+			var xml_LoaderPlanetas:URLLoader = new URLLoader();
+			xml_LoaderPlanetas.load(new URLRequest("data/planetas.xml"));			
+			xml_LoaderPlanetas.addEventListener(Event.COMPLETE, carregaPlanetas);
+			
+			
+			
+			
+		}
+		
+		public function get numeroDeNiveis():uint
+		{
+			return _numeroDeNiveis;
+		}
+
+		public function set numeroDeNiveis(value:uint):void
+		{
+			_numeroDeNiveis = value;
+		}
+
+		public function init() {
+			var sharedObject : SharedObject = SharedObject.getLocal("TerraNovaSaved");			
 			
 			var title : TextField = new TextField();
 			title.width = 640;
@@ -39,38 +72,42 @@ package
 			
 			var colunas : uint = 0;
 			var linhas : uint = 0;
-			for (var i : uint = 0; i < 10; i++) {
-				// adiciona label do nivel
-				var label : Label = new Label;
-				label.text = "Nivel " + (i+1);
-				label.setStyle("textFormat", Pretty.HEADING_1); 
-				label.x = 54 + colunas*120;
-				label.y = 120 + linhas * 180;
+			var nivel : Nivel;
+			for (var i : uint = 0; i < _numeroDeNiveis; i++) {
 				
-				// adiciona icon do nivel
-				var nivelLoader : UILoader = new UILoader();
-				_niveis.push(nivelLoader);
-				nivelLoader.width = 114;
-				nivelLoader.height = 114;
-				nivelLoader.source = "media/parametros/data" + i + ".png";
+				// descobre record global do nivel i+1
+				var pontuacaoRecordGlobal = 0;
+				for (var j : uint = 0; j < sharedObject.data.jogadores.length; j++) {
+					if (i < sharedObject.data.jogadores[j].pontuacoesMaximas.length) {
+						if (sharedObject.data.jogadores[j].pontuacoesMaximas[i] > pontuacaoRecordGlobal)
+							pontuacaoRecordGlobal = sharedObject.data.jogadores[j].pontuacoesMaximas[i];
+					}
+				}
+				
+				
+				nivel = new Nivel(i+1, pontuacaoRecordGlobal);
+				
+				// posiciona nivel
+				nivel.x = 54 + colunas*120;
+				nivel.y = 120 + linhas * 180;
+				
 
-				nivelLoader.x = label.x - 40;
-				nivelLoader.y = label.y + 20;
 				
 				// niveis estao bloqueados consoante o progresso do jogador
-				if (i+1 <= _jogador.proximoNivel) {
-
-					nivelLoader.buttonMode = true;
-					nivelLoader.addEventListener(MouseEvent.CLICK, startLevel);
+				if (i+1 <= _jogador.proximoNivel()) {
+					
+					nivel.buttonMode = true;
+					nivel.addEventListener(MouseEvent.CLICK, startLevel);
 				}
 				else {
-					nivelLoader.buttonMode = false;
-					nivelLoader.alpha = 0.4; 	//filters[new BlurFilter(20,20, BitmapFilterQuality.HIGH)];
-
+					nivel.buttonMode = false;
+					nivel.alpha = 0.4;			// ou filters = [new BlurFilter(20,20, BitmapFilterQuality.HIGH)];			// ou 
+					
 				}
 				
-				container.addChild(label);
-				container.addChild(nivelLoader);
+				container.addChild(nivel);
+				_niveis.push(nivel);
+
 				
 				if (colunas == 4) {
 					linhas++;
@@ -82,7 +119,17 @@ package
 			}
 			
 			_main.addChild(container);
+					
 			
+		}
+		
+		private function carregaPlanetas (e : Event) {
+			e.target.removeEventListener(Event.COMPLETE, carregaPlanetas)
+			var data : XML = new XML(e.target.data);
+			
+			_numeroDeNiveis = data.planeta.length();
+			trace("NUMERO DE NIVEIS: " + _numeroDeNiveis);
+			init();
 			
 		}
 		
@@ -101,7 +148,8 @@ package
 			for (var i :uint = 0; i < _niveis.length && !encontrado; i++) {
 				if (e.currentTarget == _niveis[i]) {
 					encontrado = true;
-					new MainGame(_main, i+1, _jogador);
+					
+					new MainGame(_main, i+1, _jogador, e.currentTarget.pontuacaoRecordGlobal.valueOf());
 					_main.removeChild(container);
 				}
 				

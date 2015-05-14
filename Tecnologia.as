@@ -21,8 +21,9 @@
 		
 	
 		
-		public function Tecnologia( planeta : Planeta, nivel : uint, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : int = NaN, custoEnergiaBase :int = NaN)
+		public function Tecnologia( planeta : Planeta = null, nivel : uint = NaN, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : int = NaN, custoEnergiaBase :int = NaN)
 		{
+
 			stop();
 			
 			_actions = new Vector.<Parametro>();

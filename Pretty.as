@@ -1,6 +1,8 @@
 package
 {
 	import flash.text.TextFormat;
+	
+	import fl.motion.Color;
 
 	public class Pretty
 	{
@@ -10,6 +12,8 @@ package
 		public static var BODY_BOLD : TextFormat;
 		public static var BODY : TextFormat;
 
+		public static var COLOR_PURPLE_1 : String;
+		public static var COLOR_POPUP : String;
 
 
 		// static initializer
@@ -40,12 +44,18 @@ package
 			BODY_BOLD.font = "Arial";
 			BODY_BOLD.size = 12;
 			
+			
 			TITLE_1 = new TextFormat();
 			TITLE_1.color = "0xFFFFFF";
 			TITLE_1.bold = true;
 			TITLE_1.font = "Arial";
 			TITLE_1.size = 30;
 			TITLE_1.align = "center";
+			
+			COLOR_PURPLE_1 = "0x660066"
+			COLOR_POPUP = "0x2D245C"
+
+
 
 		}
 		

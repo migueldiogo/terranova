@@ -6,6 +6,8 @@
 	import flash.events.TimerEvent;
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
+	import flash.geom.Point;
+	import flash.net.SharedObject;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.text.TextField;
@@ -40,16 +42,20 @@
 		
 		private var _nivel : uint;
 		private var _jogador : Jogador;
+		private var _pontuacaoRecordGlobal : uint;
 		
 		private var vitoria : Boolean;
 		
-		public function MainGame(mainMovieClip : MovieClip, nivel : uint, jogador : Jogador) {
+		public function MainGame(mainMovieClip : MovieClip = null, nivel : uint = NaN, jogador : Jogador = null, pontuacaoRecordGlobal : uint = 0) {
 			_container = new MovieClip();
 			_mainMovieClip = mainMovieClip;
+			_jogador = jogador;
+			_pontuacaoRecordGlobal = pontuacaoRecordGlobal;
 			
 			laboratorio = new ScrollPane();
 			
-			_jogador = jogador;
+				
+				
 			_nivel = nivel;
 
 			_mainMovieClip.gotoAndStop("MainGame");
@@ -60,9 +66,14 @@
 			clockDisplay.text = intToTime(clock);
 			
 			// se jogador ja jogou este nivel, carrega da memoria, se nao cria novo planeta com reset = true
-			planeta = new Planeta(this, _jogador, _nivel, _jogador.planetas[_nivel-1] == null);
+			trace("NIVEL: " + _nivel + " planetas.length = " + _jogador.pontuacoesMaximas.length);
+			planeta = new Planeta(this, _jogador, _nivel, true);
 			
-			//tecnologias = new Vector.<Tecnologia>();
+			planeta.resetPlaneta();
+
+
+			//_jogador.planetas.push(planeta);
+			
 			_mainMovieClip.addChild(_container);
 			
 		}
@@ -78,7 +89,7 @@
 			importaDadosDoPlaneta();
 			
 			// TECNOLOGIAS PANEL
-			//laboratorio.opaqueBackground = 0x2b2f43;			
+			//laboratorio.opaqueBackground = Pretty.COLOR_PURPLE_1;			
 			laboratorio.y = 40;
 			laboratorio.height = 325;
 			laboratorio.width = 640;
@@ -194,10 +205,10 @@
 			energiaTextField.text = "Energia: " + planeta.recursos.energia;
 			
 			for (var i : uint = 0; i < planeta.tecnologias.length; i++) {
-				trace("DESSATIVEI" + " " + planeta.tecnologias[i].custoMinerioAtual +" " + planeta.recursos.minerio);
-
-				if (planeta.tecnologias[i].custoMinerioAtual > planeta.recursos.minerio) {
+				// se recursos nao chegam para evolucao de tecnologia ou o tempo esta parado, entao desativa tecnologia(s)
+				if (Math.abs(planeta.tecnologias[i].custoMinerioAtual) > planeta.recursos.minerio || !timerUpdate.running) {
 					planeta.tecnologias[i].nivelButtons.disabled = true;
+					planeta.tecnologias[i].nivelButtons.buttonMode = false;
 					planeta.tecnologias[i].nivelButtons.nivelUpButton.removeEventListener(MouseEvent.CLICK, planeta.tecnologias[i].evoluiTecnologia);
 					planeta.tecnologias[i].nivelButtons.nivelUpButton.removeEventListener(MouseEvent.CLICK, planeta.tecnologias[i].vendeTecnologia);
 					
@@ -207,20 +218,78 @@
 					planeta.tecnologias[i].nivelButtons.buttonMode = true;
 					planeta.tecnologias[i].nivelButtons.nivelUpButton.addEventListener(MouseEvent.CLICK, planeta.tecnologias[i].evoluiTecnologia);
 					planeta.tecnologias[i].nivelButtons.nivelUpButton.addEventListener(MouseEvent.CLICK, planeta.tecnologias[i].vendeTecnologia);
-
+					
+					
+					// gerador de catastrofes
+					if (Math.random() < planeta.dados[Planeta.METEORITOS].valor)
+						trace("ACONTECEU METEORITO");
+					if (Math.random() < planeta.dados[Planeta.TSUNAMI].valor)
+						trace("ACONTECEU TSUNAMI");
+					if (Math.random() < planeta.dados[Planeta.VULCOES].valor)
+						trace("ACONTECEU ERUPCAO");
 				}
 
 			}	
 			
+			// INCOMPLETO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if (verificaVitoria()) {
-				_mainMovieClip.gotoAndStop(2);
 				vitoria = true;
+				planeta.habitavel = true;
 				laboratorio.visible = false;
+				
+				timerUpdate.stop();
+				var pontuacaoRecordPessoal : uint;
+				
+				
+				_mainMovieClip.removeChild(_container);
+				if (_jogador.pontuacoesMaximas.length < _nivel) {
+					pontuacaoRecordPessoal = 0;
+					_jogador.pontuacoesMaximas.push(clock);
+				}
+				
+				else {
+					pontuacaoRecordPessoal = _jogador.pontuacoesMaximas[_nivel-1];
+
+					// record pessoal
+					if (_jogador.pontuacoesMaximas[_nivel-1] > clock) {
+						_jogador.pontuacoesMaximas[_nivel-1] = clock;
+						
+					}
+				}
+			
+				/*
+				if (_jogador.proximoNivel == _nivel)
+					_jogador.proximoNivel++;*/
+				
+				var gameReport : GameReport = new GameReport(_mainMovieClip, _pontuacaoRecordGlobal, pontuacaoRecordPessoal, clock);
+				gameReport.addEventListener(MouseEvent.CLICK, nextLevelButton);
+				_mainMovieClip.addChild(gameReport);
+
+				_container.filters = [new BlurFilter(10, 10, BitmapFilterQuality.HIGH)];
+
+				// atualiza ficheiro sharedObject em disco com dados do jogador atualizados
+				var sharedObject : SharedObject = SharedObject.getLocal("TerraNovaSaved");
+				var encontrado : Boolean = false;
+				for (var k : uint = 0; k < sharedObject.data.jogadores.length && !encontrado; k++) {
+					if (_jogador.nome == sharedObject.data.jogadores[k].nome) {
+						encontrado = true;
+						sharedObject.data.jogadores[k] = new Jogador(_jogador.nome, _jogador.pontuacoesMaximas);
+						sharedObject.flush();
+					}
+				}
+				
+				
 				trace("VITORIA");
 				
 			}
 
 			
+		}
+		
+		private function nextLevelButton(e : MouseEvent) {
+			_mainMovieClip.removeChild(e.target.parent);
+			
+			new Niveis(_mainMovieClip, _jogador);
 		}
 		
 		/**
@@ -231,6 +300,8 @@
 
 			if (laboratorio.visible) {
 				laboratorio.visible = false;
+				//laboratorio.removeEventListener( MouseEvent.MOUSE_WHEEL, mouseScrollLaboratorio);
+
 				_mainMovieClip.background.filters = [];
 				_mainMovieClip.alienPlanet.filters = [];
 
@@ -238,14 +309,10 @@
 			else {
 				laboratorio.visible = true;
 				
-				var blurFilter:BlurFilter = new BlurFilter();
-				blurFilter.blurX = 64;
-				blurFilter.blurY = 64;
-
-				blurFilter.quality = BitmapFilterQuality.HIGH;
+				//laboratorio.addEventListener( MouseEvent.MOUSE_WHEEL, mouseScrollLaboratorio);
 				
-				_mainMovieClip.background.filters = [blurFilter];
-				_mainMovieClip.alienPlanet.filters = [blurFilter];
+				_mainMovieClip.background.filters = [new BlurFilter(64, 64, BitmapFilterQuality.HIGH)];
+				_mainMovieClip.alienPlanet.filters = [new BlurFilter(64, 64, BitmapFilterQuality.HIGH)];
 			}
 		}
 		
@@ -328,12 +395,21 @@
 				// PAUSE SIMULATION
 				pauseAndPlayButton.setPlay();
 				timerUpdate.stop();
+				atualizaSimulacao(null);
 			}
 			else {
 				// RESUME SIMULATION
 				pauseAndPlayButton.setPause();
 				timerUpdate.start();
+				atualizaSimulacao(null);
 				
+			}
+		}
+		
+		private function mouseScrollLaboratorio(e : MouseEvent) {
+			if( laboratorio !== null )
+			{
+				laboratorio.verticalScrollPosition += - ( e.delta * 8 );
 			}
 		}
 		

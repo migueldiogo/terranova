@@ -25,8 +25,9 @@ package
 			valorLabel.htmlText = "";
 			icon.source = "media/parametros/data" + _codigo + ".png";
 			
-			icon.addEventListener(MouseEvent.MOUSE_OVER, popToolTip);
+			//icon.addEventListener(MouseEvent.MOUSE_OVER, popToolTip);
 			
+
 		}
 		
 
