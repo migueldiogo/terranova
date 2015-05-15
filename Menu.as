@@ -6,7 +6,11 @@ package
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
 	import flash.geom.Point;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.media.SoundLoaderContext;
 	import flash.net.SharedObject;
+	import flash.net.URLRequest;
 	import flash.net.registerClassAlias;
 	import flash.text.TextField;
 	
@@ -18,7 +22,9 @@ package
 	{
 		private var _sharedObject : SharedObject;
 		private var inputDialog : InputDialog;
-
+		
+		private var _musicaBackground : Sound;
+		private var _soundChannel : SoundChannel;
 		
 		private var _main : MovieClip;
 		private var _container : MovieClip;
@@ -28,6 +34,9 @@ package
 			_main = main;
 			_container = new MovieClip();
 
+			_musicaBackground = new Sound();
+			_musicaBackground.load(new URLRequest("media/musica/Heart_of_Machine.mp3"));
+			_soundChannel = _musicaBackground.play();
 			_main.gotoAndStop(1);
 
 			
@@ -138,7 +147,7 @@ package
 					_sharedObject.flush();
 					/////////////
 					
-					
+					_soundChannel.stop();
 					new Niveis(_main, novoJogador);
 					_container.filters= [];
 					_main.removeChild(inputDialog);
@@ -189,7 +198,7 @@ package
 
 			var novoJogador : Jogador = new Jogador(_sharedObject.data.jogadores[e.target.selectedItem.data].nome, _sharedObject.data.jogadores[e.target.selectedItem.data].pontuacoesMaximas);
 
-
+			_soundChannel.stop();
 			new Niveis(_main, novoJogador);
 			
 			_main.removeChild(e.target.parent);
@@ -198,8 +207,13 @@ package
 		
 		
 		public function settings(e : MouseEvent) {
-			_sharedObject.clear();
-			initSharedObject();
+			//_sharedObject.clear();
+			//initSharedObject();
+			_container.filters= [ new BlurFilter(10, 10, BitmapFilterQuality.HIGH) ];
+
+			var settingsPanel : SettingsPanel = new SettingsPanel(this);
+			settingsPanel.backButton.addEventListener(MouseEvent.CLICK, goBack);
+			_main.addChild(settingsPanel);
 		}
 		
 		

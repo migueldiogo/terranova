@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <catastrofe>
+        <nome>Tsunami</nome>
+        <descricao>
+            A sonda TSU-12XM accionou o alarme devido à ocorrência de um Tsunami na costa.
+        </descricao>
+        <imageURL>data/tecnologiasImages/FC.png</imageURL>
+        <actions>
+            <taxaMinerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>0</valor>
+            </taxaMinerio>
+            
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
+                <valor>0</valor>
+            </CO2>
+            
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
+                <valor>0</valor>
+                
+            </CH4>
+            
+            <O2 type="atmosfera">
+                <nome>O2</nome>
+                <valor>0</valor>
+            </O2>
+            
+            <O3 type="atmosfera">
+                <nome>O3</nome>
+                <valor>0</valor>
+            </O3 type="atmosfera">
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0.5</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0.5</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Temperatura>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Tsunami</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Vulcoes</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Meteoritos</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+        </actions>
+    </catastrofe>
+    
+    <catastrofe>
+        <nome>Vulcao</nome>
+        <descricao>
+            A sonda ERUP-102V detetou uma erupção vulcânica.
+        </descricao>
+        <imageURL>data/tecnologiasImages/FC.png</imageURL>
+        <actions>
+            <taxaMinerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>0</valor>
+            </taxaMinerio>
+            
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
+                <valor>20</valor>
+            </CO2>
+            
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
+                <valor>0</valor>
+                
+            </CH4>
+            
+            <O2 type="atmosfera">
+                <nome>O2</nome>
+                <valor>0</valor>
+            </O2>
+            
+            <O3 type="atmosfera">
+                <nome>O3</nome>
+                <valor>0</valor>
+            </O3 type="atmosfera">
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0.5</valor>
+            </Temperatura>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Tsunami</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Vulcoes</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Meteoritos</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+        </actions>
+    </catastrofe>
+    
+    <catastrofe>
+        <nome>Meteorito</nome>
+        <descricao>
+            O satélite METEO-455A detetou um impacto de um meteorito no planeta.
+        </descricao>
+        <imageURL>data/tecnologiasImages/FC.png</imageURL>
+        <actions>
+            <taxaMinerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>0</valor>
+            </taxaMinerio>
+            
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
+                <valor>0</valor>
+            </CO2>
+            
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
+                <valor>0</valor>
+                
+            </CH4>
+            
+            <O2 type="atmosfera">
+                <nome>O2</nome>
+                <valor>0</valor>
+            </O2>
+            
+            <O3 type="atmosfera">
+                <nome>O3</nome>
+                <valor>0</valor>
+            </O3 type="atmosfera">
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0.5</valor>
+            </Temperatura>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Tsunami</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Vulcoes</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Meteoritos</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+        </actions>
+    </catastrofe>
+
+
+</data>

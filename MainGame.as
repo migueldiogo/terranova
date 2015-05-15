@@ -88,6 +88,7 @@
 			// importa e formata dados do planeta para o ecra
 			importaDadosDoPlaneta();
 			
+			
 			// TECNOLOGIAS PANEL
 			//laboratorio.opaqueBackground = Pretty.COLOR_PURPLE_1;			
 			laboratorio.y = 40;
