@@ -1,7 +1,19 @@
 ﻿package
 {
+	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.filters.BitmapFilterQuality;
+	import flash.filters.BlurFilter;
+	import flash.geom.Rectangle;
+	import flash.text.AntiAliasType;
+	import flash.text.TextField;
+	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
+	
+	import fl.containers.UILoader;
+	import fl.controls.Button;
 
 	public class Tecnologia extends MovieClip implements AlteradorPlaneta
 	{
@@ -19,12 +31,26 @@
 		protected var _descricao : String;
 		protected var _actions : Vector.<Parametro>;
 		
+		
+		
+		private var _evoluirButton : Button;
+		private var _demolirButton : Button;
+		private var _nomeTextField : TextField;
+		private var _imagem : UILoader;
+		private var _descricaoTextField : TextField;
+		private var _actionsTextField : TextField;
+		private var _nivelTextField : TextField;
+		private var _custosTextField : TextField;
+	
+		private var _parentMainDisplay : MovieClip;
 	
 		
-		public function Tecnologia( planeta : Planeta = null, nivel : uint = NaN, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : int = NaN, custoEnergiaBase :int = NaN)
+		public function Tecnologia( planeta : Planeta = null, nivel : uint = NaN, nomeTecnologia : String = null, descricao : String = null, custoMinerioBase : int = NaN, custoEnergiaBase :int = NaN, parentMainMc : MovieClip = null)
 		{
 
 			stop();
+			
+			_parentMainDisplay = parentMainMc;
 			
 			_actions = new Vector.<Parametro>();
 
@@ -37,19 +63,93 @@
 			
 			trace("MINERIO" + ": " + _custoMinerioBase);
 			
-			tecnologiaTextLabel.setStyle("textFormat", Pretty.HEADING_1);
-			nivelLabel.setStyle("textFormat", Pretty.BODY);
-			custoLabel.setStyle("textFormat", Pretty.BODY);
-			descricaoLabel.setStyle("textFormat", Pretty.BODY);
 			
 			
+			// LAYOUT
+			_nomeTextField = new TextField();
+			_nomeTextField.x = 10;
+			_nomeTextField.y = 10;
+			_nomeTextField.defaultTextFormat = Pretty.HEADING_1;
+			_nomeTextField.text = _nomeTecnologia;
+			_nomeTextField.width = 170;
+			_nomeTextField.height = _nomeTextField.textHeight + 2;
+			_nomeTextField.selectable = false;
 			
-			tecnologiaTextLabel.text = _nomeTecnologia;
-			nivelLabel.text = "Nível " + _nivel;
-			custoLabel.text = "Minerio: " + _custoMinerioBase*Math.pow(2,nivel) + "\t Energia: " + _custoEnergiaBase*Math.pow(2,nivel);	
-			descricaoLabel.text = _descricao;
+
+			addChild(_nomeTextField);
+			
+			_nivelTextField = new TextField();
+			_nivelTextField.defaultTextFormat = Pretty.BODY;
+			_nivelTextField.x = _parentMainDisplay.stage.stageWidth/2 - 40;
+			_nivelTextField.y = _nomeTextField.y;
+			_nivelTextField.selectable = false;
+
+			_nivelTextField.text = "Nível " + _nivel;
+			addChild(_nivelTextField);
+			
+			
+			_imagem = new UILoader();
+			_imagem.x = _nomeTextField.x;
+			_imagem.y = _nomeTextField.y + _nomeTextField.height + 10;
+			_imagem.width = 114;
+			_imagem.height = 114;
+			_imagem.maintainAspectRatio = true;
+			_imagem.scaleContent = false;
+			addChild(_imagem);
+
+			_descricaoTextField = new TextField();
+			_descricaoTextField.defaultTextFormat = Pretty.BODY;
+			_descricaoTextField.wordWrap = true;
+			_descricaoTextField.x = _imagem.x + _imagem.width + 20;
+			_descricaoTextField.y = imagem.y;
+			_descricaoTextField.width = _parentMainDisplay.stage.stageWidth - _descricaoTextField.x - 25;
+			_descricaoTextField.height = _imagem.height/2;
+			_descricaoTextField.text = _descricao;
+			_descricaoTextField.selectable = false;
+			addChild(_descricaoTextField);
+			
+			_actionsTextField = new TextField();
+			_actionsTextField.defaultTextFormat = Pretty.BODY;
+			_actionsTextField.x = _descricaoTextField.x;
+			_actionsTextField.y = _descricaoTextField.y + _descricaoTextField.height;
+			_actionsTextField.width = _descricaoTextField.width;
+			_actionsTextField.height = _imagem.height/2;
+			addChild(_actionsTextField);	
+			
+			_custosTextField = new TextField();
+			_custosTextField.defaultTextFormat = Pretty.BODY_BOLD;
+			_custosTextField.x = _descricaoTextField.x;
+			_custosTextField.y = _actionsTextField.y + 40;
+			_custosTextField.width = _descricaoTextField.width;
+			_custosTextField.defaultTextFormat.align = TextFormatAlign.RIGHT;
+			_custosTextField.selectable = false;
+			addChild(_custosTextField);	
+					
+			
+			_demolirButton = new Button();
+			_demolirButton.setStyle("textFormat", Pretty.BODY);
+			_demolirButton.label = "DEMOLIR";
+			_demolirButton.x= _parentMainDisplay.stage.stageWidth - _demolirButton.width - 25;
+			_demolirButton.y = _nomeTextField.y;
+			addChild(_demolirButton);
+			
+			_evoluirButton = new Button();
+			_evoluirButton.setStyle("textFormat", Pretty.BODY);
+			_evoluirButton.label = "EVOLUIR";
+			_evoluirButton.x= _demolirButton.x - _evoluirButton.width - 10;
+			_evoluirButton.y = _nomeTextField.y;
+			addChild(_evoluirButton);
+			
+			atualizaCustos();
+			
+			graphics.lineStyle(1, 0xFFFFFF, 0.5);
+			graphics.moveTo(0, _imagem.y + _imagem.width + 10);
+			graphics.lineTo(_parentMainDisplay.stage.stageWidth, _imagem.y + _imagem.width + 10);
+			
 		}
 		
+
+
 		/**
 		 * Funcao despoletadora da evolucao de uma tecnologia ao clicar no botao de "evoluir"
 		 */
@@ -64,11 +164,107 @@
 			_planeta.game.atualizaSimulacao(null);
 
 		}	
+		
+		
+
+		
 		/**
 		 * Funcao despoletadora da venda de uma tecnologia ao clicar no botao de "vender"
 		 */
 		public function vendeTecnologia (e : MouseEvent) {
 			//TODO
+			parent.filters = [ new BlurFilter(5, 5, BitmapFilterQuality.HIGH) ];
+			
+			var popUpContainer : Sprite = new Sprite();
+			var popUp : Rectangle = new Rectangle(0, 0, _parentMainDisplay.stage.stageWidth/2, _parentMainDisplay.stage.stageHeight - 280);
+			popUp.x = _parentMainDisplay.stage.stageWidth/2 - popUp.width/2;
+			popUp.y = _parentMainDisplay.stage.stageHeight/2 - popUp.height/2;
+			
+			popUpContainer.graphics.beginFill(parseInt(Pretty.COLOR_POPUP), 0.9);
+			popUpContainer.graphics.drawRect(popUp.x, popUp.y, popUp.width, popUp.height);
+			popUpContainer.graphics.endFill();
+			
+			var titulo : TextField = new TextField();
+			titulo.defaultTextFormat = Pretty.HEADING_1;
+			titulo.x = popUp.x + 5;
+			titulo.y = popUp.y;
+			titulo.width = popUp.width - 10;
+			titulo.text = "Demolir Tecnologia";
+			titulo.defaultTextFormat.align = TextFormatAlign.CENTER;
+			popUpContainer.addChild(titulo);
+			
+			var descrição : TextField = new TextField();
+			descrição.defaultTextFormat = Pretty.BODY;
+			descrição.wordWrap = true;
+			descrição.x = titulo.x;
+			descrição.y = titulo.y + 50;
+			descrição.width = titulo.width
+			descrição.defaultTextFormat.align = TextFormatAlign.CENTER;
+			descrição.text = "A demolição desta tecologia para o seu nível anterior tem os seguintes custos: ... Tem a certeza que quer demolir?";
+			popUpContainer.addChild(descrição);
+			
+			// button OK
+			var _okButton : Button = new Button();
+			_okButton.label = "OK";
+			_okButton.x = popUp.x + popUp.width - _okButton.width - 10;
+			_okButton.y = popUp.y + popUp.height - _okButton.height - 10;
+			_okButton.addEventListener(MouseEvent.CLICK, confirmaVenda);
+			
+			
+			popUpContainer.addChild(_okButton);
+			
+			// button Cancel
+			var _cancelarButton : Button = new Button();
+			_cancelarButton.label = "Cancelar";
+			_cancelarButton.x = _okButton.x - _okButton.width - 10;
+			_cancelarButton.y = _okButton.y;
+			_cancelarButton.addEventListener(MouseEvent.CLICK, cancelaVenda);
+
+			
+			
+			popUpContainer.addChild(_cancelarButton);
+			
+			_parentMainDisplay.addChild(popUpContainer);
+			
+			
+			
+			
+			
+			
+		}
+		
+		private function confirmaVenda(e : MouseEvent) {
+			
+			// consequencias para os dados
+			for (var i : uint = 0; i < planeta.dados.length; i++) {
+				planeta.dados[i].valor -= actions[i].valor;
+				
+				// arredonda consoante precisao definida
+				planeta.dados[i].valor = Math.round(planeta.dados[i].valor * PRECISAO_NUMBER) / PRECISAO_NUMBER;
+				planeta.dados[i].verificaDado();
+			}
+			
+			_custoMinerioAtual = _custoMinerioBase*Math.pow(2, _nivel - 1);
+			_custoEnergiaAtual = _custoEnergiaBase*Math.pow(2, _nivel - 1);
+			
+			// a demolicao nao e' gratuita
+			planeta.recursos.minerio += _custoMinerioBase*Math.pow(2, _nivel - 1) * 0.5; 
+			planeta.recursos.energia += _custoEnergiaBase*Math.pow(2, _nivel - 1) * 0.5; 
+
+			
+			_nivel = _nivel - 1;
+			atualizaCustos();
+			
+			planeta.game.atualizaSimulacao(null);
+			
+			parent.filters = [];
+			_parentMainDisplay.removeChild(e.target.parent);
+
+		}
+		
+		private function cancelaVenda(e : MouseEvent) {
+			parent.filters = [];
+			_parentMainDisplay.removeChild(e.target.parent);
 		}
 		
 
@@ -84,7 +280,11 @@
 			for(var i : uint = 0; i < actions.length; i++) {
 				if (actions[i].valor != 0) {
 					contador++;
-					texto += actions[i].nome + ": " + actions[i].valor + "\t\t";
+
+					texto += actions[i].nome + ": ";
+					if (actions[i].valor > 0)
+						texto += "+";
+					texto +=actions[i].valor + "\t\t";
 				}
 				if (contador>4) {
 					texto += "\n";
@@ -93,8 +293,8 @@
 				
 			}
 
-			actionsLabel.setStyle("textFormat", Pretty.BODY);
-			actionsLabel.text = texto;	
+			//actionsLabel.setStyle("textFormat", Pretty.BODY);
+			_actionsTextField.text = texto;	
 			
 			
 		}
@@ -104,17 +304,32 @@
 		 */
 		public function atualizaTecnologia() : void {
 			// atualiza custo para proximo nivel e nivel
-			_custoMinerioAtual = _custoMinerioBase*Math.pow(2, nivel);
-			_custoEnergiaAtual = _custoEnergiaBase*Math.pow(2, nivel);
-			nivelLabel.text = "Nível " + _nivel;
-			custoLabel.text = "Minerio: " + _custoMinerioAtual + "\tEnergia: " + _custoEnergiaAtual;
-			
+			atualizaCustos();
 			// altera planeta
 			alteraPlaneta(true);
 			
 			// atualiza actions da tecnologia do proximo nivel
 			atualizaActions();
 
+		}
+		
+		public function atualizaCustos() {			
+			_custoMinerioAtual = _custoMinerioBase*Math.pow(2, _nivel);
+			_custoEnergiaAtual = _custoEnergiaBase*Math.pow(2, _nivel);
+			_nivelTextField.text = "Nível " + _nivel;
+			
+			var texto : String = "";
+			texto += "Minerio: ";
+			if (_custoMinerioAtual > 0)
+				texto += "+";
+			texto += "" + _custoMinerioAtual;
+			
+			texto += "\t\tEnergia: ";
+			if (_custoEnergiaAtual > 0)
+				texto += "+";
+			texto += "" + _custoEnergiaAtual;	
+			
+			_custosTextField.text = texto;
 		}
 		
 		/**
@@ -127,7 +342,8 @@
 				
 				// arredonda consoante precisao definida
 				planeta.dados[i].valor = Math.round(planeta.dados[i].valor * PRECISAO_NUMBER) / PRECISAO_NUMBER;
-				planeta.verificaDados();
+				planeta.dados[i].atualizaBarra();
+				planeta.dados[i].verificaDado();
 			}
 			
 		}
@@ -229,6 +445,88 @@
 		public function set custoMinerioAtual(value:int):void
 		{
 			_custoMinerioAtual = value;
+		}
+		
+		public function get custosTextField():TextField
+		{
+			return _custosTextField;
+		}
+		
+		public function set custosTextField(value:TextField):void
+		{
+			_custosTextField = value;
+		}
+		
+		public function get nivelTextField():TextField
+		{
+			return _nivelTextField;
+		}
+		
+		public function set nivelTextField(value:TextField):void
+		{
+			_nivelTextField = value;
+		}
+		
+		public function get actionsTextField():TextField
+		{
+			return _actionsTextField;
+		}
+		
+		public function set actionsTextField(value:TextField):void
+		{
+			_actionsTextField = value;
+		}
+		
+		public function get descricaoTextField():TextField
+		{
+			return _descricaoTextField;
+		}
+		
+		public function set descricaoTextField(value:TextField):void
+		{
+			_descricaoTextField = value;
+		}
+		
+		public function get imagem():UILoader
+		{
+			return _imagem;
+		}
+		
+		public function set imagem(value:UILoader):void
+		{
+			_imagem = value;
+		}
+		
+		public function get nameTextField():TextField
+		{
+			return _nomeTextField;
+		}
+		
+		public function set nameTextField(value:TextField):void
+		{
+			_nomeTextField = value;
+		}
+		
+		
+		
+		public function get demolirButton():Button
+		{
+			return _demolirButton;
+		}
+		
+		public function set demolirButton(value:Button):void
+		{
+			_demolirButton = value;
+		}
+		
+		public function get evoluirButton():Button
+		{
+			return _evoluirButton;
+		}
+		
+		public function set evoluirButton(value:Button):void
+		{
+			_evoluirButton = value;
 		}
 	}
 }

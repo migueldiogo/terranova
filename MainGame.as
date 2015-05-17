@@ -1,6 +1,8 @@
 ﻿package  {
 	
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
+	import flash.display.Stage;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.events.TimerEvent;
@@ -10,11 +12,13 @@
 	import flash.net.SharedObject;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
+	import flash.net.drm.AddToDeviceGroupSetting;
 	import flash.text.TextField;
 	import flash.text.TextFormat;
 	import flash.utils.Timer;
 	
 	import fl.containers.ScrollPane;
+	import fl.containers.UILoader;
 	import fl.controls.Button;
 	import fl.controls.ScrollPolicy;
 
@@ -29,9 +33,11 @@
 		private var terra : Planeta;
 		private var laboratorio : ScrollPane;
 		private var labButton : Button;
-		private var minerioTextField : TextField;
-		private var energiaTextField : TextField;
-		
+		private var _headerRecursos : Sprite;
+		private var _minerioTextField : TextField;
+		private var _energiaTextField : TextField;
+		private var _minerioIcon : UILoader;
+		private var _energiaIcon : UILoader;
 		private var pauseAndPlayButton : PausePlayButton;
 		
 		private var timerUpdate : Timer;
@@ -80,6 +86,16 @@
 		
 
 
+		public function get mainMovieClip():MovieClip
+		{
+			return _mainMovieClip;
+		}
+
+		public function set mainMovieClip(value:MovieClip):void
+		{
+			_mainMovieClip = value;
+		}
+
 		/**
 		 * Instancializa ecrã.
 		 */
@@ -118,30 +134,66 @@
 
 			
 			// RECURSOS
-			minerioTextField = new TextField();
-			minerioTextField.defaultTextFormat = Pretty.HEADING_1;
-			minerioTextField.text = "Minerio: " + planeta.recursos.minerio;
-			minerioTextField.x = 200;
-			minerioTextField.y = 5;
-			minerioTextField.height = 30;
-	
-			energiaTextField = new TextField();
-			energiaTextField.defaultTextFormat = Pretty.HEADING_1;
-			energiaTextField.text = "Energia: " + planeta.recursos.energia;
-			energiaTextField.x = 350;
-			energiaTextField.y = 5;
-			energiaTextField.height = 30;
+			_headerRecursos = new Sprite();
+
+			_minerioIcon = new UILoader();
+			_minerioIcon.scaleContent = false;
+			_minerioIcon.maintainAspectRatio = true;
+			_minerioIcon.source = "media/header/minerio.png";
+			_minerioIcon.x = 0;
+			_minerioIcon.y = 0;
+			_headerRecursos.addChild(_minerioIcon);
 			
-			_container.addChild(minerioTextField);
-			_container.addChild(energiaTextField);
+			_minerioTextField = new TextField();
+			_minerioTextField.defaultTextFormat = Pretty.HEADING_1;
+			_minerioTextField.selectable = false;
+			_minerioTextField.text = "Minerio: " + planeta.recursos.minerio;
+			_minerioTextField.width = _minerioTextField.textWidth + 10;
+			_minerioTextField.height = _minerioTextField.textHeight + 3;
+
+			_minerioTextField.x = 32 + 5;
+			_minerioTextField.y = 4;
+			_headerRecursos.addChild(_minerioTextField);
+	
+
+			_energiaIcon = new UILoader();
+			_energiaIcon.scaleContent = false;
+			_energiaIcon.maintainAspectRatio = true;
+			_energiaIcon.source = "media/header/energia.png";
+			_energiaIcon.x = _minerioTextField.x + _minerioTextField.width + 10;
+			_energiaIcon.y = 0;
+			_headerRecursos.addChild(_energiaIcon);
+			
+			
+			_energiaTextField = new TextField();
+			_energiaTextField.defaultTextFormat = Pretty.HEADING_1;
+			_energiaTextField.selectable = false;
+			_energiaTextField.text = "Energia: " + planeta.recursos.energia;
+			_energiaTextField.width = _energiaTextField.textWidth + 10;
+			_energiaTextField.height = _energiaTextField.textHeight + 3;
+			_energiaTextField.x = _energiaIcon.x + 32 + 5;
+			_energiaTextField.y = _minerioTextField.y;
+			_headerRecursos.addChild(_energiaTextField);
+			
+			_headerRecursos.x = mainMovieClip.stage.stageWidth/2 - _headerRecursos.width/2;
+			_headerRecursos.y = 5;
+			_container.addChild(_headerRecursos);
 	
 			// CLOCK DISPLAY
 			clockDisplay.x = 550;
 			clockDisplay.y = 5;
 			clockDisplay.height = 30;
 			clockDisplay.defaultTextFormat = Pretty.HEADING_1;
+			clockDisplay.text = intToTime(clock);
 			_container.addChild(clockDisplay);
-			
+
+			var clockIcon : UILoader = new UILoader();
+			clockIcon.scaleContent = false;
+			clockIcon.maintainAspectRatio = true;
+			clockIcon.source = "media/header/time.png";
+			clockIcon.x = clockDisplay.x - 20;
+			clockIcon.y = 8;
+			_container.addChild(clockIcon);
 			// PAUSE AND PLAY BUTTON
 			pauseAndPlayButton = new PausePlayButton();
 			pauseAndPlayButton.buttonMode = true;
@@ -187,6 +239,22 @@
 			return vitoria;
 		}
 		
+		private function atualizaLayoutRecursos() {
+			// RECURSOS
+			_minerioTextField.text = "Minerio: " + planeta.recursos.minerio;
+			_minerioTextField.width = _minerioTextField.textWidth + 10;
+					
+			_energiaIcon.x = _minerioTextField.x + _minerioTextField.width + 10;
+
+			_energiaTextField.text = "Energia: " + planeta.recursos.energia;
+			_energiaTextField.width = _energiaTextField.textWidth + 10;
+			_energiaTextField.x = _energiaIcon.x + 32 + 5;
+			_energiaTextField.y = _minerioTextField.y;
+			
+			_headerRecursos.addChild(_energiaTextField);
+			_headerRecursos.x = mainMovieClip.stage.stageWidth/2 - _headerRecursos.width/2;
+			
+		}
 		
 		/**
 		 * Atualiza os dados apresentados no ecra (label, butoes ativados). Pode ser despoletada por um timer ou de forma forçada com limitações.
@@ -202,23 +270,26 @@
 
 			}
 			
-			minerioTextField.text = "Minerio: " + planeta.recursos.minerio;
-			energiaTextField.text = "Energia: " + planeta.recursos.energia;
+			atualizaLayoutRecursos();
+			_minerioTextField.text = "Minerio: " + planeta.recursos.minerio;
+			_energiaTextField.text = "Energia: " + planeta.recursos.energia;
 			
 			for (var i : uint = 0; i < planeta.tecnologias.length; i++) {
 				// se recursos nao chegam para evolucao de tecnologia ou o tempo esta parado, entao desativa tecnologia(s)
 				if (Math.abs(planeta.tecnologias[i].custoMinerioAtual) > planeta.recursos.minerio || !timerUpdate.running) {
-					planeta.tecnologias[i].nivelButtons.disabled = true;
-					planeta.tecnologias[i].nivelButtons.buttonMode = false;
-					planeta.tecnologias[i].nivelButtons.nivelUpButton.removeEventListener(MouseEvent.CLICK, planeta.tecnologias[i].evoluiTecnologia);
-					planeta.tecnologias[i].nivelButtons.nivelUpButton.removeEventListener(MouseEvent.CLICK, planeta.tecnologias[i].vendeTecnologia);
+					planeta.tecnologias[i].evoluirButton.enabled = false;
+					planeta.tecnologias[i].demolirButton.enabled = false;
+
+					//planeta.tecnologias[i].nivelButtons.buttonMode = false;
+					planeta.tecnologias[i].evoluirButton.removeEventListener(MouseEvent.CLICK, planeta.tecnologias[i].evoluiTecnologia);
+					planeta.tecnologias[i].demolirButton.removeEventListener(MouseEvent.CLICK, planeta.tecnologias[i].vendeTecnologia);
 					
 				}
 				else {
-					planeta.tecnologias[i].nivelButtons.disabled = false;
-					planeta.tecnologias[i].nivelButtons.buttonMode = true;
-					planeta.tecnologias[i].nivelButtons.nivelUpButton.addEventListener(MouseEvent.CLICK, planeta.tecnologias[i].evoluiTecnologia);
-					planeta.tecnologias[i].nivelButtons.nivelUpButton.addEventListener(MouseEvent.CLICK, planeta.tecnologias[i].vendeTecnologia);
+					planeta.tecnologias[i].evoluirButton.enabled = true;
+					planeta.tecnologias[i].demolirButton.enabled = (planeta.tecnologias[i].nivel == 0) ? false : true;
+					planeta.tecnologias[i].evoluirButton.addEventListener(MouseEvent.CLICK, planeta.tecnologias[i].evoluiTecnologia);
+					planeta.tecnologias[i].demolirButton.addEventListener(MouseEvent.CLICK, planeta.tecnologias[i].vendeTecnologia);
 					
 					
 					// gerador de catastrofes
@@ -231,6 +302,8 @@
 				}
 
 			}	
+			
+			
 			
 			// INCOMPLETO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if (verificaVitoria()) {
@@ -286,6 +359,7 @@
 
 			
 		}
+
 		
 		private function nextLevelButton(e : MouseEvent) {
 			_mainMovieClip.removeChild(e.target.parent);
@@ -332,9 +406,9 @@
 			for (var i : uint = 0; i<planeta.dados.length; i++) {
 				trace(planeta.dados[i].nome);
 				planeta.nivel = i+1;
-				planeta.dados[i].x = 160*contadorColunas;
+				planeta.dados[i].x = 10 + 160*contadorColunas;
 				planeta.dados[i].y = 370 + contadorLinhas * 35;
-				planeta.dados[i].valorLabel.setStyle("textFormat", Pretty.BODY);
+				planeta.dados[i].nomeValorTextField.width = 120;
 				_container.addChild(planeta.dados[i]);
 				
 				// ajustar em colunas 
@@ -346,13 +420,9 @@
 					contadorColunas++;
 				}
 				
-				
+				planeta.dados[i].verificaDado();
 			}
 			
-			planeta.verificaDados();		// dados sao formatados consoante o seu estado (errado ou certo)
-
-			
-
 						
 			
 			
@@ -373,6 +443,7 @@
 				// layout
 				planeta.tecnologias[i].y = i*163.95;
 				planeta.tecnologias[i].x = 0;
+
 				
 				tecnologiasContainer.addChild(planeta.tecnologias[i]);
 				

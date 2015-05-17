@@ -7,6 +7,8 @@ package
 	import flash.net.registerClassAlias;
 	import flash.text.TextField;
 	
+	import fl.motion.motion_internal;
+	
 
 	public class Planeta extends Astro
 	{		
@@ -131,39 +133,7 @@ package
 			_nivel = value;
 		}
 
-		public function verificaDados()
-		{
-			
-			for (var i : uint  = 0; i < _dados.length; i++) {
-				var texto : String = "";
-				
-				// valor incorreto
-				if (_dados[i].valor < _dados[i].valorOtimoMinimo || _dados[i].valor > dados[i].valorOtimoMaximo) {
-					texto += '<font color="#FF0000">';
-					texto += _dados[i].valor + "</font>\n";
-					_dados[i].correto = false;
-				}
-				// valor nao importante para vencer o nivel
-				else if (isNaN(_dados[i].valorOtimoMinimo) || isNaN(_dados[i].valorOtimoMaximo)) {
-					texto += _dados[i].valor + "\n";
-					_dados[i].correto = true;
-				}
-				// valor correto
-				else {
-					texto += '<font color="#00FF00">';
-					texto += _dados[i].valor + "</font>\n";
-					_dados[i].correto = true;
-				}
-				
-				_dados[i].valorLabel.htmlText = _dados[i].nome + ": " + texto;
 
-			}
-			
-			
-
-			
-			
-		}
 		
 		private function carregaPlanetaOriginal (e : Event) {
 			var data : XML = new XML(e.target.data);
@@ -193,25 +163,18 @@ package
 			
 			for (var i : uint = 0; i<data.tecnologia.length(); i++) {
 				
-				tecnologias[i] = new Tecnologia(this, 0, data.tecnologia[i].nome, data.tecnologia[i].descricao, data.tecnologia[i].custos.minerio, data.tecnologia[i].custos.energia);
+				tecnologias[i] = new Tecnologia(this, 0, data.tecnologia[i].nome, data.tecnologia[i].descricao, data.tecnologia[i].custos.minerio, data.tecnologia[i].custos.energia, _game.mainMovieClip);
 				for(var j : uint = 0; j<data.tecnologia[i].actions[0].*.length();j++) {
 					tecnologias[i].actions.push(new Parametro(data.tecnologia[i].actions.*[j].nome, i, data.tecnologia[i].actions.*[j].valor));
-					
-					
-					tecnologias[i].imagemTecnologia.source = "media/parametros/data0.png";
-					
-					tecnologias[i].imagemTecnologia.scaleContent = true; 
-					
-					//tecnologias[i].imagemTecnologia.addEventListener(Event.COMPLETE, completeHandler); 
-										
+					tecnologias[i].imagem.source = "media/parametros/data0.png";
 				}
 				
 				// popula label com as consequencias desta tecnologia no planeta
 				tecnologias[i].atualizaActions();
 				
 				// accionar butoes
-				tecnologias[i].nivelButtons.nivelUpButton.buttonMode = true;
-				tecnologias[i].nivelButtons.nivelDownButton.buttonMode = true;
+				tecnologias[i].evoluirButton.enabled = true;
+				tecnologias[i].demolirButton.enabled = true;
 				
 
 			}

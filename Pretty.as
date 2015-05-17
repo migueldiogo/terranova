@@ -14,6 +14,8 @@ package
 
 		public static var COLOR_PURPLE_1 : String;
 		public static var COLOR_POPUP : String;
+		public static var COLOR_GREEN_PALE : String;
+		public static var COLOR_RED_PALE : String;
 
 
 		// static initializer
@@ -54,7 +56,8 @@ package
 			
 			COLOR_PURPLE_1 = "0x660066"
 			COLOR_POPUP = "0x2D245C"
-
+			COLOR_GREEN_PALE = "0x336633";
+			COLOR_RED_PALE = "0x990033";
 
 
 		}
