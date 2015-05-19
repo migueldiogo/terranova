@@ -39,7 +39,7 @@
 			_imagem.maintainAspectRatio = true;
 			_imagem.scaleContent = false;
 			_imagem.source = "media/parametros/data" + _codigo + "_32.png"
-			_imagem.alpha = 0.9;
+			//_imagem.alpha = 0.9;
 
 			addChild(_imagem);
 				

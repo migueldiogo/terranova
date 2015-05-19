@@ -21,6 +21,10 @@
 	import fl.containers.UILoader;
 	import fl.controls.Button;
 	import fl.controls.ScrollPolicy;
+	import fl.transitions.Tween;
+	import fl.transitions.TweenEvent;
+	import fl.transitions.easing.Regular;
+	import fl.transitions.easing.Strong;
 
 	
 	public class MainGame {
@@ -29,15 +33,19 @@
 		private var clock : uint;
 		private var clockDisplay : TextField;
 		
-		private var planeta : Planeta;
-		private var terra : Planeta;
-		private var laboratorio : ScrollPane;
-		private var labButton : Button;
+		private var _planeta : Planeta;
+		//private var terra : Planeta;
+		private var _laboratorio : ScrollPane;
+		
+		private var menuGame : MenuGame;
+		
 		private var _headerRecursos : Sprite;
 		private var _minerioTextField : TextField;
 		private var _energiaTextField : TextField;
 		private var _minerioIcon : UILoader;
 		private var _energiaIcon : UILoader;
+		private var _menuButton : UILoader;
+		
 		private var pauseAndPlayButton : PausePlayButton;
 		
 		private var timerUpdate : Timer;
@@ -58,7 +66,7 @@
 			_jogador = jogador;
 			_pontuacaoRecordGlobal = pontuacaoRecordGlobal;
 			
-			laboratorio = new ScrollPane();
+			_laboratorio = new ScrollPane();
 			
 				
 				
@@ -73,9 +81,9 @@
 			
 			// se jogador ja jogou este nivel, carrega da memoria, se nao cria novo planeta com reset = true
 			trace("NIVEL: " + _nivel + " planetas.length = " + _jogador.pontuacoesMaximas.length);
-			planeta = new Planeta(this, _jogador, _nivel, true);
+			_planeta = new Planeta(this, _jogador, _nivel, true);
 			
-			planeta.resetPlaneta();
+			_planeta.resetPlaneta();
 
 
 			//_jogador.planetas.push(planeta);
@@ -85,6 +93,36 @@
 		}
 		
 
+
+		public function get planeta():Planeta
+		{
+			return _planeta;
+		}
+
+		public function set planeta(value:Planeta):void
+		{
+			_planeta = value;
+		}
+
+		public function get menuButton():UILoader
+		{
+			return _menuButton;
+		}
+
+		public function set menuButton(value:UILoader):void
+		{
+			_menuButton = value;
+		}
+
+		public function get laboratorio():ScrollPane
+		{
+			return _laboratorio;
+		}
+
+		public function set laboratorio(value:ScrollPane):void
+		{
+			_laboratorio = value;
+		}
 
 		public function get mainMovieClip():MovieClip
 		{
@@ -107,30 +145,29 @@
 			
 			// TECNOLOGIAS PANEL
 			//laboratorio.opaqueBackground = Pretty.COLOR_PURPLE_1;			
-			laboratorio.y = 40;
-			laboratorio.height = 325;
-			laboratorio.width = 640;
-			laboratorio.horizontalScrollPolicy = ScrollPolicy.OFF;
-			laboratorio.visible = false;
+			_laboratorio.y = 40;
+			_laboratorio.height = 325;
+			_laboratorio.width = 640;
+			_laboratorio.horizontalScrollPolicy = ScrollPolicy.OFF;
+			_laboratorio.visible = false;
 
 			// importa e formata tecnologias do planeta para o ecra
 			importaTecnologiasDoPlaneta();
 	
 			
 			
-			// BUTAO LAB
-			labButton = new Button();			
-			labButton.width = 100;
-			labButton.move(5,5);
-			labButton.label = "LABORATÓRIO";
-			labButton.addEventListener(MouseEvent.CLICK, labButtonClick);
-			_container.addChild(labButton);
+			// BUTAO MENU
+			_menuButton = new UILoader;
+			_menuButton.maintainAspectRatio = true;
+			_menuButton.scaleContent = false;
+			_menuButton.source = "media/header/menu_20.png";
+			_menuButton.x = 10;
+			_menuButton.y = 10;
+			_menuButton.addEventListener(MouseEvent.CLICK, menuButtonClick);
+			_menuButton.addEventListener(MouseEvent.MOUSE_OVER, overButton);
+			_menuButton.addEventListener(MouseEvent.MOUSE_OUT, outButton);
 	
-
-			
-			
-
-			
+			_container.addChild(_menuButton);
 
 			
 			// RECURSOS
@@ -147,7 +184,7 @@
 			_minerioTextField = new TextField();
 			_minerioTextField.defaultTextFormat = Pretty.HEADING_1;
 			_minerioTextField.selectable = false;
-			_minerioTextField.text = "Minerio: " + planeta.recursos.minerio;
+			_minerioTextField.text = "Minerio: " + _planeta.recursos.minerio;
 			_minerioTextField.width = _minerioTextField.textWidth + 10;
 			_minerioTextField.height = _minerioTextField.textHeight + 3;
 
@@ -168,7 +205,7 @@
 			_energiaTextField = new TextField();
 			_energiaTextField.defaultTextFormat = Pretty.HEADING_1;
 			_energiaTextField.selectable = false;
-			_energiaTextField.text = "Energia: " + planeta.recursos.energia;
+			_energiaTextField.text = "Energia: " + _planeta.recursos.energia;
 			_energiaTextField.width = _energiaTextField.textWidth + 10;
 			_energiaTextField.height = _energiaTextField.textHeight + 3;
 			_energiaTextField.x = _energiaIcon.x + 32 + 5;
@@ -194,6 +231,7 @@
 			clockIcon.x = clockDisplay.x - 20;
 			clockIcon.y = 8;
 			_container.addChild(clockIcon);
+			
 			// PAUSE AND PLAY BUTTON
 			pauseAndPlayButton = new PausePlayButton();
 			pauseAndPlayButton.buttonMode = true;
@@ -206,6 +244,16 @@
 
 			
 		}
+		
+		public function overButton (e: MouseEvent) {
+			e.currentTarget.alpha = 0.8;
+		}
+		
+		public function outButton (e: MouseEvent) {
+			e.currentTarget.alpha = 1;
+		}
+		
+		
 
 		/**
 		 * Timer para a atualizção da simulação.
@@ -230,10 +278,10 @@
 		 */
 		public function verificaVitoria() : Boolean {
 			var vitoria : Boolean = true;
-			for (var i : uint = 0; i < planeta.dados.length && vitoria; i++) {
-				if (planeta.dados[i].correto == false)
+			for (var i : uint = 0; i < _planeta.dados.length && vitoria; i++) {
+				if (_planeta.dados[i].correto == false)
 					vitoria = false;
-				trace(planeta.dados[i].nome + " " + planeta.dados[i].correto);
+				trace(_planeta.dados[i].nome + " " + _planeta.dados[i].correto);
 			}
 			
 			return vitoria;
@@ -241,12 +289,12 @@
 		
 		private function atualizaLayoutRecursos() {
 			// RECURSOS
-			_minerioTextField.text = "Minerio: " + planeta.recursos.minerio;
+			_minerioTextField.text = "Minerio: " + _planeta.recursos.minerio;
 			_minerioTextField.width = _minerioTextField.textWidth + 10;
 					
 			_energiaIcon.x = _minerioTextField.x + _minerioTextField.width + 10;
 
-			_energiaTextField.text = "Energia: " + planeta.recursos.energia;
+			_energiaTextField.text = "Energia: " + _planeta.recursos.energia;
 			_energiaTextField.width = _energiaTextField.textWidth + 10;
 			_energiaTextField.x = _energiaIcon.x + 32 + 5;
 			_energiaTextField.y = _minerioTextField.y;
@@ -262,7 +310,7 @@
 		public function atualizaSimulacao (e : Event) {
 			// incrementa recursos so quando a funcao for despoletada pelo temporizador 
 			if (e != null) {
-				planeta.recursos.minerio += planeta.dados[Planeta.TAXA_MINERIO].valor;
+				_planeta.recursos.minerio += _planeta.dados[Planeta.TAXA_MINERIO].valor;
 				clock++;
 				clockDisplay.text = intToTime(clock);
 				
@@ -271,33 +319,33 @@
 			}
 			
 			atualizaLayoutRecursos();
-			_minerioTextField.text = "Minerio: " + planeta.recursos.minerio;
-			_energiaTextField.text = "Energia: " + planeta.recursos.energia;
+			_minerioTextField.text = "Minerio: " + _planeta.recursos.minerio;
+			_energiaTextField.text = "Energia: " + _planeta.recursos.energia;
 			
-			for (var i : uint = 0; i < planeta.tecnologias.length; i++) {
+			for (var i : uint = 0; i < _planeta.tecnologias.length; i++) {
 				// se recursos nao chegam para evolucao de tecnologia ou o tempo esta parado, entao desativa tecnologia(s)
-				if (Math.abs(planeta.tecnologias[i].custoMinerioAtual) > planeta.recursos.minerio || !timerUpdate.running) {
-					planeta.tecnologias[i].evoluirButton.enabled = false;
-					planeta.tecnologias[i].demolirButton.enabled = false;
+				if (Math.abs(_planeta.tecnologias[i].custoMinerioAtual) > _planeta.recursos.minerio || !timerUpdate.running) {
+					_planeta.tecnologias[i].evoluirButton.enabled = false;
+					_planeta.tecnologias[i].demolirButton.enabled = false;
 
 					//planeta.tecnologias[i].nivelButtons.buttonMode = false;
-					planeta.tecnologias[i].evoluirButton.removeEventListener(MouseEvent.CLICK, planeta.tecnologias[i].evoluiTecnologia);
-					planeta.tecnologias[i].demolirButton.removeEventListener(MouseEvent.CLICK, planeta.tecnologias[i].vendeTecnologia);
+					_planeta.tecnologias[i].evoluirButton.removeEventListener(MouseEvent.CLICK, _planeta.tecnologias[i].evoluiTecnologia);
+					_planeta.tecnologias[i].demolirButton.removeEventListener(MouseEvent.CLICK, _planeta.tecnologias[i].vendeTecnologia);
 					
 				}
 				else {
-					planeta.tecnologias[i].evoluirButton.enabled = true;
-					planeta.tecnologias[i].demolirButton.enabled = (planeta.tecnologias[i].nivel == 0) ? false : true;
-					planeta.tecnologias[i].evoluirButton.addEventListener(MouseEvent.CLICK, planeta.tecnologias[i].evoluiTecnologia);
-					planeta.tecnologias[i].demolirButton.addEventListener(MouseEvent.CLICK, planeta.tecnologias[i].vendeTecnologia);
+					_planeta.tecnologias[i].evoluirButton.enabled = true;
+					_planeta.tecnologias[i].demolirButton.enabled = (_planeta.tecnologias[i].nivel == 0) ? false : true;
+					_planeta.tecnologias[i].evoluirButton.addEventListener(MouseEvent.CLICK, _planeta.tecnologias[i].evoluiTecnologia);
+					_planeta.tecnologias[i].demolirButton.addEventListener(MouseEvent.CLICK, _planeta.tecnologias[i].vendeTecnologia);
 					
 					
 					// gerador de catastrofes
-					if (Math.random() < planeta.dados[Planeta.METEORITOS].valor)
+					if (Math.random() < _planeta.dados[Planeta.METEORITOS].valor)
 						trace("ACONTECEU METEORITO");
-					if (Math.random() < planeta.dados[Planeta.TSUNAMI].valor)
+					if (Math.random() < _planeta.dados[Planeta.TSUNAMI].valor)
 						trace("ACONTECEU TSUNAMI");
-					if (Math.random() < planeta.dados[Planeta.VULCOES].valor)
+					if (Math.random() < _planeta.dados[Planeta.VULCOES].valor)
 						trace("ACONTECEU ERUPCAO");
 				}
 
@@ -308,8 +356,8 @@
 			// INCOMPLETO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if (verificaVitoria()) {
 				vitoria = true;
-				planeta.habitavel = true;
-				laboratorio.visible = false;
+				_planeta.habitavel = true;
+				_laboratorio.visible = false;
 				
 				timerUpdate.stop();
 				var pontuacaoRecordPessoal : uint;
@@ -370,9 +418,35 @@
 		/**
 		 * Funcao despoletadora do click do butao de laboratorio
 		 */
-		public function labButtonClick (e : MouseEvent) {
-			
+		public function menuButtonClick (e : MouseEvent) {
+			var tween : Tween;
+			if (menuGame == null) {
+				menuGame = new MenuGame(this);
+				_mainMovieClip.addChild(menuGame);
+				tween = new Tween(menuGame, "x", Strong.easeInOut, -40, 10, 0.5, true);
+				tween.start();
+	
+			}
+			else {
+				tween = new Tween(menuGame, "x", Strong.easeInOut, 10, -40, 0.5, true);
+				//new Tween(_menuButton, "x", Strong.easeInOut, _menuButton.x, -40, 0.5, true);
 
+				tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
+				tween.start();
+
+			}
+			
+		}
+		
+		public function tweenFinish (e : TweenEvent) {
+			if (menuGame != null) {
+				_mainMovieClip.removeChild(menuGame);
+				menuGame = null;
+		}
+			
+			
+			
+			/*
 			if (laboratorio.visible) {
 				laboratorio.visible = false;
 				//laboratorio.removeEventListener( MouseEvent.MOUSE_WHEEL, mouseScrollLaboratorio);
@@ -389,6 +463,7 @@
 				_mainMovieClip.background.filters = [new BlurFilter(64, 64, BitmapFilterQuality.HIGH)];
 				_mainMovieClip.alienPlanet.filters = [new BlurFilter(64, 64, BitmapFilterQuality.HIGH)];
 			}
+			*/
 		}
 		
 		
@@ -403,13 +478,13 @@
 			// escreve os dados do planeta
 			var contadorColunas : uint = 0;
 			var contadorLinhas : uint = 0;
-			for (var i : uint = 0; i<planeta.dados.length; i++) {
-				trace(planeta.dados[i].nome);
-				planeta.nivel = i+1;
-				planeta.dados[i].x = 10 + 160*contadorColunas;
-				planeta.dados[i].y = 370 + contadorLinhas * 35;
-				planeta.dados[i].nomeValorTextField.width = 120;
-				_container.addChild(planeta.dados[i]);
+			for (var i : uint = 0; i<_planeta.dados.length; i++) {
+				trace(_planeta.dados[i].nome);
+				_planeta.nivel = i+1;
+				_planeta.dados[i].x = 10 + 160*contadorColunas;
+				_planeta.dados[i].y = 370 + contadorLinhas * 35;
+				_planeta.dados[i].nomeValorTextField.width = 120;
+				_container.addChild(_planeta.dados[i]);
 				
 				// ajustar em colunas 
 				if (contadorColunas >= 3) {
@@ -420,7 +495,7 @@
 					contadorColunas++;
 				}
 				
-				planeta.dados[i].verificaDado();
+				_planeta.dados[i].verificaDado();
 			}
 			
 						
@@ -438,19 +513,19 @@
 			
 			var tecnologiasContainer : MovieClip = new MovieClip();
 
-			for (var i : uint = 0; i<planeta.tecnologias.length; i++) {
+			for (var i : uint = 0; i<_planeta.tecnologias.length; i++) {
 				
 				// layout
-				planeta.tecnologias[i].y = i*163.95;
-				planeta.tecnologias[i].x = 0;
+				_planeta.tecnologias[i].y = i*163.95;
+				_planeta.tecnologias[i].x = 0;
 
 				
-				tecnologiasContainer.addChild(planeta.tecnologias[i]);
+				tecnologiasContainer.addChild(_planeta.tecnologias[i]);
 				
 				
-				laboratorio.source = tecnologiasContainer;
+				_laboratorio.source = tecnologiasContainer;
 				
-				_container.addChild(laboratorio);
+				_container.addChild(_laboratorio);
 			}
 			setTimer();
 			
@@ -479,9 +554,9 @@
 		}
 		
 		private function mouseScrollLaboratorio(e : MouseEvent) {
-			if( laboratorio !== null )
+			if( _laboratorio !== null )
 			{
-				laboratorio.verticalScrollPosition += - ( e.delta * 8 );
+				_laboratorio.verticalScrollPosition += - ( e.delta * 8 );
 			}
 		}
 		
