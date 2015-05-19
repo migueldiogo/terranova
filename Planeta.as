@@ -166,7 +166,7 @@ package
 				tecnologias[i] = new Tecnologia(this, 0, data.tecnologia[i].nome, data.tecnologia[i].descricao, data.tecnologia[i].custos.minerio, data.tecnologia[i].custos.energia, _game.mainMovieClip);
 				for(var j : uint = 0; j<data.tecnologia[i].actions[0].*.length();j++) {
 					tecnologias[i].actions.push(new Parametro(data.tecnologia[i].actions.*[j].nome, i, data.tecnologia[i].actions.*[j].valor));
-					tecnologias[i].imagem.source = "media/parametros/data0.png";
+					tecnologias[i].imagem.source = "media/tecnologias/tecnologia0.png";
 				}
 				
 				// popula label com as consequencias desta tecnologia no planeta

@@ -139,7 +139,7 @@
 			_minerioIcon = new UILoader();
 			_minerioIcon.scaleContent = false;
 			_minerioIcon.maintainAspectRatio = true;
-			_minerioIcon.source = "media/header/minerio.png";
+			_minerioIcon.source = "media/header/minerio_32.png";
 			_minerioIcon.x = 0;
 			_minerioIcon.y = 0;
 			_headerRecursos.addChild(_minerioIcon);
@@ -159,7 +159,7 @@
 			_energiaIcon = new UILoader();
 			_energiaIcon.scaleContent = false;
 			_energiaIcon.maintainAspectRatio = true;
-			_energiaIcon.source = "media/header/energia.png";
+			_energiaIcon.source = "media/header/energia_32.png";
 			_energiaIcon.x = _minerioTextField.x + _minerioTextField.width + 10;
 			_energiaIcon.y = 0;
 			_headerRecursos.addChild(_energiaIcon);

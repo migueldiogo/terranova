@@ -41,7 +41,15 @@
 		private var _actionsTextField : TextField;
 		private var _nivelTextField : TextField;
 		private var _custosTextField : TextField;
-	
+		
+		private var _iconMinerio : UILoader;
+		private var _iconEnergia : UILoader;
+		private var _minerioTextField : TextField;
+		private var _energiaTextField : TextField;
+		
+		
+		
+		
 		private var _parentMainDisplay : MovieClip;
 	
 		
@@ -114,7 +122,7 @@
 			_actionsTextField.y = _descricaoTextField.y + _descricaoTextField.height;
 			_actionsTextField.width = _descricaoTextField.width;
 			_actionsTextField.height = _imagem.height/2;
-			addChild(_actionsTextField);	
+			//addChild(_actionsTextField);	
 			
 			_custosTextField = new TextField();
 			_custosTextField.defaultTextFormat = Pretty.BODY_BOLD;
@@ -123,7 +131,7 @@
 			_custosTextField.width = _descricaoTextField.width;
 			_custosTextField.defaultTextFormat.align = TextFormatAlign.RIGHT;
 			_custosTextField.selectable = false;
-			addChild(_custosTextField);	
+			//addChild(_custosTextField);	
 					
 			
 			_demolirButton = new Button();
@@ -140,7 +148,71 @@
 			_evoluirButton.y = _nomeTextField.y;
 			addChild(_evoluirButton);
 			
-			atualizaCustos();
+			//atualizaCustos();
+			
+			
+			
+			_custoMinerioAtual = _custoMinerioBase*Math.pow(2, _nivel);
+			_custoEnergiaAtual = _custoEnergiaBase*Math.pow(2, _nivel);
+			_nivelTextField.text = "Nível " + _nivel;
+			
+			_iconMinerio = new UILoader();
+			_iconMinerio.maintainAspectRatio = true;
+			_iconMinerio.scaleContent = false;
+			_iconMinerio.x = _descricaoTextField.x;
+			_iconMinerio.y = _imagem.y + _imagem.height - 20;
+			_iconMinerio.width = 16;
+			_iconMinerio.height = 16;
+			_iconMinerio.source = "media/header/minerio_16.png";
+			addChild(_iconMinerio);
+			
+			_minerioTextField = new TextField();
+			_minerioTextField = new TextField();
+			_minerioTextField.defaultTextFormat = Pretty.BODY_BOLD;
+			_minerioTextField.x = _iconMinerio.x + 20;
+			_minerioTextField.y = _iconMinerio.y;
+			_minerioTextField.defaultTextFormat.align = TextFormatAlign.RIGHT;
+			_minerioTextField.selectable = false;
+			
+			var texto : String = "";
+			if (_custoMinerioAtual > 0)
+				texto += "+";
+			
+			texto += "" + _custoMinerioAtual;
+			_minerioTextField.text = texto;
+			_minerioTextField.width = _minerioTextField.textWidth + 10;
+			
+			addChild(_minerioTextField);
+			
+			_iconEnergia = new UILoader;
+			_iconEnergia.maintainAspectRatio = true;
+			_iconEnergia.scaleContent = false;
+			_iconEnergia.x = _minerioTextField.x + _minerioTextField.width + 15;
+			_iconEnergia.y = _iconMinerio.y;
+			_iconEnergia.width = 16;
+			_iconEnergia.height = 16;
+			_iconEnergia.source = "media/header/energia_16.png";
+			addChild(_iconEnergia);
+			
+			_energiaTextField = new TextField();
+			_energiaTextField = new TextField();
+			_energiaTextField.defaultTextFormat = Pretty.BODY_BOLD;
+			_energiaTextField.x = _iconEnergia.x + 20;
+			_energiaTextField.y = _iconMinerio.y;
+			_energiaTextField.width = 80;
+			_energiaTextField.defaultTextFormat.align = TextFormatAlign.RIGHT;
+			_energiaTextField.selectable = false;
+			
+			texto = "";
+			if (_custoEnergiaAtual > 0)
+				texto += "+";
+			
+			texto += "" + _custoEnergiaAtual;
+			_energiaTextField.text = texto;
+			
+			addChild(_energiaTextField);
+			
+
 			
 			graphics.lineStyle(1, 0xFFFFFF, 0.5);
 			graphics.moveTo(0, _imagem.y + _imagem.width + 10);
@@ -276,25 +348,52 @@
 			
 
 			var texto : String = "";
-			var contador = 0;
+			var colunas = 0;
+			var linhas = 0;
 			for(var i : uint = 0; i < actions.length; i++) {
 				if (actions[i].valor != 0) {
-					contador++;
+					var icon : UILoader = new UILoader;
+					icon.maintainAspectRatio = true;
+					icon.scaleContent = false;
+					icon.x = _descricaoTextField.x + colunas*80;
+					icon.y = _descricaoTextField.y + _descricaoTextField.height + linhas*10;
+					icon.width = 16;
+					icon.height = 16;
+					icon.source = "media/parametros/data" + i + "_16.png";
+					addChild(icon);
+					
 
-					texto += actions[i].nome + ": ";
+					
+					
+					var sinal : String = "";
 					if (actions[i].valor > 0)
-						texto += "+";
-					texto +=actions[i].valor + "\t\t";
+						sinal += "+";
+					
+					var actionText : TextField = new TextField();
+					actionText.defaultTextFormat = Pretty.BODY_BOLD;
+					actionText.x = icon.x + 16 + 2;
+					actionText.y = icon.y;
+					actionText.width = 80;
+					actionText.text = sinal + actions[i].valor;
+					addChild(actionText);	
+
+					if (colunas>6) {
+						texto += "\n";
+						linhas++;
+						colunas = 0;
+					}	
+					else {
+						colunas++;
 				}
-				if (contador>4) {
-					texto += "\n";
-					contador = 0;
-				}	
+
+					
+				}
 				
 			}
 
 			//actionsLabel.setStyle("textFormat", Pretty.BODY);
-			_actionsTextField.text = texto;	
+			//_actionsTextField.htmlText = texto;	
+			trace(texto);
 			
 			
 		}
@@ -309,7 +408,7 @@
 			alteraPlaneta(true);
 			
 			// atualiza actions da tecnologia do proximo nivel
-			atualizaActions();
+			//atualizaActions();
 
 		}
 		
@@ -318,18 +417,35 @@
 			_custoEnergiaAtual = _custoEnergiaBase*Math.pow(2, _nivel);
 			_nivelTextField.text = "Nível " + _nivel;
 			
+			_iconMinerio.y = _imagem.y + _imagem.height - 20;
+			
+			_minerioTextField.x = _iconMinerio.x + 20;
+			_minerioTextField.y = _iconMinerio.y;
+			
 			var texto : String = "";
-			texto += "Minerio: ";
 			if (_custoMinerioAtual > 0)
 				texto += "+";
-			texto += "" + _custoMinerioAtual;
 			
-			texto += "\t\tEnergia: ";
+			texto += "" + _custoMinerioAtual;
+			_minerioTextField.text = texto;
+			_minerioTextField.width = _minerioTextField.textWidth + 10;
+
+			
+			_iconEnergia.x = _minerioTextField.x + _minerioTextField.width + 15;
+			_iconEnergia.y = _iconMinerio.y;
+
+
+			_energiaTextField.x = _iconEnergia.x + 20;
+			_energiaTextField.y = _iconMinerio.y;
+
+			
+			texto = "";
 			if (_custoEnergiaAtual > 0)
 				texto += "+";
-			texto += "" + _custoEnergiaAtual;	
 			
-			_custosTextField.text = texto;
+			texto += "" + _custoEnergiaAtual;
+			_energiaTextField.text = texto;
+			
 		}
 		
 		/**

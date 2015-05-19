@@ -38,7 +38,7 @@
 			_imagem = new UILoader();
 			_imagem.maintainAspectRatio = true;
 			_imagem.scaleContent = false;
-			_imagem.source = "media/parametros/data" + _codigo + ".png"
+			_imagem.source = "media/parametros/data" + _codigo + "_32.png"
 			_imagem.alpha = 0.9;
 
 			addChild(_imagem);
@@ -97,19 +97,19 @@
 			
 			if (!isNaN(_valorOtimoMinimo) && !isNaN(_valorOtimoMaximo)) {
 				graphics.lineStyle(10, parseInt(Pretty.COLOR_RED_PALE), 0.8, false, "normal", "none");
-				graphics.moveTo(_nomeValorTextField.x, _imagem.y + 12);
-				graphics.lineTo(_nomeValorTextField.x + normalizaValor(_valorOtimoMinimo, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
+				graphics.moveTo(_nomeValorTextField.x + 2, _imagem.y + 12);
+				graphics.lineTo(_nomeValorTextField.x + 2 + normalizaValor(_valorOtimoMinimo, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
 				
-				graphics.moveTo(_nomeValorTextField.x + normalizaValor(_valorOtimoMinimo, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
+				graphics.moveTo(_nomeValorTextField.x + 2 + normalizaValor(_valorOtimoMinimo, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
 				graphics.lineStyle(10, parseInt(Pretty.COLOR_GREEN_PALE), 0.8, false, "normal", "none");
-				graphics.lineTo(_nomeValorTextField.x + normalizaValor(_valorOtimoMaximo, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
-				graphics.moveTo(_nomeValorTextField.x + normalizaValor(_valorOtimoMaximo, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
+				graphics.lineTo(_nomeValorTextField.x + 2 + normalizaValor(_valorOtimoMaximo, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
+				graphics.moveTo(_nomeValorTextField.x + 2 + normalizaValor(_valorOtimoMaximo, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
 				graphics.lineStyle(10, parseInt(Pretty.COLOR_RED_PALE), 0.8, false, "normal", "none");
-				graphics.lineTo(_nomeValorTextField.x + normalizaValor(valorMaximoDominio, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
+				graphics.lineTo(_nomeValorTextField.x + 2 + normalizaValor(valorMaximoDominio, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12);
 				
 				graphics.lineStyle();
 				graphics.beginFill(0xFFFFFF);
-				graphics.drawCircle(_nomeValorTextField.x + normalizaValor(_valor, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12, 3);
+				graphics.drawCircle(_nomeValorTextField.x + 2 + normalizaValor(_valor, valorMinimoDominio, valorMaximoDominio), _imagem.y + 12, 3);
 				graphics.endFill();
 			}
 		}
