@@ -13,16 +13,16 @@
 		private var _titulo : TextField;
 		private var _imagem : UILoader;
 		private var _estrelas : Array;
-		private var _pontuacaoRecordGlobal : uint;
+		private var _tempoRecordGlobal : uint;
 		
-		public function Nivel(numeroNivel : uint, pontuacaoRecordGlobal : uint = 0) {
+		public function Nivel(numeroNivel : uint, tempoRecordGlobal : uint = 0) {
 			// constructor code
 			_numeroNivel = numeroNivel;
-			_pontuacaoRecordGlobal = pontuacaoRecordGlobal;
+			_tempoRecordGlobal = tempoRecordGlobal;
 			
 			
 			_imagem = new UILoader();
-			_imagem.source = "media/parametros/data" + (_numeroNivel-1) + ".png";
+			_imagem.source = "media/niveis/nivel" + (_numeroNivel-1) + ".png";
 			_imagem.maintainAspectRatio = true;
 			_imagem.scaleContent = false;
 			_imagem.x = 0;
@@ -47,14 +47,14 @@
 			
 		}
 
-		public function get pontuacaoRecordGlobal():uint
+		public function get tempoRecordGlobal():uint
 		{
-			return _pontuacaoRecordGlobal;
+			return _tempoRecordGlobal;
 		}
 
-		public function set pontuacaoRecordGlobal(value:uint):void
+		public function set tempoRecordGlobal(value:uint):void
 		{
-			_pontuacaoRecordGlobal = value;
+			_tempoRecordGlobal = value;
 		}
 
 		public function get numeroNivel():uint

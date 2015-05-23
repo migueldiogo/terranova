@@ -15,19 +15,12 @@ package
 	public class LoadDialog extends MovieClip
 	{
 		private var _list : List;
-		private var _backButton : BackArrow;
 		
 		
 		public function LoadDialog(parentMenu : Menu)
 		{
 			super();
 			
-			// seta para volta para tras
-			backButton = new BackArrow();
-			backButton.buttonMode = true;
-			backButton.x = 15;
-			backButton.y = 15;
-			addChild(backButton);
 			
 			
 
@@ -49,15 +42,7 @@ package
 		
 
 		
-		public function get backButton():BackArrow
-		{
-			return _backButton;
-		}
 
-		public function set backButton(value:BackArrow):void
-		{
-			_backButton = value;
-		}
 
 		public function get list():List
 		{

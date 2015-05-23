@@ -14,19 +14,23 @@ package
 	{		
 		// constantes de acesso ao vetor _dados
 		public static var TAXA_MINERIO : uint = 0;
-		public static var DIOXIDO_DE_CARBONO : uint = 1;
-		public static var METANO : uint = 2;
-		public static var OXIGENIO : uint = 3;
-		public static var OZONO : uint = 4;
+		public static var TSUNAMI: uint = 1;
+		public static var VULCOES: uint = 2;
+		public static var METEORITOS: uint = 3;
 		
+		public static var TEMPERATURA : uint = 4;
 		public static var GRAVIDADE : uint = 5;
 		public static var SPIN : uint = 6;
 		public static var LAPSE : uint = 7;
-		public static var TEMPERATURA : uint = 8;
 		
-		public static var TSUNAMI: uint = 9;
-		public static var VULCOES: uint = 10;
-		public static var METEORITOS: uint = 11;
+		public static var DIOXIDO_DE_CARBONO : uint = 8;
+		public static var METANO : uint = 9;
+		public static var OXIGENIO : uint = 10;
+		public static var OZONO : uint = 11;
+		
+
+		
+
 		
 		
 		

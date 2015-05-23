@@ -14,7 +14,7 @@ package
 		
 		public function ProjetoMultimedia()
 		{
-			stop();
+			stop();	
 			new Menu(this);
 
 		}

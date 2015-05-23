@@ -1,6 +1,7 @@
 package
 {
 	import flash.display.MovieClip;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.BitmapFilterQuality;
@@ -11,6 +12,7 @@ package
 	import flash.net.drm.AddToDeviceGroupSetting;
 	import flash.text.TextField;
 	
+	import fl.containers.ScrollPane;
 	import fl.containers.UILoader;
 	import fl.controls.Label;
 	import fl.motion.Color;
@@ -19,7 +21,8 @@ package
 	public class Niveis
 	{
 		private var _niveis : Array;
-		private var container : MovieClip;
+		private var container : Sprite;
+		private var niveisSprite : Sprite;
 		private var _main : MovieClip;
 		private var _jogador : Jogador;
 
@@ -31,7 +34,8 @@ package
 			_jogador = jogador;
 			_main = main;
 			_niveis = new Array;
-			container = new MovieClip();
+			container = new Sprite();
+			niveisSprite = new Sprite();
 			
 			
 			_main.gotoAndStop(1);
@@ -61,14 +65,22 @@ package
 			var sharedObject : SharedObject = SharedObject.getLocal("TerraNovaSaved");			
 			
 			var title : TextField = new TextField();
+
 			title.width = 640;
 			title.defaultTextFormat = Pretty.TITLE_1;
 			
-			title.text = "TERRA NOVA";
+			title.text = "Níveis";
 			
 			title.x = 0;
 			title.y = 20;
-			container.addChild(title);
+			
+			var scrollPane : ScrollPane = new ScrollPane();
+			scrollPane.width = _main.stage.stageWidth;
+			//scrollPane.y = title.y + title.textHeight + 10;
+			//scrollPane.height = _main.stage.stageHeight - scrollPane.y;
+			scrollPane.height = _main.stage.stageHeight;
+			scrollPane.opaqueBackground = null;
+
 			
 			var colunas : uint = 0;
 			var linhas : uint = 0;
@@ -76,20 +88,20 @@ package
 			for (var i : uint = 0; i < _numeroDeNiveis; i++) {
 				
 				// descobre record global do nivel i+1
-				var pontuacaoRecordGlobal = 0;
+				var tempoRecordGlobal : Number = NaN;
 				for (var j : uint = 0; j < sharedObject.data.jogadores.length; j++) {
-					if (i < sharedObject.data.jogadores[j].pontuacoesMaximas.length) {
-						if (sharedObject.data.jogadores[j].pontuacoesMaximas[i] > pontuacaoRecordGlobal)
-							pontuacaoRecordGlobal = sharedObject.data.jogadores[j].pontuacoesMaximas[i];
+					if (i < sharedObject.data.jogadores[j].temposMaximos.length) {
+						if (sharedObject.data.jogadores[j].temposMaximos[i] < tempoRecordGlobal || isNaN(tempoRecordGlobal))
+							tempoRecordGlobal = sharedObject.data.jogadores[j].temposMaximos[i];
 					}
 				}
 				
 				
-				nivel = new Nivel(i+1, pontuacaoRecordGlobal);
+				nivel = new Nivel(i+1, tempoRecordGlobal);
 				
 				// posiciona nivel
-				nivel.x = 54 + colunas*120;
-				nivel.y = 120 + linhas * 180;
+				nivel.x = 54 + colunas*120			//54 + colunas*120;
+				nivel.y = 120 + linhas * 180;		// 120 + linhas * 180
 				
 
 				
@@ -105,7 +117,7 @@ package
 					
 				}
 				
-				container.addChild(nivel);
+				niveisSprite.addChild(nivel);
 				_niveis.push(nivel);
 
 				
@@ -118,6 +130,9 @@ package
 				}
 			}
 			
+			scrollPane.source = niveisSprite;
+			container.addChild(scrollPane);
+			container.addChild(title);
 			_main.addChild(container);
 					
 			
@@ -149,7 +164,7 @@ package
 				if (e.currentTarget == _niveis[i]) {
 					encontrado = true;
 					
-					new MainGame(_main, i+1, _jogador, e.currentTarget.pontuacaoRecordGlobal.valueOf());
+					new MainGame(_main, i+1, _jogador, e.currentTarget.tempoRecordGlobal.valueOf());
 					_main.removeChild(container);
 				}
 				

@@ -1,7 +1,7 @@
 ﻿package  {
-	import flash.display.*;
-	import flash.events.*;
-	import flash.text.*;
+	import flash.display.MovieClip;
+	import flash.events.Event;
+	import flash.events.TimerEvent;
 	import flash.utils.Timer;
 	import flash.utils.getDefinitionByName;
 	//import ExplosionChain;
@@ -18,9 +18,11 @@
 		var gameOver:Boolean = false;
 		
 		var _planeta : Planeta;
+		var _mainGame : MainGame;
 		
-		public function MiniJogo1(planeta : Planeta) {
+		public function MiniJogo1(planeta : Planeta, mainGame : MainGame) {
 			_planeta = planeta;
+			_mainGame = mainGame;
 			// Cria a nave, posiciona-a e adiciona-a ao jogo
 			catcher = new Catcher(); 	
 			catcher.y = 350;			
@@ -76,11 +78,7 @@
 		public function moveObjects(e:Event){
 			for(var i:int = objects.length - 1; i >= 0; i--){
 				objects[i].y += speed;
-				if(objects[i].y > 400){
-					removeChild(objects[i]);
-					// Remove o objecto
-					objects.splice(i,1);
-				}
+		
 				if(objects[i].hitTestObject(catcher)){
 					if(objects[i].typestr == "bom"){
 						if(objects[i] is Mineral){
@@ -89,6 +87,8 @@
 						else{
 							_planeta.recursos.energia += 25;
 						}
+						_mainGame.atualizaSimulacao(null);
+
 					}
 					else{
 						score -= 1;
@@ -101,6 +101,9 @@
 							go.x = this.stage.stageWidth/2 - go.width/2;
 							go.y = this.stage.stageHeight/2 - go.height/2;
 							addChild(go);
+							
+							_mainGame.miniJogoCoolDown = 120;
+							_mainGame.atualizaSimulacao(null);
 						}
 					}
 					//scoreDisplay.text = "Score: "+score;
@@ -109,10 +112,18 @@
 					removeChild(objects[i]);
 					objects.splice(i,1);
 				}
+				if (objects.length > 0) {
+					if(objects[i].y > 400){
+						removeChild(objects[i]);
+						// Remove o objecto
+						objects.splice(i,1);
+					}
+				}
 			}
 			if(!gameOver){
 				// Quando for gameover, impossibilita o utilizador de mover a nave
 				catcher.x = mouseX;	
+
 			}
 		}
 		

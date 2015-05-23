@@ -4,14 +4,14 @@
 	public class Jogador {
 
 		private var _nome : String;
-		private var _pontuacoesMaximas : Vector.<uint>;
+		private var _temposMaximos : Vector.<uint>;
 		//private var _medalhas : int;						// a retirar ??????
 		//private var _planetas : Vector.<Planeta>;			// a retirar
 		//private var _proximoNivel : uint;
 		
-		public function Jogador(nome : String = "", pontuacoesMaximas : Vector.<uint> = null) {
+		public function Jogador(nome : String = "", temposMaximos : Vector.<uint> = null) {
 			_nome = nome;
-			_pontuacoesMaximas = pontuacoesMaximas;
+			_temposMaximos = temposMaximos;
 
 			
 
@@ -20,7 +20,7 @@
 
 		public function proximoNivel():uint
 		{
-			return _pontuacoesMaximas.length + 1;;
+			return _temposMaximos.length + 1;;
 		}
 /*
 		public function set proximoNivel(value:uint):void
@@ -48,14 +48,14 @@
 			_medalhas = value;
 		}
 */
-		public function get pontuacoesMaximas():Vector.<uint>
+		public function get temposMaximos():Vector.<uint>
 		{
-			return _pontuacoesMaximas;
+			return _temposMaximos;
 		}
 
-		public function set pontuacoesMaximas(value:Vector.<uint>):void
+		public function set temposMaximos(value:Vector.<uint>):void
 		{
-			_pontuacoesMaximas = value;
+			_temposMaximos = value;
 		}
 
 		public function get nome():String

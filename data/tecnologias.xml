@@ -16,6 +16,44 @@
                 <valor>5</valor>
             </taxaMinerio>
             
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Meteoritos</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0.5</valor>
+            </Temperatura>
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+
+            
             <CO2 type="atmosfera">
                 <nome>CO2</nome>
                 <valor>20</valor>
@@ -37,41 +75,9 @@
                 <valor>0</valor>
             </O3 type="atmosfera">
             
-            <Gravidade type="geodinamica">
-                <nome>Gravidade</nome>
-                <valor>0</valor>
-            </Gravidade>
+
             
-            
-            <Spin type="geodinamica">
-                <nome>Spin</nome>
-                <valor>0</valor>
-            </Spin>
-            
-            <Lapse type="geodinamica">
-                <nome>Lapse</nome>
-                <valor>0</valor>
-            </Lapse>
-            
-            <Temperatura type="geodinamica">
-                <nome>Temperatura</nome>
-                <valor>0.5</valor>
-            </Temperatura>
-            
-            <Tsunamis type="catastrofe">
-                <nome>Spin</nome>
-                <valor>0</valor>
-            </Tsunamis>
-            
-            <Vulcoes type="catastrofe">
-                <nome>Lapse</nome>
-                <valor>0</valor>
-            </Vulcoes>
-            
-            <Meteoritos type="catastrofe">
-                <nome>Temperatura</nome>
-                <valor>0</valor>
-            </Meteoritos>
+
             
         </actions>
     </tecnologia>
@@ -91,6 +97,43 @@
             <nome>Taxa Minerio</nome>
             <valor>0</valor>
         </taxaMinerio>
+        
+        <Tsunamis type="catastrofe">
+            <nome>Spin</nome>
+            <valor>0</valor>
+        </Tsunamis>
+        
+        <Vulcoes type="catastrofe">
+            <nome>Lapse</nome>
+            <valor>0</valor>
+        </Vulcoes>
+        
+        <Meteoritos type="catastrofe">
+            <nome>Meteoritos</nome>
+            <valor>0</valor>
+        </Meteoritos>
+        
+        <Temperatura type="geodinamica">
+            <nome>Temperatura</nome>
+            <valor>0</valor>
+        </Temperatura>
+        
+        <Gravidade type="geodinamica">
+            <nome>Gravidade</nome>
+            <valor>0</valor>
+        </Gravidade>
+        
+        
+        <Spin type="geodinamica">
+            <nome>Spin</nome>
+            <valor>0</valor>
+        </Spin>
+        
+        <Lapse type="geodinamica">
+            <nome>Lapse</nome>
+            <valor>0</valor>
+        </Lapse>
+
         
         <CO2 type="atmosfera">
             <nome>CO2</nome>
@@ -112,42 +155,9 @@
             <nome>O3</nome>
             <valor>0</valor>
         </O3 type="atmosfera">
+
         
-        <Gravidade type="geodinamica">
-            <nome>Gravidade</nome>
-            <valor>0</valor>
-        </Gravidade>
-        
-        
-        <Spin type="geodinamica">
-            <nome>Spin</nome>
-            <valor>0</valor>
-        </Spin>
-        
-        <Lapse type="geodinamica">
-            <nome>Lapse</nome>
-            <valor>0</valor>
-        </Lapse>
-        
-        <Temperatura type="geodinamica">
-            <nome>Temperatura</nome>
-            <valor>0</valor>
-        </Temperatura>
-        
-        <Tsunamis type="catastrofe">
-            <nome>Spin</nome>
-            <valor>0</valor>
-        </Tsunamis>
-        
-        <Vulcoes type="catastrofe">
-            <nome>Lapse</nome>
-            <valor>0</valor>
-        </Vulcoes>
-        
-        <Meteoritos type="catastrofe">
-            <nome>Temperatura</nome>
-            <valor>0</valor>
-        </Meteoritos>
+
         
     </actions>
 </tecnologia>
@@ -164,10 +174,48 @@
         </custos>
         <actions>
             <taxaMinerio type="recursos">
-                <nome>Taxa Minerio</nome>
-                <valor>5</valor>
+                <nome>Taxa de Minério</nome>
+                <valor>0</valor>
             </taxaMinerio>
-                    
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>1.2</valor>
+            </Temperatura>
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+
+            
             <CO2 type="atmosfera">
                 <nome>CO2</nome>
                 <valor>-50</valor>
@@ -189,41 +237,9 @@
                 <valor>0</valor>
             </O3 type="atmosfera">
             
-            <Gravidade type="geodinamica">
-                <nome>Gravidade</nome>
-                <valor>0</valor>
-            </Gravidade>
+
             
-            
-            <Spin type="geodinamica">
-                <nome>Spin</nome>
-                <valor>0</valor>
-            </Spin>
-            
-            <Lapse type="geodinamica">
-                <nome>Lapse</nome>
-                <valor>0</valor>
-            </Lapse>
-            
-            <Temperatura type="geodinamica">
-                <nome>Temperatura</nome>
-                <valor>1.2</valor>
-            </Temperatura>
-            
-            <Tsunamis type="catastrofe">
-                <nome>Spin</nome>
-                <valor>0</valor>
-            </Tsunamis>
-            
-            <Vulcoes type="catastrofe">
-                <nome>Lapse</nome>
-                <valor>0</valor>
-            </Vulcoes>
-            
-            <Meteoritos type="catastrofe">
-                <nome>Temperatura</nome>
-                <valor>0</valor>
-            </Meteoritos>
+
             
         </actions>
     </tecnologia>
@@ -243,6 +259,45 @@
                 <nome>Taxa Minerio</nome>
                 <valor>0</valor>
             </Minerio>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Meteoritos</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Temperatura>
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+
+            
             <CO2 type="atmosfera">
                 <nome>CO2</nome>
                 <valor>0</valor>
@@ -264,41 +319,9 @@
                 <valor>0</valor>
             </O3 type="atmosfera">
             
-            <Gravidade type="geodinamica">
-                <nome>Gravidade</nome>
-                <valor>0</valor>
-            </Gravidade>
+
             
-            
-            <Spin type="geodinamica">
-                <nome>Spin</nome>
-                <valor>0</valor>
-            </Spin>
-            
-            <Lapse type="geodinamica">
-                <nome>Lapse</nome>
-                <valor>0</valor>
-            </Lapse>
-            
-            <Temperatura type="geodinamica">
-                <nome>Temperatura</nome>
-                <valor>0</valor>
-            </Temperatura>
-            
-            <Tsunamis type="catastrofe">
-                <nome>Spin</nome>
-                <valor>0</valor>
-            </Tsunamis>
-            
-            <Vulcoes type="catastrofe">
-                <nome>Lapse</nome>
-                <valor>0</valor>
-            </Vulcoes>
-            
-            <Meteoritos type="catastrofe">
-                <nome>Temperatura</nome>
-                <valor>0</valor>
-            </Meteoritos>
+
             
         </actions>
     </tecnologia>
@@ -318,6 +341,44 @@
                 <nome>Taxa Minerio</nome>
                 <valor>0</valor>
             </Minerio>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Meteoritos</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Temperatura>
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>2</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+
             <CO2 type="atmosfera">
                 <nome>CO2</nome>
                 <valor>0</valor>
@@ -339,41 +400,9 @@
                 <valor>0</valor>
             </O3 type="atmosfera">
             
-            <Gravidade type="geodinamica">
-                <nome>Gravidade</nome>
-                <valor>0</valor>
-            </Gravidade>
+
             
-            
-            <Spin type="geodinamica">
-                <nome>Spin</nome>
-                <valor>2</valor>
-            </Spin>
-            
-            <Lapse type="geodinamica">
-                <nome>Lapse</nome>
-                <valor>0</valor>
-            </Lapse>
-            
-            <Temperatura type="geodinamica">
-                <nome>Temperatura</nome>
-                <valor>0</valor>
-            </Temperatura>
-            
-            <Tsunamis type="catastrofe">
-                <nome>Spin</nome>
-                <valor>0</valor>
-            </Tsunamis>
-            
-            <Vulcoes type="catastrofe">
-                <nome>Lapse</nome>
-                <valor>0</valor>
-            </Vulcoes>
-            
-            <Meteoritos type="catastrofe">
-                <nome>Temperatura</nome>
-                <valor>0</valor>
-            </Meteoritos>
+
             
         </actions>
     </tecnologia>

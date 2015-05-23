@@ -35,7 +35,7 @@ package
 			var popUpY : Number = parent.stage.stageHeight/2 - popUpHeight/2;
 			
 			graphics.beginFill(0x4E4770, 0.8);
-			graphics.drawRect(popUpX, popUpY, popUpWidth, popUpHeight);
+			graphics.drawRoundRect(popUpX, popUpY, popUpWidth, popUpHeight, 15);
 			graphics.endFill();
 			
 			

@@ -14,9 +14,13 @@ package
 	import flash.net.registerClassAlias;
 	import flash.text.TextField;
 	
+	import fl.containers.UILoader;
 	import fl.controls.Button;
 	import fl.controls.List;
 	import fl.controls.TextInput;
+	import fl.transitions.Tween;
+	import fl.transitions.TweenEvent;
+	import fl.transitions.easing.Strong;
 
 	public class Menu
 	{
@@ -49,6 +53,7 @@ package
 
 		
 		private function init() : void {
+			SettingsPanel.loadSettings();
 			
 			var title : TextField = new TextField();
 			title.width = 640;
@@ -180,10 +185,10 @@ package
 			}
 			
 			loadDialog.list.addEventListener(Event.CHANGE, loadJogador); 
-			loadDialog.backButton.addEventListener(MouseEvent.CLICK, goBack);
 			
 			_container.filters= [ new BlurFilter(10, 10, BitmapFilterQuality.HIGH) ];
 			_main.addChild(loadDialog);
+			voltarButton(loadDialog);
 
 
 			
@@ -196,13 +201,14 @@ package
 			e.target.removeEventListener(Event.CHANGE, loadJogador);
 			_container.filters= [];
 
-			var novoJogador : Jogador = new Jogador(_sharedObject.data.jogadores[e.target.selectedItem.data].nome, _sharedObject.data.jogadores[e.target.selectedItem.data].pontuacoesMaximas);
+			var novoJogador : Jogador = new Jogador(_sharedObject.data.jogadores[e.target.selectedItem.data].nome, _sharedObject.data.jogadores[e.target.selectedItem.data].temposMaximos);
 
 			_soundChannel.stop();
 			new Niveis(_main, novoJogador);
 			
 			_main.removeChild(e.target.parent);
 			_main.removeChild(_container);
+			
 		}
 		
 		
@@ -211,19 +217,52 @@ package
 			//initSharedObject();
 			_container.filters= [ new BlurFilter(10, 10, BitmapFilterQuality.HIGH) ];
 
-			var settingsPanel : SettingsPanel = new SettingsPanel(this);
-			settingsPanel.backButton.addEventListener(MouseEvent.CLICK, goBack);
-			_main.addChild(settingsPanel);
+			var settingsPanel : SettingsPanel = new SettingsPanel(this._main, this);
+			voltarButton(settingsPanel);
+
+		}
+		
+		public function voltarButton(screen : MovieClip) {
+			var voltarButton : UILoader = new UILoader();
+			voltarButton.maintainAspectRatio = true;
+			voltarButton.scaleContent = false;
+			voltarButton.source = "media/header/backArrow_20.png";
+			voltarButton.x = -40;
+			voltarButton.y = 10;
+			voltarButton.addEventListener(MouseEvent.CLICK, voltarButtonClick);
+			voltarButton.addEventListener(MouseEvent.MOUSE_OVER, overButton);
+			voltarButton.addEventListener(MouseEvent.MOUSE_OUT, outButton);
+			screen.addChild(voltarButton);
+			
+			new Tween(voltarButton, "x", Strong.easeInOut, -40, 10, 0.25, true);
+			voltarButton.addEventListener(MouseEvent.CLICK, voltarButtonClick);
+			_main.addChild(screen);
+		}
+		
+		private function voltarButtonClick (e : MouseEvent) {
+			var tween : Tween = new Tween(e.currentTarget, "x", Strong.easeInOut, 10, -40, 0.25, true);
+			tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
+			
+
+			
+		}
+		
+		private function overButton (e : MouseEvent) {
+			e.currentTarget.alpha = 1;
+		}
+		
+		private function outButton (e : MouseEvent) {
+			e.currentTarget.alpha = 0.8;
 		}
 		
 		
-		public function goBack(e : MouseEvent) {
-			_main.removeChild(e.target.parent);
+		private function tweenFinish (e : TweenEvent) {
+			_main.removeChild(e.currentTarget.obj.parent);
 			_container.filters= [];
 		}
 		
 		
-		
+
 		
 		
 		

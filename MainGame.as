@@ -9,6 +9,7 @@
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
 	import flash.geom.Point;
+	import flash.geom.Rectangle;
 	import flash.net.SharedObject;
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
@@ -30,14 +31,14 @@
 	public class MainGame {
 		private var _container : MovieClip;
 		
-		private var clock : uint;
-		private var clockDisplay : TextField;
+		private var _clock : uint;
+		private var _clockDisplay : TextField;
 		
 		private var _planeta : Planeta;
 		//private var terra : Planeta;
 		private var _laboratorio : ScrollPane;
 		
-		private var menuGame : MenuGame;
+		private var _menuGame : MenuGame;
 		
 		private var _headerRecursos : Sprite;
 		private var _minerioTextField : TextField;
@@ -46,9 +47,11 @@
 		private var _energiaIcon : UILoader;
 		private var _menuButton : UILoader;
 		
-		private var pauseAndPlayButton : PausePlayButton;
+		private var _pauseAndPlayButton : PausePlayButton;
 		
-		private var timerUpdate : Timer;
+		private var _timerUpdate : Timer;
+		
+		private var _miniJogoCoolDown : uint = 0;
 		
 		
 		
@@ -56,31 +59,39 @@
 		
 		private var _nivel : uint;
 		private var _jogador : Jogador;
-		private var _pontuacaoRecordGlobal : uint;
+		private var _tempoRecordGlobal : uint;
 		
-		private var vitoria : Boolean;
+		private var _notificacoesOnScreen : uint;
+		private var _notificacoesSlotsFree : Vector.<Boolean>;
 		
-		public function MainGame(mainMovieClip : MovieClip = null, nivel : uint = NaN, jogador : Jogador = null, pontuacaoRecordGlobal : uint = 0) {
+		private var _vitoria : Boolean;
+		
+		public function MainGame(mainMovieClip : MovieClip = null, nivel : uint = NaN, jogador : Jogador = null, tempoRecordGlobal : uint = 0) {
 			_container = new MovieClip();
 			_mainMovieClip = mainMovieClip;
 			_jogador = jogador;
-			_pontuacaoRecordGlobal = pontuacaoRecordGlobal;
+			_tempoRecordGlobal = tempoRecordGlobal;
 			
 			_laboratorio = new ScrollPane();
-			
+			_laboratorio.y = 40;
+			_laboratorio.height = 325;
+			_laboratorio.width = 640;
+			_laboratorio.horizontalScrollPolicy = ScrollPolicy.OFF;
+			_laboratorio.visible = false;
+
 				
 				
 			_nivel = nivel;
 
 			_mainMovieClip.gotoAndStop("MainGame");
-			vitoria = false;
+			_vitoria = false;
 			
-			clock = 0;
-			clockDisplay = new TextField();
-			clockDisplay.text = intToTime(clock);
+			_clock = 0;
+			_clockDisplay = new TextField();
+			_clockDisplay.text = intToTime(_clock);
 			
 			// se jogador ja jogou este nivel, carrega da memoria, se nao cria novo planeta com reset = true
-			trace("NIVEL: " + _nivel + " planetas.length = " + _jogador.pontuacoesMaximas.length);
+			trace("NIVEL: " + _nivel + " planetas.length = " + _jogador.temposMaximos.length);
 			_planeta = new Planeta(this, _jogador, _nivel, true);
 			
 			_planeta.resetPlaneta();
@@ -93,6 +104,36 @@
 		}
 		
 
+
+		public function get menuGame():MenuGame
+		{
+			return _menuGame;
+		}
+
+		public function set menuGame(value:MenuGame):void
+		{
+			_menuGame = value;
+		}
+
+		public function get container():MovieClip
+		{
+			return _container;
+		}
+
+		public function set container(value:MovieClip):void
+		{
+			_container = value;
+		}
+
+		public function get miniJogoCoolDown():uint
+		{
+			return _miniJogoCoolDown;
+		}
+
+		public function set miniJogoCoolDown(value:uint):void
+		{
+			_miniJogoCoolDown = value;
+		}
 
 		public function get planeta():Planeta
 		{
@@ -145,11 +186,6 @@
 			
 			// TECNOLOGIAS PANEL
 			//laboratorio.opaqueBackground = Pretty.COLOR_PURPLE_1;			
-			_laboratorio.y = 40;
-			_laboratorio.height = 325;
-			_laboratorio.width = 640;
-			_laboratorio.horizontalScrollPolicy = ScrollPolicy.OFF;
-			_laboratorio.visible = false;
 
 			// importa e formata tecnologias do planeta para o ecra
 			importaTecnologiasDoPlaneta();
@@ -167,7 +203,7 @@
 			_menuButton.addEventListener(MouseEvent.MOUSE_OVER, overButton);
 			_menuButton.addEventListener(MouseEvent.MOUSE_OUT, outButton);
 	
-			_container.addChild(_menuButton);
+			_mainMovieClip.addChild(_menuButton);
 
 			
 			// RECURSOS
@@ -210,39 +246,44 @@
 			_energiaTextField.height = _energiaTextField.textHeight + 3;
 			_energiaTextField.x = _energiaIcon.x + 32 + 5;
 			_energiaTextField.y = _minerioTextField.y;
-			_headerRecursos.addChild(_energiaTextField);
+			_mainMovieClip.addChild(_energiaTextField);
 			
 			_headerRecursos.x = mainMovieClip.stage.stageWidth/2 - _headerRecursos.width/2;
 			_headerRecursos.y = 5;
-			_container.addChild(_headerRecursos);
+			_mainMovieClip.addChild(_headerRecursos);
 	
 			// CLOCK DISPLAY
-			clockDisplay.x = 550;
-			clockDisplay.y = 5;
-			clockDisplay.height = 30;
-			clockDisplay.defaultTextFormat = Pretty.HEADING_1;
-			clockDisplay.text = intToTime(clock);
-			_container.addChild(clockDisplay);
+			_clockDisplay.x = 550;
+			_clockDisplay.y = 5;
+			_clockDisplay.height = 30;
+			_clockDisplay.defaultTextFormat = Pretty.HEADING_1;
+			_clockDisplay.text = intToTime(_clock);
+			_mainMovieClip.addChild(_clockDisplay);
 
 			var clockIcon : UILoader = new UILoader();
 			clockIcon.scaleContent = false;
 			clockIcon.maintainAspectRatio = true;
 			clockIcon.source = "media/header/time.png";
-			clockIcon.x = clockDisplay.x - 20;
+			clockIcon.x = _clockDisplay.x - 20;
 			clockIcon.y = 8;
-			_container.addChild(clockIcon);
+			_mainMovieClip.addChild(clockIcon);
 			
 			// PAUSE AND PLAY BUTTON
-			pauseAndPlayButton = new PausePlayButton();
-			pauseAndPlayButton.buttonMode = true;
-			pauseAndPlayButton.addEventListener(MouseEvent.CLICK, pauseAndPlayButtonClicked);
-			pauseAndPlayButton.scaleX = 0.5;
-			pauseAndPlayButton.scaleY = 0.5;
-			pauseAndPlayButton.x = _mainMovieClip.stage.stageWidth - pauseAndPlayButton.width - 25;
-			pauseAndPlayButton.y = 6;
-			_container.addChild(pauseAndPlayButton);
-
+			_pauseAndPlayButton = new PausePlayButton();
+			_pauseAndPlayButton.buttonMode = true;
+			_pauseAndPlayButton.addEventListener(MouseEvent.CLICK, pauseAndPlayButtonClicked);
+			_pauseAndPlayButton.scaleX = 0.5;
+			_pauseAndPlayButton.scaleY = 0.5;
+			_pauseAndPlayButton.x = _mainMovieClip.stage.stageWidth - _pauseAndPlayButton.width - 25;
+			_pauseAndPlayButton.y = 6;
+			_mainMovieClip.addChild(_pauseAndPlayButton);
 			
+			_notificacoesOnScreen = 0;
+			_notificacoesSlotsFree = new Vector.<Boolean>();
+			_notificacoesSlotsFree[0] = true;
+			_notificacoesSlotsFree[1] = true;
+			_notificacoesSlotsFree[2] = true;
+	
 		}
 		
 		public function overButton (e: MouseEvent) {
@@ -260,9 +301,9 @@
 		 * @see atualizaSimulacao
 		 */
 		public function setTimer() : void {
-			timerUpdate = new Timer(1000, 1);
-			timerUpdate.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaSimulacao);
-			timerUpdate.start();
+			_timerUpdate = new Timer(1000, 1);
+			_timerUpdate.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaSimulacao);
+			_timerUpdate.start();
 		}
 		
 		private function intToTime(clock : uint) : String {
@@ -311,8 +352,12 @@
 			// incrementa recursos so quando a funcao for despoletada pelo temporizador 
 			if (e != null) {
 				_planeta.recursos.minerio += _planeta.dados[Planeta.TAXA_MINERIO].valor;
-				clock++;
-				clockDisplay.text = intToTime(clock);
+				_clock++;
+				_clockDisplay.text = intToTime(_clock);
+				
+				// cooldown mini-jogo decrementa
+				if (_miniJogoCoolDown > 0)
+					_miniJogoCoolDown--;
 				
 				setTimer();
 
@@ -324,7 +369,7 @@
 			
 			for (var i : uint = 0; i < _planeta.tecnologias.length; i++) {
 				// se recursos nao chegam para evolucao de tecnologia ou o tempo esta parado, entao desativa tecnologia(s)
-				if (Math.abs(_planeta.tecnologias[i].custoMinerioAtual) > _planeta.recursos.minerio || !timerUpdate.running) {
+				if (Math.abs(_planeta.tecnologias[i].custoMinerioAtual) > _planeta.recursos.minerio || !_timerUpdate.running) {
 					_planeta.tecnologias[i].evoluirButton.enabled = false;
 					_planeta.tecnologias[i].demolirButton.enabled = false;
 
@@ -341,40 +386,83 @@
 					
 					
 					// gerador de catastrofes
-					if (Math.random() < _planeta.dados[Planeta.METEORITOS].valor)
-						trace("ACONTECEU METEORITO");
-					if (Math.random() < _planeta.dados[Planeta.TSUNAMI].valor)
+					
+					var catastrofeTipo : Number = NaN;
+					trace("---------------- " + Math.random());
+					if (Math.random() < _planeta.dados[Planeta.METEORITOS].valor && _notificacoesOnScreen < 3) {
+						trace("ACONTECEU METEORITO: " + _planeta.dados[Planeta.METEORITOS].valor);
+						catastrofeTipo = Planeta.METEORITOS;
+					}
+					if (Math.random() < _planeta.dados[Planeta.TSUNAMI].valor && _notificacoesOnScreen < 3) {
 						trace("ACONTECEU TSUNAMI");
-					if (Math.random() < _planeta.dados[Planeta.VULCOES].valor)
+						catastrofeTipo = Planeta.TSUNAMI;
+ 
+					}
+					if (Math.random() < _planeta.dados[Planeta.VULCOES].valor && _notificacoesOnScreen < 3) {
 						trace("ACONTECEU ERUPCAO");
+						catastrofeTipo = Planeta.VULCOES;
+
+					}
+					
+					if (!isNaN(catastrofeTipo)) {
+						_notificacoesOnScreen++;
+						var slotEncontrado : Boolean = false;
+						for (var m : uint = 0; m < _notificacoesSlotsFree.length && !slotEncontrado; m++) {
+							slotEncontrado = _notificacoesSlotsFree[m];
+						}
+						
+						_notificacoesSlotsFree[m-1] = false;
+						
+						
+						var notificacaoCatastrofe : Notificacao = new Notificacao(_container, _mainMovieClip.stage.stageWidth, _clockDisplay.y + _clockDisplay.height + 10 + (m-1)*55, 200, 50, m-1);
+						notificacaoCatastrofe.addEventListener(Notificacao.NOTIFICACAO_ACABOU, notificacaoOut);
+						
+						notificacaoCatastrofe.icon.source = "media/parametros/data" + catastrofeTipo + "_32.png";
+						notificacaoCatastrofe.titulo.text = "TSUNAMI";
+						
+						
+						
+						if (catastrofeTipo == Planeta.TSUNAMI)
+							notificacaoCatastrofe.titulo.text = "TSUNAMI";
+						else if (catastrofeTipo == Planeta.METEORITOS)
+							notificacaoCatastrofe.titulo.text = "METEORITOS";
+						else if (catastrofeTipo == Planeta.VULCOES)
+							notificacaoCatastrofe.titulo.text = "VULCAO";
+						
+						notificacaoCatastrofe.start();
+
+						
+						
+
+						
+					}
 				}
 
 			}	
 			
 			
 			
-			// INCOMPLETO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			if (verificaVitoria()) {
-				vitoria = true;
+				_vitoria = true;
 				_planeta.habitavel = true;
 				_laboratorio.visible = false;
 				
-				timerUpdate.stop();
-				var pontuacaoRecordPessoal : uint;
+				_timerUpdate.stop();
+				var tempoRecordPessoal : uint;
 				
 				
 				_mainMovieClip.removeChild(_container);
-				if (_jogador.pontuacoesMaximas.length < _nivel) {
-					pontuacaoRecordPessoal = 0;
-					_jogador.pontuacoesMaximas.push(clock);
+				if (_jogador.temposMaximos.length < _nivel) {
+					tempoRecordPessoal = 0;
+					_jogador.temposMaximos.push(_clock);
 				}
 				
 				else {
-					pontuacaoRecordPessoal = _jogador.pontuacoesMaximas[_nivel-1];
+					tempoRecordPessoal = _jogador.temposMaximos[_nivel-1];
 
 					// record pessoal
-					if (_jogador.pontuacoesMaximas[_nivel-1] > clock) {
-						_jogador.pontuacoesMaximas[_nivel-1] = clock;
+					if (_jogador.temposMaximos[_nivel-1] > _clock) {
+						_jogador.temposMaximos[_nivel-1] = _clock;
 						
 					}
 				}
@@ -383,11 +471,7 @@
 				if (_jogador.proximoNivel == _nivel)
 					_jogador.proximoNivel++;*/
 				
-				var gameReport : GameReport = new GameReport(_mainMovieClip, _pontuacaoRecordGlobal, pontuacaoRecordPessoal, clock);
-				gameReport.addEventListener(MouseEvent.CLICK, nextLevelButton);
-				_mainMovieClip.addChild(gameReport);
 
-				_container.filters = [new BlurFilter(10, 10, BitmapFilterQuality.HIGH)];
 
 				// atualiza ficheiro sharedObject em disco com dados do jogador atualizados
 				var sharedObject : SharedObject = SharedObject.getLocal("TerraNovaSaved");
@@ -395,17 +479,37 @@
 				for (var k : uint = 0; k < sharedObject.data.jogadores.length && !encontrado; k++) {
 					if (_jogador.nome == sharedObject.data.jogadores[k].nome) {
 						encontrado = true;
-						sharedObject.data.jogadores[k] = new Jogador(_jogador.nome, _jogador.pontuacoesMaximas);
+						sharedObject.data.jogadores[k] = new Jogador(_jogador.nome, _jogador.temposMaximos);
 						sharedObject.flush();
 					}
 				}
 				
+				var gameReport : GameReport = new GameReport(_mainMovieClip, _tempoRecordGlobal, tempoRecordPessoal, _clock);
+				gameReport.addEventListener(MouseEvent.CLICK, nextLevelButton);
+				_mainMovieClip.addChild(gameReport);
+				
+				_container.filters = [new BlurFilter(10, 10, BitmapFilterQuality.HIGH)];
 				
 				trace("VITORIA");
 				
 			}
+			
+			if (_menuGame != null) {
+				if (miniJogoCoolDown > 0) {
+					_menuGame.miniJogoCoolDownCounter.visible = true;
+					_menuGame.miniJogoCoolDownCounter.text = "" + miniJogoCoolDown;
+				}
+				else {
+					_menuGame.miniJogoCoolDownCounter.visible = false;
+				}
+			}
 
 			
+		}
+		
+		private function notificacaoOut(e : Event) {
+			_notificacoesOnScreen--;
+			_notificacoesSlotsFree[e.currentTarget.slot] = true;
 		}
 
 		
@@ -420,15 +524,15 @@
 		 */
 		public function menuButtonClick (e : MouseEvent) {
 			var tween : Tween;
-			if (menuGame == null) {
-				menuGame = new MenuGame(this);
-				_mainMovieClip.addChild(menuGame);
-				tween = new Tween(menuGame, "x", Strong.easeInOut, -40, 10, 0.5, true);
+			if (_menuGame == null) {
+				_menuGame = new MenuGame(this);
+				_mainMovieClip.addChild(_menuGame);
+				tween = new Tween(_menuGame, "x", Strong.easeInOut, -40, 10, 0.25, true);
 				tween.start();
 	
 			}
 			else {
-				tween = new Tween(menuGame, "x", Strong.easeInOut, 10, -40, 0.5, true);
+				tween = new Tween(_menuGame, "x", Strong.easeInOut, 10, -40, 0.25, true);
 				//new Tween(_menuButton, "x", Strong.easeInOut, _menuButton.x, -40, 0.5, true);
 
 				tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
@@ -439,33 +543,13 @@
 		}
 		
 		public function tweenFinish (e : TweenEvent) {
-			if (menuGame != null) {
-				_mainMovieClip.removeChild(menuGame);
-				menuGame = null;
+			if (_menuGame != null) {
+				_mainMovieClip.removeChild(_menuGame);
+				_menuGame = null;
+			}
 		}
 			
-			
-			
-			/*
-			if (laboratorio.visible) {
-				laboratorio.visible = false;
-				//laboratorio.removeEventListener( MouseEvent.MOUSE_WHEEL, mouseScrollLaboratorio);
 
-				_mainMovieClip.background.filters = [];
-				_mainMovieClip.alienPlanet.filters = [];
-
-			}
-			else {
-				laboratorio.visible = true;
-				
-				//laboratorio.addEventListener( MouseEvent.MOUSE_WHEEL, mouseScrollLaboratorio);
-				
-				_mainMovieClip.background.filters = [new BlurFilter(64, 64, BitmapFilterQuality.HIGH)];
-				_mainMovieClip.alienPlanet.filters = [new BlurFilter(64, 64, BitmapFilterQuality.HIGH)];
-			}
-			*/
-		}
-		
 		
 		
 		
@@ -484,7 +568,7 @@
 				_planeta.dados[i].x = 10 + 160*contadorColunas;
 				_planeta.dados[i].y = 370 + contadorLinhas * 35;
 				_planeta.dados[i].nomeValorTextField.width = 120;
-				_container.addChild(_planeta.dados[i]);
+				_mainMovieClip.addChild(_planeta.dados[i]);
 				
 				// ajustar em colunas 
 				if (contadorColunas >= 3) {
@@ -514,19 +598,17 @@
 			var tecnologiasContainer : MovieClip = new MovieClip();
 
 			for (var i : uint = 0; i<_planeta.tecnologias.length; i++) {
-				
 				// layout
 				_planeta.tecnologias[i].y = i*163.95;
 				_planeta.tecnologias[i].x = 0;
 
-				
 				tecnologiasContainer.addChild(_planeta.tecnologias[i]);
-				
-				
-				_laboratorio.source = tecnologiasContainer;
-				
-				_container.addChild(_laboratorio);
 			}
+			
+			_laboratorio.source = tecnologiasContainer;
+			
+			_mainMovieClip.addChild(_laboratorio);
+			
 			setTimer();
 			
 		}
@@ -538,20 +620,22 @@
 		
 		private function pauseAndPlayButtonClicked(e : MouseEvent) {
 			
-			if (pauseAndPlayButton.isPause()) {
+			if (_pauseAndPlayButton.isPause()) {
 				// PAUSE SIMULATION
-				pauseAndPlayButton.setPlay();
-				timerUpdate.stop();
+				_pauseAndPlayButton.setPlay();
+				_timerUpdate.stop();
 				atualizaSimulacao(null);
 			}
 			else {
 				// RESUME SIMULATION
-				pauseAndPlayButton.setPause();
-				timerUpdate.start();
+				_pauseAndPlayButton.setPause();
+				_timerUpdate.start();
 				atualizaSimulacao(null);
 				
 			}
 		}
+		
+
 		
 		private function mouseScrollLaboratorio(e : MouseEvent) {
 			if( _laboratorio !== null )

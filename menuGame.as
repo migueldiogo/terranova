@@ -6,37 +6,42 @@ package
 	import flash.filters.BlurFilter;
 	import flash.text.TextField;
 	
+	import fl.containers.ScrollPane;
 	import fl.containers.UILoader;
+	import fl.controls.ScrollPolicy;
+	import fl.controls.TextArea;
 	import fl.transitions.Tween;
 	import fl.transitions.TweenEvent;
 	import fl.transitions.easing.Strong;
 	
 	public class MenuGame extends MovieClip
 	{
-		var opcoes : Vector.<MovieClip>;
-		var _expedicao : Array;
-		var _settings : Array;
+		private var opcoes : Vector.<MovieClip>;
+		//var _expedicao : Array;
+		//var _settings : Array;
 		
-		var _laboratorioTextField : TextField;
-		var _expedicaoTextField : TextField;
-		var _settingsTextField : TextField;
+
 		
-		var _mainGame : MainGame;
+		private var _mainGame : MainGame;
 		
-		var _opcaoEscolhida : uint;
+		private var _opcaoEscolhida : uint;
 		
 		
-		var miniJogo1 : MiniJogo1;
+		private var _miniJogo1 : MiniJogo1;
+		private var _settings : SettingsPanel;
+		private var _scrollPaneHelp : ScrollPane;
+		
+		private var _miniJogoCoolDownCounter : TextField;
 		
 		public function MenuGame(mainGame : MainGame)
 		{
 			super();
 			_mainGame = mainGame;
 			
-			var opcoesText : Vector.<String> = new <String>["Laboratório", "Expedição", "Configurações"];
+			var opcoesText : Vector.<String> = new <String>["Laboratório", "Expedição", "Configurações", "Ajuda", "Sair"];
 			opcoes = new Vector.<MovieClip>;
 			
-			for (var i : uint = 0; i < 3; i++) {
+			for (var i : uint = 0; i < opcoesText.length; i++) {
 				opcoes[i] = new MovieClip();
 				var icon : UILoader = new UILoader();
 				icon.maintainAspectRatio = true;
@@ -62,10 +67,36 @@ package
 				addChild(opcoes[i]);
 			}
 			
+			_miniJogoCoolDownCounter = new TextField();
+			_miniJogoCoolDownCounter.defaultTextFormat = Pretty.BODY;
+			_miniJogoCoolDownCounter.y = 50 + 1*(32 + 25);
+			if (_mainGame.miniJogoCoolDown <= 0)
+				_miniJogoCoolDownCounter.visible = false;
+			else
+				_miniJogoCoolDownCounter.text = "" + _mainGame.miniJogoCoolDown;
+
+			
+			_miniJogoCoolDownCounter.width = 32;
+			_miniJogoCoolDownCounter.height = 32;
+			addChild(_miniJogoCoolDownCounter);
+			
+			
+			
 		
 			
 		}
 		
+		
+		public function get miniJogoCoolDownCounter():TextField
+		{
+			return _miniJogoCoolDownCounter;
+		}
+
+		public function set miniJogoCoolDownCounter(value:TextField):void
+		{
+			_miniJogoCoolDownCounter = value;
+		}
+
 		private function mouseOver (e : MouseEvent) {
 			e.currentTarget.parent.getChildAt(1).visible = true;
 			e.currentTarget.parent.getChildAt(1).x = e.currentTarget.x + e.target.width + 10;
@@ -87,11 +118,20 @@ package
 			else if (e.currentTarget.parent == opcoes[1])
 				_opcaoEscolhida = 1;
 			else if (e.currentTarget.parent == opcoes[2])
-				_opcaoEscolhida = 0;
+				_opcaoEscolhida = 2;
+			else if (e.currentTarget.parent == opcoes[3])
+				_opcaoEscolhida = 3;
+			else if (e.currentTarget.parent == opcoes[4])
+				_opcaoEscolhida = 4;
 			
-			var tween : Tween = new Tween(this, "x", Strong.easeInOut, 10, -40, 0.5, true);
-			new Tween(_mainGame.menuButton, "x", Strong.easeInOut, _mainGame.menuButton.x, -40, 0.5, true);
-			tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
+			if (_opcaoEscolhida != 1 || _opcaoEscolhida == 1 && _mainGame.miniJogoCoolDown == 0) {
+				var tween : Tween = new Tween(this, "x", Strong.easeInOut, 10, -40, 0.25, true);
+				new Tween(_mainGame.menuButton, "x", Strong.easeInOut, _mainGame.menuButton.x, -40, 0.25, true);
+				tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
+			}
+			else
+				trace ("MINI JOGO EM COOLDOWN - DISPONIVEL EM " + _mainGame.miniJogoCoolDown + " segundos");
+		
 			
 		}
 		
@@ -111,36 +151,85 @@ package
 			
 			if (_opcaoEscolhida == 0) {
 				_mainGame.laboratorio.visible = true;
+				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 			}	
 			else if (_opcaoEscolhida == 1) {
-				miniJogo1 = new MiniJogo1(_mainGame.planeta);
-				_mainGame.mainMovieClip.addChild(miniJogo1);
+				_miniJogo1 = new MiniJogo1(_mainGame.planeta, _mainGame);
+				_mainGame.mainMovieClip.addChild(_miniJogo1);
+				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 			}
+			
+			else if (_opcaoEscolhida == 2) {
+				_settings = new SettingsPanel(_mainGame.mainMovieClip);
+				_mainGame.mainMovieClip.addChild(_settings);
+				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
+				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
+				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
+			}
+			else if (_opcaoEscolhida == 3) {
+				_scrollPaneHelp = new ScrollPane();
+				_scrollPaneHelp.y = 40;
+				_scrollPaneHelp.height = 325;
+				_scrollPaneHelp.width = 640;
+				_scrollPaneHelp.horizontalScrollPolicy = ScrollPolicy.OFF;
+				
+				
+				var helpText : TextField = new TextField();
+				helpText.width = _scrollPaneHelp.width;
+				//helpText.height = 200;
+
+				helpText.defaultTextFormat = Pretty.BODY;
+				//helpText.opaqueBackground = Pretty.COLOR_POPUP;
+				helpText.wordWrap = true;
+				helpText.text = "fdsafkdsafjlasdjfkldsajf ljsdakfj lsadkfjks dajflsdajkfjsdaklfjlasdj lfjdsklf jldsjflksda jflksajdlfkjasdlfjlsd jflkasdjfljsdlkfjsa lkjflkjsdfkljsd lkfjas ljfla  sjdkfljaslkfjklasdjfklajsklfjasklfjkl sadjfklasj fkljasklfjklsajf  klasjkfjklsajflksjkf ljsdklafj lsdfjçs lkjflasfs";
+				
+				_scrollPaneHelp.source = helpText;
+				_mainGame.mainMovieClip.addChild(_scrollPaneHelp); 
+				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
+				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
+				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
+			}
+			else if (_opcaoEscolhida == 4) {
+				stage.removeChild(_mainGame.mainMovieClip);
+				var newMovieClip : MovieClip = new MovieClip();
+				stage.addChild(newMovieClip);
+				new Menu(newMovieClip);
+			}
+			
 			
 			
 		}
 		
 		private function voltarButtonClick (e : MouseEvent) {
-			var tween : Tween = new Tween(e.currentTarget, "x", Strong.easeInOut, 10, -40, 0.5, true);
+			var tween : Tween = new Tween(e.currentTarget, "x", Strong.easeInOut, 10, -40, 0.25, true);
 			tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinishVoltar);
 			
 			if (_opcaoEscolhida == 0) {
 				_mainGame.laboratorio.visible = false;
-				
-				//laboratorio.removeEventListener( MouseEvent.MOUSE_WHEEL, mouseScrollLaboratorio);
-				
 
 			}
 			else if (_opcaoEscolhida == 1) {
-				_mainGame.mainMovieClip.removeChild(miniJogo1);
-				_mainGame.mainMovieClip.background.filters = [new BlurFilter(0,10,BitmapFilterQuality.HIGH)];
-				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(0,10,BitmapFilterQuality.HIGH)];
+				_mainGame.mainMovieClip.removeChild(_miniJogo1);
 			}
 			
+			else if (_opcaoEscolhida == 2) {
+				_mainGame.mainMovieClip.removeChild(_settings);
+			}
+			
+			else if (_opcaoEscolhida == 3) {
+				_mainGame.mainMovieClip.removeChild(_scrollPaneHelp);
+			}
+			
+			else if (_opcaoEscolhida == 4) {
+				_mainGame.mainMovieClip.removeChild(_miniJogo1);
+			}
+			
+			
+			_mainGame.container.filters = [];
 			_mainGame.mainMovieClip.background.filters = [];
 			_mainGame.mainMovieClip.alienPlanet.filters = [];
 
