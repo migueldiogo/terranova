@@ -43,13 +43,19 @@
 		private var _mainMovieClip : MovieClip;
 		
 		/**
-		 * Um segundo MovieClip - conteudo em segunda camada.
+		 * Um MovieClip - conteudo em terceira camada.
+		 * @see _mainMovieClip
+		 */
+		private var _terceiraCamada : MovieClip;
+		
+		/**
+		 * Um MovieClip - conteudo em segunda camada.
 		 * @see _mainMovieClip
 		 */
 		private var _segundaCamada : MovieClip;
 		
 		/**
-		 * Um terceiro MovieClip - conteudo em primeira camada.
+		 * Um MovieClip - conteudo em primeira camada.
 		 * @see _mainMovieClip
 		 */
 		private var _primeiraCamada : MovieClip;
@@ -65,9 +71,6 @@
 		 */
 		private var _planeta : Planeta;
 		
-		/**
-		 * Timer da simulação.
-		 */
 		private var _timerUpdate : Timer;
 		/**
 		 * Cooldown do mini-jogo/expedição.
@@ -98,6 +101,14 @@
 		 * True se nível passado.
 		 */
 		private var _vitoria : Boolean;
+		/**
+		 * Musica de Bacground
+		 */
+		private var _musicaBackground : Sound;
+		/**
+		 * Canal sonoro
+		 */
+		private var _soundChannel : SoundChannel;
 		
 		
 		
@@ -222,16 +233,14 @@
 		 * Estado de terraformação do planeta CGI. 0 - Planeta Mau; 100 - Planeta Bom.
 		 */
 		private var _estadoTerraformacaoCGI : uint;
-		
 		/**
-		 * Musica de Bacground
+		 * Barra de terraformação CGI.
 		 */
-		private var _musicaBackground : Sound;
-		
+		private var _barraTerraformacaoCGI : BarraProgressoTerraformacaoCGI;
 		/**
-		 * Canal sonoro
+		 * Cor da atmosfera CGI. 0x66CCCC - Planeta Bom.
 		 */
-		private var _soundChannel : SoundChannel;
+		private var _corAtmosferaCGI : int;
 
 		
 		public function MainGame(mainMovieClip : MovieClip = null, nivel : uint = NaN, jogador : Jogador = null, tempoRecordGlobal : uint = 0) {
@@ -242,9 +251,13 @@
 			_jogador = jogador;
 			_tempoRecordGlobal = tempoRecordGlobal;
 			
+			_terceiraCamada = new MovieClip();
 			_segundaCamada = new MovieClip();
 			_primeiraCamada = new MovieClip();
 
+			_mainMovieClip.addChild(_terceiraCamada);
+			_mainMovieClip.addChild(_segundaCamada);
+			_mainMovieClip.addChild(_primeiraCamada);
 		
 			_vitoria = false;
 			
@@ -270,12 +283,27 @@
 			
 			_planeta.resetPlaneta();
 			
-			_mainMovieClip.addChild(_segundaCamada);
-			_mainMovieClip.addChild(_primeiraCamada);
+
 
 			
 		}
 		
+
+		/**
+		 * Timer da simulação.
+		 */
+		public function get timerUpdate():Timer
+		{
+			return _timerUpdate;
+		}
+
+		/**
+		 * @private
+		 */
+		public function set timerUpdate(value:Timer):void
+		{
+			_timerUpdate = value;
+		}
 
 		/**
 		 * Carrega as texturas do modelo CGI.
@@ -313,14 +341,21 @@
 		 */
 		private function initCGI() {
 			if (_loadersTexturasCompleted == 3) {
-				_estadoTerraformacaoCGI = _planeta.estadoTerraformacao;
+				_estadoTerraformacaoCGI = 0;
+				_corAtmosferaCGI = 0x000000;
+				_barraTerraformacaoCGI = new BarraProgressoTerraformacaoCGI();
+				_barraTerraformacaoCGI.x = _mainMovieClip.stage.stageWidth/2 - 207/2;
+				_barraTerraformacaoCGI.y = _mainMovieClip.stage.stageHeight/2 + 155/2 + 40;
+
 				
 				_anguloRotacao = 0;
-				sistemaPlanetario = new SistemaPlanetario(_primeiraCamada.stage.stageWidth/2, _primeiraCamada.stage.stageHeight/2 - 40, 40, 40, 164, Bitmap(_loaderTexturaInicial.content).bitmapData, Bitmap(_loaderTexturaFinal.content).bitmapData);
-				sistemaPlanetario.setatmosfera(0x66CCCC);
+				sistemaPlanetario = new SistemaPlanetario(_primeiraCamada.stage.stageWidth/2, _primeiraCamada.stage.stageHeight/2 - 50, 40, 40, 155, Bitmap(_loaderTexturaInicial.content).bitmapData, Bitmap(_loaderTexturaFinal.content).bitmapData);
+				//sistemaPlanetario.setatmosfera(0x66CCCC);
+				sistemaPlanetario.setatmosfera(0x000000)
 				sistemaPlanetario.addLua(55, 290, Bitmap(_loaderTexturaLua.content).bitmapData);
 				
 				_segundaCamada.addChild(sistemaPlanetario);
+				_segundaCamada.addChild(_barraTerraformacaoCGI);
 				
 				sistemaPlanetario.cacheAsBitmap = true;
 				// inicia animacao CGI
@@ -402,7 +437,7 @@
 			// CLOCK DISPLAY
 				//display
 			_clockDisplay.x = 550;
-			_clockDisplay.y = 5;
+			_clockDisplay.y = 8;
 			_clockDisplay.height = 30;
 			_clockDisplay.defaultTextFormat = Pretty.HEADING_1;
 			_clockDisplay.text = intToTime(_clock);
@@ -413,7 +448,7 @@
 			clockIcon.maintainAspectRatio = true;
 			clockIcon.source = "media/header/time.png";
 			clockIcon.x = _clockDisplay.x - 20;
-			clockIcon.y = 8;
+			clockIcon.y = _clockDisplay.y + 3;
 			_primeiraCamada.addChild(clockIcon);
 			
 			// PAUSE AND PLAY BUTTON
@@ -422,10 +457,9 @@
 			_pauseAndPlayButton.scaleX = 0.5;
 			_pauseAndPlayButton.scaleY = 0.5;
 			_pauseAndPlayButton.x = _clockDisplay.x + _clockDisplay.textWidth + 10;
+			_pauseAndPlayButton.y = _menuButton.y - 2;
 			_pauseAndPlayButton.addEventListener(MouseEvent.MOUSE_OVER, overButton);
 			_pauseAndPlayButton.addEventListener(MouseEvent.MOUSE_OUT, outButton);
-
-			_pauseAndPlayButton.y = 6;
 			_primeiraCamada.addChild(_pauseAndPlayButton);
 			
 			// NOTIFICACOES
@@ -482,17 +516,38 @@
 			// altera rotacao do planeta consoante os dados em vigor
 			_anguloRotacao += _planeta.dados[Planeta.SPIN].valor/24;
 			
-			if (Math.round(_anguloRotacao %5) == 1){
-				// se o estado de terraformacao do planeta estiver diferente daquele
-				// apresentado pelo modelo CGI, ele comeca a animacao a tender para o novo estado
-				if (_estadoTerraformacaoCGI < _planeta.estadoTerraformacao)
-					_estadoTerraformacaoCGI++;
-				else if (_estadoTerraformacaoCGI > _planeta.estadoTerraformacao)
-					_estadoTerraformacaoCGI--;
-			}
+			// se o estado de terraformacao do planeta estiver diferente daquele
+			// apresentado pelo modelo CGI, ele comeca a animacao a tender para o novo estado
+			if (_estadoTerraformacaoCGI < _planeta.estadoTerraformacao)
+				_estadoTerraformacaoCGI += 1;
+			else if (_estadoTerraformacaoCGI > _planeta.estadoTerraformacao)
+				_estadoTerraformacaoCGI -= 1;
+		
+			// Comparar atmosfera CGI com atmosfera de plaenta em memoria
+			// comparar red's
+			if ( ((_corAtmosferaCGI >> 16) & 0xFF) < ((_planeta.corAtmosfera >> 16) & 0xFF) )
+				_corAtmosferaCGI += 0x010000;
+			else if ( ((_corAtmosferaCGI >> 16) & 0xFF) > ((_planeta.corAtmosfera >> 16) & 0xFF) )
+				_corAtmosferaCGI -= 0x010000;;
 			
+			// comparar green's
+			if ( ((_corAtmosferaCGI >> 8) & 0xFF) < ((_planeta.corAtmosfera >> 8) & 0xFF) )
+				_corAtmosferaCGI += 0x000100;
+			else if ( ((_corAtmosferaCGI >> 8) & 0xFF) > ((_planeta.corAtmosfera >> 8) & 0xFF) )
+				_corAtmosferaCGI -= 0x000100;
+			
+			// comparar blue's
+			if ( (_corAtmosferaCGI & 0xFF) < (_planeta.corAtmosfera & 0xFF))
+				_corAtmosferaCGI += 0x000001;
+			else if ( (_corAtmosferaCGI & 0xFF) > (_planeta.corAtmosfera & 0xFF) )
+				_corAtmosferaCGI -= 0x000001;
+							
 			// redesenha o CGI
 			sistemaPlanetario.desenha(_anguloRotacao, _anguloRotacao, _anguloRotacao, _estadoTerraformacaoCGI);
+			sistemaPlanetario.setatmosfera(_corAtmosferaCGI);
+			
+			// atualiza barra de terraformacao do CGI
+			_barraTerraformacaoCGI.atualiza(_estadoTerraformacaoCGI);
 			
 			// reinicia o timer para proxima atualizacao do CGI
 			setTimerCGI();
@@ -553,50 +608,34 @@
 					_planeta.tecnologias[i].demolirButton.addEventListener(MouseEvent.CLICK, _planeta.tecnologias[i].vendeTecnologia);
 					
 					
-					// gerador de catastrofes
-					var catastrofeTipo : Number = NaN;
+					/******************************************************
+					 * GERADOR DE CATASTROFES / GERADOR DE AJUDAS
+					 ******************************************************/
+					
+					// gerador de notificacoes de Meteoritos
 					if (Math.random() < _planeta.dados[Planeta.METEORITOS].valor && _notificacoesOnScreen < 3) {
-						catastrofeTipo = Planeta.METEORITOS;
+						geraNotificacao(Planeta.METEORITOS);
 					}
+					// gerador de notificacoes de Tsunamis
 					if (Math.random() < _planeta.dados[Planeta.TSUNAMI].valor && _notificacoesOnScreen < 3) {
-						catastrofeTipo = Planeta.TSUNAMI;
+						geraNotificacao(Planeta.TSUNAMI);
  
 					}
+					// gerador de notificacoes de Vulcoes
 					if (Math.random() < _planeta.dados[Planeta.VULCOES].valor && _notificacoesOnScreen < 3) {
-						catastrofeTipo = Planeta.VULCOES;
+						geraNotificacao(Planeta.VULCOES);
 
 					}
-					
-					// se aconteceu catastrofe
-					if (!isNaN(catastrofeTipo)) {
-						// incrementa notificacoes em ecra
-						_notificacoesOnScreen++;
+					// gerador de notificacoes de Ajudas
+					if (Math.random() < 0.001 && _planeta.estadoTerraformacao != 100 && _notificacoesOnScreen < 3) {
+						geraNotificacao(-1);
 						
-						// encontra um slot livre...
-						var slotEncontrado : Boolean = false;
-						for (var m : uint = 0; m < _notificacoesSlotsFree.length && !slotEncontrado; m++) {
-							slotEncontrado = _notificacoesSlotsFree[m];
-						}
-						
-						// ... e ocupa-o
-						_notificacoesSlotsFree[m-1] = false;
-						
-						// inicia a notificacao
-						var notificacaoCatastrofe : Notificacao = new Notificacao(_segundaCamada, _primeiraCamada.stage.stageWidth, _clockDisplay.y + _clockDisplay.height + 10 + (m-1)*55, 200, 50, m-1);
-						notificacaoCatastrofe.addEventListener(Notificacao.NOTIFICACAO_ACABOU, notificacaoOut);
-						
-						notificacaoCatastrofe.icon.source = "media/parametros/data" + catastrofeTipo + "_32.png";
-						notificacaoCatastrofe.titulo.text = "TSUNAMI";
-					
-						if (catastrofeTipo == Planeta.TSUNAMI)
-							notificacaoCatastrofe.titulo.text = "TSUNAMI";
-						else if (catastrofeTipo == Planeta.METEORITOS)
-							notificacaoCatastrofe.titulo.text = "METEORITO";
-						else if (catastrofeTipo == Planeta.VULCOES)
-							notificacaoCatastrofe.titulo.text = "VULCÃO";
-						notificacaoCatastrofe.titulo.appendText("\nCoordenadas: " + (uint)(Math.random()*100) + "º " + (uint)(Math.random()*100) + "' " + (uint)(Math.random()*100) + "''");
-						notificacaoCatastrofe.start();	
 					}
+					
+					
+
+					
+					
 				}
 
 			}	
@@ -615,7 +654,7 @@
 				//
 				var tempoRecordPessoal : uint;
 				
-				_mainMovieClip.removeChild(_segundaCamada);
+				_mainMovieClip.removeChild(_terceiraCamada);
 				_mainMovieClip.removeChild(_primeiraCamada);
 				if (_jogador.temposMaximos.length < _nivel) {
 					tempoRecordPessoal = 0;
@@ -651,7 +690,7 @@
 				_mainMovieClip.addChild(gameReport);
 				
 				// desfoca ecra de tras
-				_segundaCamada.filters = [new BlurFilter(10, 10, BitmapFilterQuality.HIGH)];
+				_terceiraCamada.filters = [new BlurFilter(10, 10, BitmapFilterQuality.HIGH)];
 				
 				trace("VITORIA");
 				
@@ -673,6 +712,64 @@
 			}
 			*/
 
+			
+		}
+		
+		
+		
+		/******************************************************
+		 * NOTIFICACOES
+		 ******************************************************/
+		/**
+		 * Gera uma notificação com tipo igual ao argumento código. Maior que 0 para parâmetros (Usar Planeta.CODIGO_DE.PARAMETRO)
+		 * ou valores menores que 0 para notificações de ajuda.
+		 */
+		private function geraNotificacao(codigo : int) {
+			// incrementa notificacoes em ecra
+			_notificacoesOnScreen++;
+			
+			// encontra um slot livre...
+			var slotEncontrado : Boolean = false;
+			for (var m : uint = 0; m < _notificacoesSlotsFree.length && !slotEncontrado; m++) {
+				slotEncontrado = _notificacoesSlotsFree[m];
+			}
+			
+			// ... e ocupa-o
+			_notificacoesSlotsFree[m-1] = false;
+			
+			// inicia a notificacao
+			var notificacaoCatastrofe : Notificacao = new Notificacao(_segundaCamada, _primeiraCamada.stage.stageWidth, _clockDisplay.y + _clockDisplay.height + 10 + (m-1)*55, 200, 50, m-1);
+			notificacaoCatastrofe.addEventListener(Notificacao.NOTIFICACAO_ACABOU, notificacaoOut);
+			
+			notificacaoCatastrofe.icon.source = "media/parametros/data" + codigo + "_32.png";
+			//notificacaoCatastrofe.titulo.text = "TSUNAMI";
+			
+			if (codigo == Planeta.TSUNAMI)
+				notificacaoCatastrofe.titulo.text = "TSUNAMI";
+			else if (codigo == Planeta.METEORITOS)
+				notificacaoCatastrofe.titulo.text = "METEORITO";
+			else if (codigo == Planeta.VULCOES)
+				notificacaoCatastrofe.titulo.text = "VULCÃO";
+			else {
+				notificacaoCatastrofe.titulo.text = "AJUDA";
+				notificacaoCatastrofe.icon.source = "media/menu/menu3_32.png";
+			}
+			
+			if (codigo >= 0)
+				notificacaoCatastrofe.titulo.appendText("\nCoordenadas: " + (uint)(Math.random()*100) + "º " + (uint)(Math.random()*100) + "' " + (uint)(Math.random()*100) + "''");
+			else {
+				var dadoEncontrado : Boolean = false;
+				for (var n : uint = 0; n < _planeta.dados.length && !dadoEncontrado; n++) {
+					if (_planeta.dados[n].estadoTerraformacaoDado != 100)
+						dadoEncontrado = true;
+				}
+				notificacaoCatastrofe.titulo.appendText("\nValor de '" + planeta.dados[n-1].nome + "' incorreto");
+				
+				
+				
+			}
+			notificacaoCatastrofe.start();	
+			
 			
 		}
 		
@@ -703,6 +800,7 @@
 		private function nextLevelButton(e : MouseEvent) {
 			_soundChannel.stop();
 			_mainMovieClip.removeChild(e.target.parent);
+			_mainMovieClip.removeChild(_segundaCamada);
 			new Niveis(_mainMovieClip, _jogador);
 		}
 		
@@ -928,12 +1026,12 @@
 		
 		public function get container():MovieClip
 		{
-			return _segundaCamada;
+			return _terceiraCamada;
 		}
 		
 		public function set container(value:MovieClip):void
 		{
-			_segundaCamada = value;
+			_terceiraCamada = value;
 		}
 		
 		public function get miniJogoCoolDown():uint

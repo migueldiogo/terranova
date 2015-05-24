@@ -76,8 +76,6 @@ package
 			
 			var scrollPane : ScrollPane = new ScrollPane();
 			scrollPane.width = _main.stage.stageWidth;
-			//scrollPane.y = title.y + title.textHeight + 10;
-			//scrollPane.height = _main.stage.stageHeight - scrollPane.y;
 			scrollPane.height = _main.stage.stageHeight;
 			scrollPane.opaqueBackground = null;
 
@@ -113,7 +111,7 @@ package
 				}
 				else {
 					nivel.buttonMode = false;
-					nivel.alpha = 0.4;			// ou filters = [new BlurFilter(20,20, BitmapFilterQuality.HIGH)];			// ou 
+					nivel.alpha = 0.4;
 					
 				}
 				

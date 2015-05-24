@@ -149,11 +149,13 @@ package
 			else if (e.currentTarget.parent == opcoes[4])
 				_opcaoEscolhida = 4;
 			
-			if (_opcaoEscolhida != 1 || _opcaoEscolhida == 1 && _mainGame.miniJogoCoolDown == 0) {
+			if ((_opcaoEscolhida != 1) || (_opcaoEscolhida == 1 && _mainGame.miniJogoCoolDown == 0 && _mainGame.timerUpdate.running)) {
 				tween1 = new Tween(this, "x", Strong.easeInOut, 10, -40, 0.25, true);
 				tween2 = new Tween(_mainGame.menuButton, "x", Strong.easeInOut, _mainGame.menuButton.x, -40, 0.25, true);
 				tween1.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
 			}
+			else if (!_mainGame.timerUpdate.running)
+				trace("ESTA FUNCAO NAO E' VALIDA COM A SIMULACAO EM PAUSA");
 			else
 				trace ("MINI JOGO EM COOLDOWN - DISPONIVEL EM " + _mainGame.miniJogoCoolDown + " segundos");
 		
@@ -180,14 +182,12 @@ package
 				_mainGame.laboratorio.visible = true;
 				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
-				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 			}	
 			else if (_opcaoEscolhida == 1) {
 				_miniJogo1 = new MiniJogo1(_mainGame.planeta, _mainGame);
 				_mainGame.mainMovieClip.addChild(_miniJogo1);
 				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
-				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 			}
 			
 			else if (_opcaoEscolhida == 2) {
@@ -195,7 +195,6 @@ package
 				_mainGame.mainMovieClip.addChild(_settings);
 				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
-				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 			}
 			else if (_opcaoEscolhida == 3) {
 				_scrollPaneHelp = new ScrollPane();
@@ -218,7 +217,6 @@ package
 				_mainGame.mainMovieClip.addChild(_scrollPaneHelp); 
 				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
-				_mainGame.mainMovieClip.alienPlanet.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 			}
 			else if (_opcaoEscolhida == 4) {
 				stage.removeChild(_mainGame.mainMovieClip);
@@ -253,12 +251,13 @@ package
 			
 			else if (_opcaoEscolhida == 4) {
 				_mainGame.mainMovieClip.removeChild(_miniJogo1);
+				_mainGame.miniJogoCoolDown = MiniJogo1.COOLDOWN;
+
 			}
 			
 			
 			_mainGame.container.filters = [];
 			_mainGame.mainMovieClip.background.filters = [];
-			_mainGame.mainMovieClip.alienPlanet.filters = [];
 
 		}
 		

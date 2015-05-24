@@ -81,7 +81,15 @@ package
 		 */
 		private var _loadersCompleted : uint;
 		
+		/**
+		 * Estado de terraformação do planeta. 0 - Planeta Mau; 100 - Planeta Bom.
+		 */
 		private var _estadoTerraformacao : uint;
+		
+		/**
+		 * Cor da atmosfera do planeta - 0x66CCCC - Planeta Bom.
+		 */
+		private var _corAtmosfera : int;
 		
 		
 		
@@ -97,6 +105,7 @@ package
 			_tecnologias = new Vector.<Tecnologia>;
 			_habitavel = false;
 		}
+
 
 
 
@@ -128,6 +137,13 @@ package
 			}
 			
 			_estadoTerraformacao = estado / _dados.length;
+			
+			// atualiza cor da atmosfera
+			var red :uint = 2.55 * Parametro.normalizaValor(_dados[DIOXIDO_DE_CARBONO].estadoTerraformacaoDado, 255, 102);
+			var green :uint = 2.55 * Parametro.normalizaValor(_dados[METANO].estadoTerraformacaoDado, 0, 204);
+			var blue :uint = 2.55 * Parametro.normalizaValor(_dados[OXIGENIO].estadoTerraformacaoDado, 0, 204);
+
+			_corAtmosfera = ( ( red << 16 ) | ( green << 8 ) | blue )
 		}
 
 		
@@ -291,6 +307,23 @@ package
 		public function set estadoTerraformacao(value:uint):void
 		{
 			_estadoTerraformacao = value;
+		}
+		
+		
+		/**
+		 * Cor da atmosfera do planeta. 0x66CCCC - Planeta Bom.
+		 */
+		public function get corAtmosfera():int
+		{
+			return _corAtmosfera;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set corAtmosfera(value:int):void
+		{
+			_corAtmosfera = value;
 		}
 	
 		

@@ -72,7 +72,7 @@
 		/**
 		 * Normaliza valor x correpondente ao intervalo [xMin, xMax] para o intervalo [yMin, yMax]
 		 */
-		private function normalizaValor(x : Number, xMin : Number, xMax : Number) : Number {
+		public static function normalizaValor(x : Number, xMin : Number, xMax : Number) : Number {
 			return (x - xMin)/(xMax - xMin) * 100;
 		}
 		

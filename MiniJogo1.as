@@ -108,7 +108,6 @@
 							go.y = this.stage.stageHeight/2 - go.height/2;
 							addChild(go);
 							
-							_mainGame.miniJogoCoolDown = COOLDOWN;
 							_mainGame.atualizaSimulacao(null);
 						}
 					}
