@@ -146,8 +146,8 @@
 			if ((valor >= _valorOtimoMinimo && valor <= _valorOtimoMaximo) || (isNaN(_valorOtimoMinimo) && isNaN(_valorOtimoMaximo)))
 				estado = 100;
 			else {
-				var distanciaOtimaMinima : uint = (Math.abs(valor - _valorOtimoMaximo) <= Math.abs(valor - _valorOtimoMinimo)) ? Math.abs(valor - _valorOtimoMaximo) : Math.abs(valor - _valorOtimoMinimo);
-				var distanciaMaxima : uint = (Math.abs(_valorMaximoDominio - _valorOtimoMaximo) <= Math.abs(_valorMinimoDominio - _valorOtimoMinimo)) ? Math.abs(_valorMinimoDominio - _valorOtimoMinimo) : Math.abs(_valorMaximoDominio - _valorOtimoMaximo);
+				var distanciaOtimaMinima : Number = (Math.abs(valor - _valorOtimoMaximo) <= Math.abs(valor - _valorOtimoMinimo)) ? Math.abs(valor - _valorOtimoMaximo) : Math.abs(valor - _valorOtimoMinimo);
+				var distanciaMaxima : Number = (Math.abs(_valorMaximoDominio - _valorOtimoMaximo) <= Math.abs(_valorMinimoDominio - _valorOtimoMinimo)) ? Math.abs(_valorMinimoDominio - _valorOtimoMinimo) : Math.abs(_valorMaximoDominio - _valorOtimoMaximo);
 				estado = 100 - normalizaValor(distanciaOtimaMinima, 0, distanciaMaxima);
 			}
 			

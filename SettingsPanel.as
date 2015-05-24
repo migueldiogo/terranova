@@ -19,7 +19,7 @@ package
 		private var _parentMovieClip : MovieClip;
 		private var _parentMenu : Menu;
 		private var _resetJogadoresButton : Button;
-		private var _resetSettingsButton : Button;
+		//private var _resetSettingsButton : Button;
 		private var _sliderGraficos : Slider;
 		private var _graficosValueTextField : TextField;
 		private var _sharedObject : SharedObject;
@@ -85,6 +85,16 @@ package
 			
 		}
 		
+		public function get resetJogadoresButton():Button
+		{
+			return _resetJogadoresButton;
+		}
+
+		public function set resetJogadoresButton(value:Button):void
+		{
+			_resetJogadoresButton = value;
+		}
+
 		/**
 		 * Atualiza jogo de acordo com definicoes.
 		 */

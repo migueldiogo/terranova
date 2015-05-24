@@ -1,0 +1,89 @@
+
+<div>
+	<u>1. Introdução</u></div>
+<div>
+	No ano 2124, a Terra é um lugar inóspito. À noite o céu estrelado deu lugar a poeiras cinzentas iluminadas pela luzes das cidades. O ar era irrespirável sem que fosse filtrado por uma máscara que a maior parte da população não tinha acesso. A esperança de vida mundial é de 30 anos. Os mais afortunados vivem em torres que sustentam ambiente artificiais que potenciam a cultura de novas bactérias e organismos nocivos ao ser humano.</div>
+<div>
+	&nbsp;</div>
+<div>
+	No dia 26 de Maio de 2124, metade da população morre quando a energia falha durante 27 horas, deixando os humanos sujeitos às condições precárias do planeta. No dia seguinte, a NASA anuncia que escondera em segredo uma tecnologia que permite viajar para outras galáxias por distorção cósmica, sem que seja preciso atingir-se a velocidade da luz.</div>
+<div>
+	&nbsp;</div>
+<div>
+	A NASA acaba por enviar o astronauta James Shepard em avanço ao resto do mundo para o planeta destino. A sua missão é no menor tempo possível conseguir terraformar o planeta.</div>
+<div>
+	&nbsp;</div>
+<div>
+	&nbsp;</div>
+<div>
+	<u>2. Menu</u></div>
+<div>
+	<em>&nbsp; &nbsp;2.1 Tecnologias</em></div>
+<div>
+	&nbsp; &nbsp;Neste menu poderás comprar ao demolir instalações com os recursos minério e energia. Estas infraestruturas terão impacto direto no planeta.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<em>&nbsp; &nbsp;2.2 Expedição</em></div>
+<div>
+	&nbsp; &nbsp;A Expedição permite-te ganhar recursos em alternativa ou em conjunto com as Tecnologias. Atenção que esta opção é limitada a um tempo de repouso de 120 segundos. Logo, usa-a estrategicamente.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<em>&nbsp; &nbsp;2.3 Definições</em></div>
+<div>
+	&nbsp; &nbsp;Acede a esta funcionalidade para entrares nas definições do jogo.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<em>&nbsp; &nbsp;2.4 Ajuda</em></div>
+<div>
+	&nbsp; &nbsp;Estás a lê-la!</div>
+<div>
+	&nbsp;</div>
+<div>
+	<u>3. Recursos</u></div>
+<div>
+	<em>&nbsp; &nbsp; 3.1 Minério</em></div>
+<div>
+	&nbsp; &nbsp; Este recurso é usado geralmente para a construção de infraestruturas. É automaticamente incrementado a cada 1 segundo com uma taxa anunciada pelo dado "Taxa de Minério".</div>
+<div>
+	&nbsp;</div>
+<div>
+	<em>&nbsp; &nbsp; 3.2 Energia</em></div>
+<div>
+	&nbsp; &nbsp; Este recurso é essencial para sustentar algumas infraestruturas.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<u>4. Tempo</u></div>
+<div>
+	O tempo será o que te destacará de outros jogadores, por isso não percas muito tempo a terraformar o planeta. Podes parar o tempo sempre que quiseres. Esta opção irá limitar algumas funções do jogo, como a construção/demolição de tecnologias, como também a Expedição.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<u>5. Dados do planeta</u></div>
+<div>
+	Em rodapé estão dispostos os dados do planeta. Para terraformares o planeta, todos deverão estar no intervalo verde, consequentemente a barra de progresso irá aproximar-se ou não desse mesmo objetivo..</div>
+<div>
+	<em>&nbsp; &nbsp; 5.1 Taxa de Minério</em></div>
+<div>
+	&nbsp; &nbsp; Quantas unidades de minério são incrementadas por segundo.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<em>&nbsp; &nbsp; 5.2 Tsunami, Vulcão e Meteorito</em></div>
+<div>
+	&nbsp; &nbsp; Probabilidade de acontecer uma destas catástrofes por segundo.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<em>&nbsp; &nbsp; 5.3 Temperatura, Gravidade, Rotação e Translação</em></div>
+<div>
+	&nbsp; &nbsp; Estes recursos estão associados a geodinâmica do planeta.</div>
+<div>
+	&nbsp;</div>
+<div>
+	<em>&nbsp; &nbsp; 5.4 CO2, Metano, Oxigénio e Ozono</em></div>
+<div>
+	&nbsp; &nbsp; Estes recursos estão associados à atmosfera do planeta.</div>

@@ -1,9 +1,12 @@
 package
 {
 	import flash.display.MovieClip;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.BitmapFilterQuality;
 	import flash.filters.BlurFilter;
+	import flash.net.URLLoader;
+	import flash.net.URLRequest;
 	import flash.text.TextField;
 	import flash.utils.Timer;
 	
@@ -39,12 +42,26 @@ package
 		
 		private var voltarButton : UILoader;
 		
-		//private var _timerCooldown : Timer;
+		private var _htmlTextAjuda : String;
+		
 		
 		public function MenuGame(mainGame : MainGame)
 		{
 			super();
 			_mainGame = mainGame;
+			
+			
+			
+			// Loading dos dados do planeta
+			//var dataPlanetas:XML = new XML();
+			var loaderAjuda:URLLoader = new URLLoader();
+			loaderAjuda.load(new URLRequest("data/ajudaHTML.txt"));			
+			loaderAjuda.addEventListener(Event.COMPLETE, carregaAjuda);	
+			
+			
+			
+			
+			
 			
 			var opcoesText : Vector.<String> = new <String>["Laboratório", "Expedição", "Configurações", "Ajuda", "Sair"];
 			opcoes = new Vector.<MovieClip>;
@@ -103,6 +120,10 @@ package
 				atualizaBarraCooldown();
 			
 			
+		}
+		
+		private function carregaAjuda(e : Event) {
+			_htmlTextAjuda = e.target.data;
 		}
 		
 		public function atualizaBarraCooldown() {
@@ -192,6 +213,8 @@ package
 			
 			else if (_opcaoEscolhida == 2) {
 				_settings = new SettingsPanel(_mainGame.mainMovieClip);
+				_settings.resetJogadoresButton.enabled = false;
+				_settings.resetJogadoresButton.visible = false;
 				_mainGame.mainMovieClip.addChild(_settings);
 				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
@@ -205,15 +228,16 @@ package
 				
 				
 				var helpText : TextField = new TextField();
-				helpText.width = _scrollPaneHelp.width;
-				//helpText.height = 200;
+				helpText.width = _scrollPaneHelp.width - 20;
 
 				helpText.defaultTextFormat = Pretty.BODY;
-				//helpText.opaqueBackground = Pretty.COLOR_POPUP;
 				helpText.wordWrap = true;
-				helpText.text = "fdsafkdsafjlasdjfkldsajf ljsdakfj lsadkfjks dajflsdajkfjsdaklfjlasdj lfjdsklf jldsjflksda jflksajdlfkjasdlfjlsd jflkasdjfljsdlkfjsa lkjflkjsdfkljsd lkfjas ljfla  sjdkfljaslkfjklasdjfklajsklfjasklfjkl sadjfklasj fkljasklfjklsajf  klasjkfjklsajflksjkf ljsdklafj lsdfjçs lkjflasfs";
-				
+				helpText.htmlText = _htmlTextAjuda;
+				helpText.height = helpText.textHeight + 100;
 				_scrollPaneHelp.source = helpText;
+				helpText.x = 10;
+
+				
 				_mainGame.mainMovieClip.addChild(_scrollPaneHelp); 
 				_mainGame.container.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];
 				_mainGame.mainMovieClip.background.filters = [new BlurFilter(10,10,BitmapFilterQuality.HIGH)];

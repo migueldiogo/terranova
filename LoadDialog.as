@@ -20,9 +20,6 @@ package
 		public function LoadDialog(parentMenu : Menu)
 		{
 			super();
-			
-			
-			
 
 			var jogadoresNomes : Array = new Array(parentMenu.sharedObject.data.jogadores.length);
 			_list = new List();

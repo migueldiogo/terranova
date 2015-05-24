@@ -578,6 +578,31 @@
 					if (_menuGame != null)
 						_menuGame.atualizaBarraCooldown();
 				}
+				
+				
+				/******************************************************
+				 * GERADOR DE CATASTROFES / GERADOR DE AJUDAS
+				 ******************************************************/
+				
+				// gerador de notificacoes de Meteoritos
+				if (Math.random() < _planeta.dados[Planeta.METEORITOS].valor && _notificacoesOnScreen < 3) {
+					geraNotificacao(Planeta.METEORITOS);
+				}
+				// gerador de notificacoes de Tsunamis
+				if (Math.random() < _planeta.dados[Planeta.TSUNAMI].valor && _notificacoesOnScreen < 3) {
+					geraNotificacao(Planeta.TSUNAMI);
+					
+				}
+				// gerador de notificacoes de Vulcoes
+				if (Math.random() < _planeta.dados[Planeta.VULCOES].valor && _notificacoesOnScreen < 3) {
+					geraNotificacao(Planeta.VULCOES);
+					
+				}
+				// gerador de notificacoes de Ajudas
+				if (Math.random() < 0.002 && _planeta.estadoTerraformacao != 100 && _notificacoesOnScreen < 3) {
+					geraNotificacao(-1);
+					
+				}
 					
 				setTimer();
 
@@ -608,29 +633,7 @@
 					_planeta.tecnologias[i].demolirButton.addEventListener(MouseEvent.CLICK, _planeta.tecnologias[i].vendeTecnologia);
 					
 					
-					/******************************************************
-					 * GERADOR DE CATASTROFES / GERADOR DE AJUDAS
-					 ******************************************************/
-					
-					// gerador de notificacoes de Meteoritos
-					if (Math.random() < _planeta.dados[Planeta.METEORITOS].valor && _notificacoesOnScreen < 3) {
-						geraNotificacao(Planeta.METEORITOS);
-					}
-					// gerador de notificacoes de Tsunamis
-					if (Math.random() < _planeta.dados[Planeta.TSUNAMI].valor && _notificacoesOnScreen < 3) {
-						geraNotificacao(Planeta.TSUNAMI);
- 
-					}
-					// gerador de notificacoes de Vulcoes
-					if (Math.random() < _planeta.dados[Planeta.VULCOES].valor && _notificacoesOnScreen < 3) {
-						geraNotificacao(Planeta.VULCOES);
 
-					}
-					// gerador de notificacoes de Ajudas
-					if (Math.random() < 0.001 && _planeta.estadoTerraformacao != 100 && _notificacoesOnScreen < 3) {
-						geraNotificacao(-1);
-						
-					}
 					
 					
 
@@ -758,12 +761,13 @@
 			if (codigo >= 0)
 				notificacaoCatastrofe.titulo.appendText("\nCoordenadas: " + (uint)(Math.random()*100) + "º " + (uint)(Math.random()*100) + "' " + (uint)(Math.random()*100) + "''");
 			else {
-				var dadoEncontrado : Boolean = false;
-				for (var n : uint = 0; n < _planeta.dados.length && !dadoEncontrado; n++) {
+				var dadosIncorretos : Vector.<uint> = new Vector.<uint>();
+				for (var n : uint = 0; n < _planeta.dados.length; n++) {
+					trace(_planeta.dados[n].nome + " --- " + _planeta.dados[n].valor + " " +  _planeta.dados[n].estadoTerraformacaoDado);
 					if (_planeta.dados[n].estadoTerraformacaoDado != 100)
-						dadoEncontrado = true;
+						dadosIncorretos.push(n);
 				}
-				notificacaoCatastrofe.titulo.appendText("\nValor de '" + planeta.dados[n-1].nome + "' incorreto");
+				notificacaoCatastrofe.titulo.appendText("\nValor de '" + _planeta.dados[dadosIncorretos[(uint)(Math.random()*dadosIncorretos.length)]].nome + "' incorreto");
 				
 				
 				
