@@ -27,64 +27,84 @@ package
 		public static var METANO : uint = 9;
 		public static var OXIGENIO : uint = 10;
 		public static var OZONO : uint = 11;
-		
+		/////////////////////////////////////////
 
 		
-
-		
-		
-		
+		/**
+		 * Distancia do planeta à sua estrela mãe.
+		 */
 		private var _distanciaEstrelaMae : Number;
-		private var _periodoTranslacao : Number;
-		private var _periodoRotacao : Number;
 		
+		/**
+		 * True quando planeta habitável (dados todos verificados dentro dos intervalos de referência.
+		 */
 		private var _habitavel : Boolean;
 		
+		/**
+		 * Array com dados do planeta.
+		 * @see Parametro
+		 */
 		private var _dados : Vector.<Parametro>;
 		
+		/**
+		 * Recursos do planeta (minério e energia).
+		 * @see Recursos
+		 */
 		private var _recursos : Recursos;
+		
+		/**
+		 * Tecnologias associadas ao planeta.
+		 */
 		private var _tecnologias : Vector.<Tecnologia>;
 		
-		//private var _modelo : Planeta;
-		
+		/**
+		 * Jogador associado.
+		 * @see Menu
+		 * @see Jogador
+		 */
 		private var _jogador : Jogador;
+		
+		/**
+		 * Nível de dificuldade associado a este planeta.
+		 * @Nivel
+		 * @Niveis
+		 */
 		private var _nivel : uint;
 		
+		/**
+		 * Jogo/Simulador associado a este planeta.
+		 */
 		private var _game : MainGame;
+		
+		/**
+		 * Controlador dos loaders xml. Este valor indica o seu término.
+		 */
 		private var _loadersCompleted : uint;
 		
+		private var _estadoTerraformacao : uint;
 		
 		
 		
-		public function Planeta(game : MainGame = null, jogador : Jogador = null, nivel : uint = NaN, reset : Boolean = false)
+		public function Planeta(game : MainGame = null, jogador : Jogador = null, nivel : uint = NaN)
 		{
-			
 			super();
 			_game = game;
-			_loadersCompleted = 0;
-			
+			_loadersCompleted = 0;	
 			_jogador = jogador;
 			_nivel = nivel;
 			_dados = new Vector.<Parametro>();			
 			_recursos = new Recursos();
 			_tecnologias = new Vector.<Tecnologia>;
 			_habitavel = false;
-			
-	
-
 		}
 
 
-		public function get game():MainGame
-		{
-			return _game;
-		}
 
-		public function set game(value:MainGame):void
-		{
-			_game = value;
-		}
 
+
+		/**
+		 * Planeta é populado com valores em ficheiro.
+		 */
 		public function resetPlaneta() {
 			// Loading dos dados do planeta
 			var dataPlanetas:XML = new XML();
@@ -99,59 +119,32 @@ package
 			xml_LoaderTecnologias.addEventListener(Event.COMPLETE, carregaTecnologiasOriginais);
 			
 		}
-
-		public function get jogador():Jogador
-		{
-			return _jogador;
-		}
-
-		public function set jogador(value:Jogador):void
-		{
-			_jogador = value;
-		}
-
-		public function init() {
-
-			
-
-			
-		}
 		
-		public function get tecnologias():Vector.<Tecnologia>
-		{
-			return _tecnologias;
-		}
 
-		public function set tecnologias(value:Vector.<Tecnologia>):void
-		{
-			_tecnologias = value;
+		public function atualizaEstadoTerraformacao() : void {
+			var estado : uint = 0;
+			for (var i : uint = 0; i < _dados.length; i++) {
+				estado += _dados[i].estadoTerraformacaoDado;
+			}
+			
+			_estadoTerraformacao = estado / _dados.length;
 		}
-
-		public function get nivel():uint
-		{
-			return _nivel;
-		}
-
-		public function set nivel(value:uint):void
-		{
-			_nivel = value;
-		}
-
 
 		
+		
+		/**
+		 * Carrega dados do planeta em ficheiro.
+		 * @see Parametro
+		 */
 		private function carregaPlanetaOriginal (e : Event) {
 			var data : XML = new XML(e.target.data);
 			
 			_nome = data.planeta[nivel-1].nome;
 			_distanciaEstrelaMae = data.planeta[nivel-1].distanciaEstrelaMae;
-			_periodoTranslacao = data.planeta[nivel-1].periodoTranslacao;
-			_periodoRotacao = data.planeta[nivel-1].periodoRotacao;
-			
-			var contadorColunas : uint = 0;
-			var contadorLinhas : uint = 0;
+
 			
 			for (var i : uint = 0; i<data.planeta[nivel-1].dado.length(); i++) {
-				_dados[i] = new Parametro(data.planeta.dado[i].nome, i, data.planeta.dado[i].parametro.valor, data.terra.dado[i].parametro.minimo, data.terra.dado[i].parametro.maximo);
+				_dados[i] = new Parametro(data.planeta[nivel-1].dado[i].nome, i, data.planeta[nivel-1].dado[i].parametro.valor, data.terra.dado[i].parametro.minimo, data.terra.dado[i].parametro.maximo);
 			}
 			
 			_loadersCompleted++;
@@ -161,16 +154,19 @@ package
 
 		}
 		
-		
+		/**
+		 * Carrega tecnologias em ficheiro.
+		 * @see Parametro
+		 * @see Tecnologia
+		 */
 		private function carregaTecnologiasOriginais (e : Event) {
 			var data : XML = new XML(e.target.data);
 			
-			for (var i : uint = 0; i<data.tecnologia.length(); i++) {
-				
+			for (var i : uint = 0; i<data.tecnologia.length(); i++) {	
 				tecnologias[i] = new Tecnologia(this, 0, data.tecnologia[i].nome, data.tecnologia[i].descricao, data.tecnologia[i].custos.minerio, data.tecnologia[i].custos.energia, _game.mainMovieClip);
 				for(var j : uint = 0; j<data.tecnologia[i].actions[0].*.length();j++) {
 					tecnologias[i].actions.push(new Parametro(data.tecnologia[i].actions.*[j].nome, i, data.tecnologia[i].actions.*[j].valor));
-					tecnologias[i].imagem.source = "media/tecnologias/tecnologia0.png";
+					tecnologias[i].imagem.source = "media/tecnologias/tecnologia" + i + ".jpg";
 				}
 				
 				// popula label com as consequencias desta tecnologia no planeta
@@ -185,15 +181,16 @@ package
 			_loadersCompleted++;
 			
 			if (_loadersCompleted == 2)
-				_game.init();
+				_game.loadCGI();
 		}
-		
 		
 
 		
-		// 
-		// Getters and Setters
-		// 
+
+		
+		/******************************************************
+		 * GETTERS & SETTERS
+		 ******************************************************/
 		
 		public function get dados():Vector.<Parametro>
 		{
@@ -204,9 +201,6 @@ package
 		{
 			_dados = value;
 		}
-
-		
-
 
 
 		public function get recursos():Recursos
@@ -220,7 +214,6 @@ package
 		}
 
 
-
 		public function get habitavel():Boolean
 		{
 			return _habitavel;
@@ -232,27 +225,6 @@ package
 		}
 
 
-
-		public function get periodoRotacao():Number
-		{
-			return _periodoRotacao;
-		}
-
-		public function set periodoRotacao(value:Number):void
-		{
-			_periodoRotacao = value;
-		}
-
-		public function get periodoTranslacao():Number
-		{
-			return _periodoTranslacao;
-		}
-
-		public function set periodoTranslacao(value:Number):void
-		{
-			_periodoTranslacao = value;
-		}
-
 		public function get distanciaEstrelaMae():Number
 		{
 			return _distanciaEstrelaMae;
@@ -263,8 +235,62 @@ package
 			_distanciaEstrelaMae = value;
 		}
 
-		public function atualizaAparencia() : void {
-			// TODO
+		
+		public function get game():MainGame
+		{
+			return _game;
+		}
+		
+		public function set game(value:MainGame):void
+		{
+			_game = value;
+		}
+		
+		public function get jogador():Jogador
+		{
+			return _jogador;
+		}
+		
+		public function set jogador(value:Jogador):void
+		{
+			_jogador = value;
+		}
+		
+		
+		public function get tecnologias():Vector.<Tecnologia>
+		{
+			return _tecnologias;
+		}
+		
+		public function set tecnologias(value:Vector.<Tecnologia>):void
+		{
+			_tecnologias = value;
+		}
+		
+		public function get nivel():uint
+		{
+			return _nivel;
+		}
+		
+		public function set nivel(value:uint):void
+		{
+			_nivel = value;
+		}
+		
+		/**
+		 * Estado de Terraformacao. 0 - mais parece uma rocha; 100 - um lar perfeito para se viver.
+		 */
+		public function get estadoTerraformacao():uint
+		{
+			return _estadoTerraformacao;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set estadoTerraformacao(value:uint):void
+		{
+			_estadoTerraformacao = value;
 		}
 	
 		

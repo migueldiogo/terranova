@@ -33,6 +33,8 @@ package
 		private var _main : MovieClip;
 		private var _container : MovieClip;
 		
+		private var _settingsButton : UILoader;
+		
 		public function Menu(main : MovieClip)
 		{
 			_main = main;
@@ -87,13 +89,16 @@ package
 			_container.addChild(carregarJogoButton);
 			carregarJogoButton.addEventListener(MouseEvent.CLICK, carregaJogoButtonClicked);
 
-			var settingsButton : SettingsIcon = new SettingsIcon;
-			settingsButton.buttonMode = true;
-			settingsButton.x = 15;
-			settingsButton.y = _main.stage.stageHeight - settingsButton.height - 15;
-			settingsButton.addEventListener(MouseEvent.CLICK, settings);
+			_settingsButton = new UILoader;
+			_settingsButton.source = "media/menu/menu2_32.png";
+			_settingsButton.scaleContent = false;
+			_settingsButton.x = 15;
+			_settingsButton.y = _main.stage.stageHeight - 32 - 15;
+			_settingsButton.addEventListener(MouseEvent.CLICK, settings);
+			_settingsButton.addEventListener(MouseEvent.MOUSE_OVER, overButton);
+			_settingsButton.addEventListener(MouseEvent.MOUSE_OUT, outButton);
 
-			_container.addChild(settingsButton);
+			_container.addChild(_settingsButton);
 			
 			
 			_main.addChild(_container);
@@ -118,8 +123,6 @@ package
 			inputDialog = new InputDialog(_main, "Escreve aqui o teu nome:");
 			inputDialog.okButton.addEventListener(MouseEvent.CLICK, okInput);
 			inputDialog.cancelarButton.addEventListener(MouseEvent.CLICK, cancelaInput);
-			inputDialog.backButton.visible = false;
-			inputDialog.backButton.enabled = false;
 
 			
 			_container.filters= [ new BlurFilter(10, 10, BitmapFilterQuality.HIGH) ];
@@ -213,8 +216,11 @@ package
 		
 		
 		public function settings(e : MouseEvent) {
-			//_sharedObject.clear();
-			//initSharedObject();
+			_settingsButton.alpha = 1;
+			_settingsButton.removeEventListener(MouseEvent.CLICK, settings);
+			_settingsButton.removeEventListener(MouseEvent.MOUSE_OVER, overButton);
+			_settingsButton.removeEventListener(MouseEvent.MOUSE_OUT, outButton);
+			
 			_container.filters= [ new BlurFilter(10, 10, BitmapFilterQuality.HIGH) ];
 
 			var settingsPanel : SettingsPanel = new SettingsPanel(this._main, this);
@@ -240,6 +246,10 @@ package
 		}
 		
 		private function voltarButtonClick (e : MouseEvent) {
+			_settingsButton.addEventListener(MouseEvent.CLICK, settings);
+			_settingsButton.addEventListener(MouseEvent.MOUSE_OVER, overButton);
+			_settingsButton.addEventListener(MouseEvent.MOUSE_OUT, outButton);
+			
 			var tween : Tween = new Tween(e.currentTarget, "x", Strong.easeInOut, 10, -40, 0.25, true);
 			tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
 			
@@ -248,11 +258,11 @@ package
 		}
 		
 		private function overButton (e : MouseEvent) {
-			e.currentTarget.alpha = 1;
+			e.currentTarget.alpha = 0.8;
 		}
 		
 		private function outButton (e : MouseEvent) {
-			e.currentTarget.alpha = 0.8;
+			e.currentTarget.alpha = 1;
 		}
 		
 		
@@ -265,7 +275,9 @@ package
 
 		
 		
-		
+		/******************************************************
+		 * GETTERS & SETTERS
+		 ******************************************************/
 		
 		public function get main():MovieClip
 		{

@@ -13,9 +13,7 @@ package
 	import fl.events.SliderEvent;
 	
 	
-	/**
-	 * EM CONSTRUCAO!!!!!!!!!!!!!!!!!!
-	 */
+
 	public class SettingsPanel extends MovieClip
 	{
 		private var _parentMovieClip : MovieClip;
@@ -50,17 +48,6 @@ package
 			graphics.endFill();
 			
 			
-			_graficos = new SliderOption(retangulo, "Qualidade dos Gráficos");
-			_graficos.slider.value = _sharedObject.data.graficos;
-			if (_graficos.slider.value == 0)
-				_graficos.valueLabel.text = "Baixa";
-			else if (_graficos.slider.value == 1)
-				_graficos.valueLabel.text = "Média";
-			else
-				_graficos.valueLabel.text = "Alta";
-
-			_graficos.slider.addEventListener(SliderEvent.CHANGE, graficosChanged);
-			//addChild(_graficos);
 			var titulo : TextField = new TextField();
 			titulo.defaultTextFormat = Pretty.HEADING_1;
 			titulo.text = "DEFINIÇÕES";
@@ -75,8 +62,8 @@ package
 			_musica.slider.minimum = 0;
 			_musica.slider.maximum = 100;
 			_musica.y += 30;
-			_musica.slider.x = _graficos.slider.x;
-			_musica.valueLabel.x = _graficos.valueLabel.x;
+			//_musica.slider.x = _graficos.slider.x;
+			//_musica.valueLabel.x = _graficos.valueLabel.x;
 			_musica.slider.value = _sharedObject.data.musica;
 			_musica.valueLabel.text = "" + _musica.slider.value;
 			_musica.slider.addEventListener(SliderEvent.CHANGE, musicaChanged);
@@ -84,16 +71,7 @@ package
 			
 			SoundMixer.soundTransform = new SoundTransform(_musica.slider.value / 100);
 
-/*
-			_resetSettingsButton = new Button();
-			_resetSettingsButton.width = popUpWidth - 10;
-			_resetSettingsButton.label = "Reset Settings";
-			_resetSettingsButton.x = popUpX + popUpWidth/2 - _resetSettingsButton.width/2;
-			_resetSettingsButton.y = popUpY + _musica.y + 40;
-			_resetSettingsButton.addEventListener(MouseEvent.CLICK, resetClicked);	
-			addChild(_resetSettingsButton);
-			*/
-			// button RESET
+
 			_resetJogadoresButton  = new Button();
 			_resetJogadoresButton.width = popUpWidth - 10;
 			_resetJogadoresButton.label = "Reset Jogadores";
@@ -108,7 +86,7 @@ package
 		}
 		
 		/**
-		 * atualiza jogo de acordo com definicoes
+		 * Atualiza jogo de acordo com definicoes.
 		 */
 		public static function loadSettings() {
 			var musica : uint = 0;
@@ -125,6 +103,7 @@ package
 
 			
 		}
+		
 		
 		private function initSettings() {
 			_sharedObject = SharedObject.getLocal("TerraNovaSettings");

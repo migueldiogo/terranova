@@ -6,8 +6,6 @@
 		private var _nome : String;
 		private var _temposMaximos : Vector.<uint>;
 		//private var _medalhas : int;						// a retirar ??????
-		//private var _planetas : Vector.<Planeta>;			// a retirar
-		//private var _proximoNivel : uint;
 		
 		public function Jogador(nome : String = "", temposMaximos : Vector.<uint> = null) {
 			_nome = nome;
@@ -22,22 +20,9 @@
 		{
 			return _temposMaximos.length + 1;;
 		}
-/*
-		public function set proximoNivel(value:uint):void
-		{
-			_proximoNivel = value;
-		}
-/*
-		public function get planetas():Vector.<Planeta>
-		{
-			return _planetas;
-		}
 
-		public function set planetas(value:Vector.<Planeta>):void
-		{
-			_planetas = value;
-		}
 
+/*
 		public function get medalhas():int
 		{
 			return _medalhas;

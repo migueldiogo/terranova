@@ -6,7 +6,13 @@
 	import flash.utils.getDefinitionByName;
 	//import ExplosionChain;
 	
+	/**
+	 * Mini-jogo ou Expedição
+	 */
 	public class MiniJogo1 extends MovieClip{
+		public static var COOLDOWN : uint = 120;
+
+		
 		var catcher:Catcher;
 		var nextObject:Timer;
 		// Array com todos os objectos
@@ -102,7 +108,7 @@
 							go.y = this.stage.stageHeight/2 - go.height/2;
 							addChild(go);
 							
-							_mainGame.miniJogoCoolDown = 120;
+							_mainGame.miniJogoCoolDown = COOLDOWN;
 							_mainGame.atualizaSimulacao(null);
 						}
 					}

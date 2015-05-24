@@ -16,7 +16,7 @@
             <parametro>
                 <valor>0</valor>
                 <minimo>0</minimo>
-                <maximo>0.35</maximo>
+                <maximo>0.1</maximo>
             </parametro>
         </dado>
         
@@ -25,7 +25,7 @@
             <parametro>
                 <valor>0</valor>
                 <minimo>0</minimo>
-                <maximo>0.35</maximo>
+                <maximo>0.1</maximo>
             </parametro>
         </dado>
         
@@ -34,14 +34,14 @@
             <parametro>
                 <valor>0</valor>
                 <minimo>0</minimo>
-                <maximo>0.35</maximo>
+                <maximo>0.1</maximo>
             </parametro>
         </dado>
         <dado>
             <nome>Temperatura</nome>
             <parametro>
                 <valor>15</valor>
-                <minimo>-10</minimo>
+                <minimo>-15</minimo>
                 <maximo>35</maximo>
             </parametro>
         </dado>
@@ -49,8 +49,8 @@
             <nome>Gravidade</nome>
             <parametro>
                 <valor>9.8</valor>
-                <minimo>8.5</minimo>
-                <maximo>10</maximo>
+                <minimo>6.5</minimo>
+                <maximo>12</maximo>
             </parametro>
         </dado>
         
@@ -109,47 +109,42 @@
             </parametro>
         </dado>
         
-
-        
-        
     </terra>
+
+
+
     
+<!-- NIVEL 1 -->
+
+
     <planeta>
-        <nome>Calipo</nome>
+        <nome>Nivel 1</nome>
         <nivel>1</nivel>
         <distanciaEstrelaMae>1.4</distanciaEstrelaMae>
         <dado type="recurso">
-            <nome>Taxa de Minerio</nome>
+            <nome>Taxa de Minério</nome>
             <parametro>
                 <valor>5</valor>
-                <minimo>NaN</minimo>
-                <maximo>NaN</maximo>
             </parametro>
         </dado>
         <dado type="catastrofe">
             <nome>Tsunami</nome>
             <parametro>
-                <valor>0.05</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.005</valor>
             </parametro>
         </dado>
         
         <dado type="catastrofe">
             <nome>Vulcao</nome>
             <parametro>
-                <valor>0.05</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.005</valor>
             </parametro>
         </dado>
         
         <dado type="catastrofe">
             <nome>Meteorito</nome>
             <parametro>
-                <valor>0.05</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.005</valor>
             </parametro>
         </dado>
         
@@ -157,8 +152,6 @@
             <nome>Temperatura</nome>
             <parametro>
                 <valor>10.3</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
             </parametro>
         </dado>
         
@@ -166,45 +159,34 @@
             <nome>Gravidade</nome>
             <parametro>
                 <valor>9.8</valor>
-                <minimo>8.5</minimo>
-                <maximo>10</maximo>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
-            <nome>Spin</nome>
+            <nome>Rotação</nome>
             <parametro>
                 <valor>24</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
-            <nome>Lapse</nome>
+            <nome>Translação</nome>
             <parametro>
                 <valor>412.4</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
             </parametro>
         </dado>
-        
-
         
         <dado type="atmosfera">
             <nome>CO2</nome>
             <parametro>
                 <valor>500</valor>
-                <minimo>100</minimo>
-                <maximo>400</maximo>
             </parametro>
         </dado>
+
         <dado type="atmosfera">
             <nome>Metano</nome>
             <parametro>
                 <valor>1.79</valor>
-                <minimo>0.5</minimo>
-                <maximo>3.0</maximo>
             </parametro>
         </dado>
         
@@ -213,8 +195,6 @@
             <nome>Oxigénio</nome>
             <parametro>
                 <valor>209460</valor>
-                <minimo>100000</minimo>
-                <maximo>400000</maximo>
             </parametro>
         </dado>
         
@@ -222,105 +202,88 @@
             <nome>Ozono</nome>
             <parametro>
                 <valor>0.085</valor>
-                <minimo>0.04</minimo>
-                <maximo>0.15</maximo>
             </parametro>
         </dado>
 
-
     </planeta>
-    
+
+
+
+
+
+<!-- NIVEL 2 -->
+
+
     <planeta>
-        <nome>Calipo</nome>
-        <nivel>1</nivel>
+        <nome>Nivel 2</nome>
+        <nivel>2</nivel>
         <distanciaEstrelaMae>1.4</distanciaEstrelaMae>
         <dado type="recurso">
-            <nome>Taxa de Minerio</nome>
+            <nome>Taxa de Minério</nome>
             <parametro>
                 <valor>5</valor>
-                <minimo>NaN</minimo>
-                <maximo>NaN</maximo>
             </parametro>
         </dado>
         <dado type="catastrofe">
             <nome>Tsunami</nome>
             <parametro>
-                <valor>0.</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.001</valor>
             </parametro>
         </dado>
         
         <dado type="catastrofe">
             <nome>Vulcao</nome>
             <parametro>
-                <valor>0</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.05</valor>
             </parametro>
         </dado>
         
         <dado type="catastrofe">
             <nome>Meteorito</nome>
             <parametro>
-                <valor>0</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.000</valor>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
             <nome>Temperatura</nome>
             <parametro>
-                <valor>10.3</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>25.3</valor>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
             <nome>Gravidade</nome>
             <parametro>
-                <valor>9.8</valor>
-                <minimo>8.5</minimo>
-                <maximo>10</maximo>
+                <valor>7</valor>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
-            <nome>Spin</nome>
+            <nome>Rotação</nome>
             <parametro>
-                <valor>24</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>16</valor>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
-            <nome>Lapse</nome>
+            <nome>Translação</nome>
             <parametro>
-                <valor>412.4</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>300</valor>
             </parametro>
         </dado>
-        
-        
         
         <dado type="atmosfera">
             <nome>CO2</nome>
             <parametro>
-                <valor>500</valor>
-                <minimo>100</minimo>
-                <maximo>400</maximo>
+                <valor>700</valor>
             </parametro>
         </dado>
+
         <dado type="atmosfera">
             <nome>Metano</nome>
             <parametro>
-                <valor>1.79</valor>
-                <minimo>0.5</minimo>
-                <maximo>3.0</maximo>
+                <valor>3.5</valor>
             </parametro>
         </dado>
         
@@ -328,115 +291,95 @@
         <dado type="atmosfera">
             <nome>Oxigénio</nome>
             <parametro>
-                <valor>209460</valor>
-                <minimo>100000</minimo>
-                <maximo>400000</maximo>
+                <valor>200000</valor>
             </parametro>
         </dado>
         
         <dado type="atmosfera">
             <nome>Ozono</nome>
             <parametro>
-                <valor>0.085</valor>
-                <minimo>0.04</minimo>
-                <maximo>0.15</maximo>
+                <valor>0.070</valor>
             </parametro>
         </dado>
-        
-        
+
     </planeta>
-    
+
+
+
+
+<!-- NIVEL 3 -->
+
+
     <planeta>
-        <nome>Calipo</nome>
-        <nivel>1</nivel>
+        <nome>Nivel 3</nome>
+        <nivel>3</nivel>
         <distanciaEstrelaMae>1.4</distanciaEstrelaMae>
         <dado type="recurso">
-            <nome>Taxa de Minerio</nome>
+            <nome>Taxa de Minério</nome>
             <parametro>
                 <valor>5</valor>
-                <minimo>NaN</minimo>
-                <maximo>NaN</maximo>
             </parametro>
         </dado>
         <dado type="catastrofe">
             <nome>Tsunami</nome>
             <parametro>
-                <valor>0</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.06</valor>
             </parametro>
         </dado>
         
         <dado type="catastrofe">
             <nome>Vulcao</nome>
             <parametro>
-                <valor>0</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.02</valor>
             </parametro>
         </dado>
         
         <dado type="catastrofe">
             <nome>Meteorito</nome>
             <parametro>
-                <valor>0</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>0.000</valor>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
             <nome>Temperatura</nome>
             <parametro>
-                <valor>10.3</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>25.3</valor>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
             <nome>Gravidade</nome>
             <parametro>
-                <valor>9.8</valor>
-                <minimo>8.5</minimo>
-                <maximo>10</maximo>
+                <valor>4.5</valor>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
-            <nome>Spin</nome>
+            <nome>Rotação</nome>
             <parametro>
-                <valor>24</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>10</valor>
             </parametro>
         </dado>
         
         <dado type="geodinamica">
-            <nome>Lapse</nome>
+            <nome>Translação</nome>
             <parametro>
-                <valor>412.4</valor>
-                <minimo>1</minimo>
-                <maximo>3</maximo>
+                <valor>300</valor>
             </parametro>
         </dado>
-        
-        
         
         <dado type="atmosfera">
             <nome>CO2</nome>
             <parametro>
-                <valor>500</valor>
-                <minimo>100</minimo>
-                <maximo>400</maximo>
+                <valor>400</valor>
             </parametro>
         </dado>
+
         <dado type="atmosfera">
             <nome>Metano</nome>
             <parametro>
-                <valor>1.79</valor>
-                <minimo>0.5</minimo>
-                <maximo>3.0</maximo>
+                <valor>2.3</valor>
             </parametro>
         </dado>
         
@@ -444,22 +387,16 @@
         <dado type="atmosfera">
             <nome>Oxigénio</nome>
             <parametro>
-                <valor>209460</valor>
-                <minimo>100000</minimo>
-                <maximo>400000</maximo>
+                <valor>200000</valor>
             </parametro>
         </dado>
         
         <dado type="atmosfera">
             <nome>Ozono</nome>
             <parametro>
-                <valor>0.085</valor>
-                <minimo>0.04</minimo>
-                <maximo>0.15</maximo>
+                <valor>0.1</valor>
             </parametro>
         </dado>
-        
-        
-    </planeta>
 
+    </planeta>
 </data>

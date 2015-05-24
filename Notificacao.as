@@ -25,6 +25,9 @@ package
 		private var _icon : UILoader;
 		private var _titulo : TextField;
 		
+		private var _tween : Tween;
+		private var _timer : Timer;
+		
 		private var _slot : uint;
 		public function Notificacao(parentMovieClip : MovieClip, x : int = 0, y : int = 0, windowWidth : Number = 100, windowHeight : Number = 100, slot : uint = 0)
 		{
@@ -99,25 +102,30 @@ package
 		}
 
 		public function start() {
-			var tween : Tween = new Tween(this, "x", Strong.easeOut, x, x - _windowWidth, 0.5, true);
-			tween.addEventListener(TweenEvent.MOTION_FINISH, notificationTweenFinish);
-			tween.start();
+			_tween = new Tween(this, "x", Strong.easeOut, x, x - _windowWidth, 0.5, true);
+			_tween.addEventListener(TweenEvent.MOTION_FINISH, notificationTweenFinish);
+			_tween.start();
 
 		}
 		
 		private function notificationTweenFinish(e : TweenEvent) {
-			var timerNotification : Timer = new Timer(3000, 1);
-			timerNotification.addEventListener(TimerEvent.TIMER_COMPLETE, notificationTimerFinish);
-			timerNotification.start();
+			e.target.removeEventListener(TweenEvent.MOTION_FINISH, notificationTweenFinish);
+			_timer = new Timer(3000, 1);
+			_timer.addEventListener(TimerEvent.TIMER_COMPLETE, notificationTimerFinish);
+			_timer.start();
 		}
 		
 		private function notificationTimerFinish(e : TimerEvent) {
-			var tween : Tween = new Tween(this, "x", Strong.easeOut, x, x + _windowWidth, 0.5, true);
-			tween.addEventListener(TweenEvent.MOTION_FINISH, notificationTweenFinishOut);
-			tween.start();
+			e.target.removeEventListener(TimerEvent.TIMER_COMPLETE, notificationTimerFinish);
+
+			_tween = new Tween(this, "x", Strong.easeOut, x, x + _windowWidth, 0.5, true);
+			_tween.addEventListener(TweenEvent.MOTION_FINISH, notificationTweenFinishOut);
+			_tween.start();
 		}
 		
 		private function notificationTweenFinishOut(e : TweenEvent) {
+			e.target.removeEventListener(TweenEvent.MOTION_FINISH, notificationTweenFinishOut);
+
 			_parentMovieClip.removeChild(this);
 			var event : Event = new Event(NOTIFICACAO_ACABOU);
 			dispatchEvent(event);

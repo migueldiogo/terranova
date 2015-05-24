@@ -1,5 +1,4 @@
 ﻿package  {
-	import flash.net.registerClassAlias;
 	
 	public class Recursos {
 
@@ -7,28 +6,24 @@
 		private var _energia : uint;
 		
 		private var _minerioTaxa : uint;
-		//private var _energiaTaxa : uint;
 		
 		public function Recursos() {
 			
-
+/*
 			minerio = 200;
 			energia = 300;
+			*/
+			
+			minerio = 2000000;
+			energia = 3000000;
 			_minerioTaxa = 5;
-			//_energiaTaxa = 0;
-		}
-		/*
-		public function get energiaTaxa():uint
-		{
-			return _energiaTaxa;
 		}
 
-	
-		public function set energiaTaxa(value:uint):void
-		{
-			_energiaTaxa = value;
-		}
-		*/
+		
+		/******************************************************
+		 * GETTERS & SETTERS
+		 ******************************************************/
+		
 		public function get minerioTaxa():uint
 		{
 			return _minerioTaxa;

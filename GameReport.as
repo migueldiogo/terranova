@@ -47,12 +47,12 @@ package
 			
 			
 			
-			texto.text = "Record Global: " + _pontuacaoRecordGlobal + "\n\nRecord Pessoal: " + _pontuacaoRecordPessoal + "\nPontuacao: " + _pontuacaoAgora;
+			texto.text = "Record Global: " + _pontuacaoRecordGlobal + "\n\nRecord Pessoal: " + _pontuacaoRecordPessoal + "\nPontuação: " + _pontuacaoAgora;
 			
 			addChild(texto);
 			
 			_nextLevelButton = new Button();
-			_nextLevelButton.label = "PROXIMO NIVEL";
+			_nextLevelButton.label = "NÍVEIS";
 			_nextLevelButton.x = popUpX + popUpWidth - _nextLevelButton.width - 10;
 			_nextLevelButton.y = popUpY + popUpHeight - _nextLevelButton.height - 10;
 			

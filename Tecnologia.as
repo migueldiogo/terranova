@@ -47,9 +47,6 @@
 		private var _minerioTextField : TextField;
 		private var _energiaTextField : TextField;
 		
-		
-		
-		
 		private var _parentMainDisplay : MovieClip;
 	
 		
@@ -67,23 +64,20 @@
 			_nomeTecnologia = nomeTecnologia;
 			_custoMinerioBase = _custoMinerioAtual = custoMinerioBase;
 			_custoEnergiaBase = _custoEnergiaAtual = custoEnergiaBase;
-			_descricao = descricao;
-			
-			trace("MINERIO" + ": " + _custoMinerioBase);
+			_descricao = descricao;			
 			
 			
-			
-			// LAYOUT
+			/**
+			 * LAYOUT DE UMA TECNOLOGIA
+			 */
 			_nomeTextField = new TextField();
 			_nomeTextField.x = 10;
 			_nomeTextField.y = 10;
 			_nomeTextField.defaultTextFormat = Pretty.HEADING_1;
 			_nomeTextField.text = _nomeTecnologia;
-			_nomeTextField.width = 170;
-			_nomeTextField.height = _nomeTextField.textHeight + 2;
+			_nomeTextField.width = _nomeTextField.textWidth + 5;
+			_nomeTextField.height = _nomeTextField.textHeight + 5;
 			_nomeTextField.selectable = false;
-			
-
 			addChild(_nomeTextField);
 			
 			_nivelTextField = new TextField();
@@ -91,7 +85,6 @@
 			_nivelTextField.x = _parentMainDisplay.stage.stageWidth/2 - 40;
 			_nivelTextField.y = _nomeTextField.y;
 			_nivelTextField.selectable = false;
-
 			_nivelTextField.text = "Nível " + _nivel;
 			addChild(_nivelTextField);
 			
@@ -122,7 +115,6 @@
 			_actionsTextField.y = _descricaoTextField.y + _descricaoTextField.height;
 			_actionsTextField.width = _descricaoTextField.width;
 			_actionsTextField.height = _imagem.height/2;
-			//addChild(_actionsTextField);	
 			
 			_custosTextField = new TextField();
 			_custosTextField.defaultTextFormat = Pretty.BODY_BOLD;
@@ -131,7 +123,6 @@
 			_custosTextField.width = _descricaoTextField.width;
 			_custosTextField.defaultTextFormat.align = TextFormatAlign.RIGHT;
 			_custosTextField.selectable = false;
-			//addChild(_custosTextField);	
 					
 			
 			_demolirButton = new Button();
@@ -146,10 +137,7 @@
 			_evoluirButton.label = "EVOLUIR";
 			_evoluirButton.x= _demolirButton.x - _evoluirButton.width - 10;
 			_evoluirButton.y = _nomeTextField.y;
-			addChild(_evoluirButton);
-			
-			//atualizaCustos();
-			
+			addChild(_evoluirButton);			
 			
 			
 			_custoMinerioAtual = _custoMinerioBase*Math.pow(2, _nivel);
@@ -223,7 +211,7 @@
 
 
 		/**
-		 * Funcao despoletadora da evolucao de uma tecnologia ao clicar no botao de "evoluir"
+		 * Função despoletadora da evolução de uma tecnologia ao clicar no botao de "evoluir".
 		 */
 		public function evoluiTecnologia (e : MouseEvent) {
 
@@ -238,13 +226,10 @@
 		}	
 		
 		
-
-		
 		/**
 		 * Funcao despoletadora da venda de uma tecnologia ao clicar no botao de "vender"
 		 */
 		public function vendeTecnologia (e : MouseEvent) {
-			//TODO
 			parent.filters = [ new BlurFilter(5, 5, BitmapFilterQuality.HIGH) ];
 			
 			var popUpContainer : Sprite = new Sprite();
@@ -291,20 +276,16 @@
 			_cancelarButton.x = _okButton.x - _okButton.width - 10;
 			_cancelarButton.y = _okButton.y;
 			_cancelarButton.addEventListener(MouseEvent.CLICK, cancelaVenda);
-
-			
-			
 			popUpContainer.addChild(_cancelarButton);
 			
+			
 			_parentMainDisplay.addChild(popUpContainer);
-			
-			
-			
-			
-			
-			
+	
 		}
 		
+		/**
+		 * Confirma ação da demolição.
+		 */
 		private function confirmaVenda(e : MouseEvent) {
 			
 			// consequencias para os dados
@@ -342,11 +323,9 @@
 
 
 		/**
-		 * Atualiza actions para proximo nivel
+		 * Atualiza actions para próximo nivel.
 		 */
 		public function atualizaActions() : void {
-			
-
 			var texto : String = "";
 			var colunas = 0;
 			var linhas = 0;
@@ -361,8 +340,6 @@
 					icon.height = 16;
 					icon.source = "media/parametros/data" + i + "_16.png";
 					addChild(icon);
-					
-
 					
 					
 					var sinal : String = "";
@@ -384,34 +361,28 @@
 					}	
 					else {
 						colunas++;
-				}
+					}
 
-					
 				}
 				
 			}
 
-			//actionsLabel.setStyle("textFormat", Pretty.BODY);
-			//_actionsTextField.htmlText = texto;	
-			trace(texto);
-			
-			
 		}
 		
 		/**
-		 * Atualiza custos da tecnologia, nivel e aplica as actions no planeta
+		 * Atualiza custos da tecnologia e altera planeta.
 		 */
 		public function atualizaTecnologia() : void {
 			// atualiza custo para proximo nivel e nivel
 			atualizaCustos();
-			// altera planeta
-			alteraPlaneta(true);
 			
-			// atualiza actions da tecnologia do proximo nivel
-			//atualizaActions();
-
+			// altera planeta
+			alteraPlaneta();
 		}
 		
+		/**
+		 * Atualiza custos da tecnologia.
+		 */
 		public function atualizaCustos() {			
 			_custoMinerioAtual = _custoMinerioBase*Math.pow(2, _nivel);
 			_custoEnergiaAtual = _custoEnergiaBase*Math.pow(2, _nivel);
@@ -449,12 +420,17 @@
 		}
 		
 		/**
-		 * altera o planeta com actions da tecnologia recem evoluida
+		 * Altera o planeta com actions da tecnologia recém evoluída.
 		 */
-		public function alteraPlaneta(direcao : Boolean) : void {
+		public function alteraPlaneta() : void {
 			// consequencias para o planeta
 			for (var i : uint = 0; i < planeta.dados.length; i++) {
-				planeta.dados[i].valor += actions[i].valor;
+				if ((planeta.dados[i].valor + actions[i].valor) >= planeta.dados[i].valorMaximoDominio)
+					planeta.dados[i].valor = planeta.dados[i].valorMaximoDominio;
+				else if ((planeta.dados[i].valor + actions[i].valor) <= planeta.dados[i].valorMinimoDominio)
+					planeta.dados[i].valor = planeta.dados[i].valorMinimoDominio;	
+				else	
+					planeta.dados[i].valor += actions[i].valor;
 				
 				// arredonda consoante precisao definida
 				planeta.dados[i].valor = Math.round(planeta.dados[i].valor * PRECISAO_NUMBER) / PRECISAO_NUMBER;
@@ -467,11 +443,10 @@
 		
 		
 		
-		//
-		// GETTERS AND SETTERS
-		//
+		/******************************************************
+		 * GETTERS & SETTERS
+		 ******************************************************/
 		
-
 		public function get descricao():String
 		{
 			return _descricao;

@@ -90,7 +90,7 @@
     <categoria>Recursos</categoria>
     <custos>
         <minerio>-200</minerio>
-        <energia>100</energia>
+        <energia>200</energia>
     </custos>
     <actions>
         <taxaMinerio type="recursos">
@@ -189,13 +189,13 @@
             </Vulcoes>
             
             <Meteoritos type="catastrofe">
-                <nome>Temperatura</nome>
-                <valor>0</valor>
+                <nome>Meteoritos+</nome>
+                <valor>-0</valor>
             </Meteoritos>
             
             <Temperatura type="geodinamica">
                 <nome>Temperatura</nome>
-                <valor>1.2</valor>
+                <valor>-0.5</valor>
             </Temperatura>
             
             <Gravidade type="geodinamica">
@@ -234,7 +234,7 @@
             
             <O3 type="atmosfera">
                 <nome>O3</nome>
-                <valor>0</valor>
+                <valor>0.005</valor>
             </O3 type="atmosfera">
             
 
@@ -251,8 +251,8 @@
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
         <categoria>Atmosfera</categoria>
         <custos>
-            <minerio>-315</minerio>
-            <energia>40</energia>
+            <minerio>-415</minerio>
+            <energia>-100</energia>
         </custos>
         <actions>
             <Minerio type="recursos">
@@ -277,7 +277,7 @@
             
             <Temperatura type="geodinamica">
                 <nome>Temperatura</nome>
-                <valor>0</valor>
+                <valor>-1</valor>
             </Temperatura>
             
             <Gravidade type="geodinamica">
@@ -305,7 +305,7 @@
             
             <CH4 type="atmosfera">
                 <nome>CH4</nome>
-                <valor>0.1</valor>
+                <valor>-0.3</valor>
                 
             </CH4>
             
@@ -327,14 +327,14 @@
     </tecnologia>
     
     <tecnologia>
-        <nome>Incentivo Nuclear</nome>
-        <descricao>O Incentivo Nuclear, nome dado pelo cientista e vencedor de um Nobel da Física em 2034, é um procedimento que é efetuado quando um planeta não exerce gravidade semelhante ao planeta Terra. Esta expedição consiste numa nave remota que se entranha nas várias camadas extraterrestres do planeta e explode diversas bombas de hidrogénio de modo a que o astro rode mais depressa, aumentando assim a aceleração centrífuga cuja a força simula um aumento de gravidade.
+        <nome>Incubadora Animal</nome>
+        <descricao>A Incubadora Animal é uma infraestrutura responsável pela recriação de mamíferos existentes na Terra por sintetização do seu adn.
         </descricao>
         <imageURL>data/tecnologiasImages/FC.png</imageURL>
-        <categoria>Atmosfera</categoria>
+        <categoria>Vida</categoria>
         <custos>
-            <minerio>-550</minerio>
-            <energia>300</energia>
+            <minerio>-2000</minerio>
+            <energia>-500</energia>
         </custos>
         <actions>
             <Minerio type="recursos">
@@ -370,7 +370,89 @@
             
             <Spin type="geodinamica">
                 <nome>Spin</nome>
-                <valor>2</valor>
+                <valor>0</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            
+            
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
+                <valor>-100</valor>
+            </CO2>
+            
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
+                <valor>0.2</valor>
+                
+            </CH4>
+            
+            <O2 type="atmosfera">
+                <nome>O2</nome>
+                <valor>-20000</valor>
+            </O2>
+            
+            <O3 type="atmosfera">
+                <nome>O3</nome>
+                <valor>-0.02</valor>
+            </O3 type="atmosfera">
+            
+            
+            
+            
+            
+        </actions>
+    </tecnologia>
+    
+    <tecnologia>
+        <nome>Incentivo Nuclear</nome>
+        <descricao>O Incentivo Nuclear consiste numa expedição cuja a nave se entranha nas várias camadas extraterrestres do planeta e explode diversas bombas de hidrogénio de modo a que o astro rode mais depressa.
+        </descricao>
+        <imageURL>data/tecnologiasImages/FC.png</imageURL>
+        <categoria>Terrestre</categoria>
+        <custos>
+            <minerio>-950</minerio>
+            <energia>-200</energia>
+        </custos>
+        <actions>
+            <Minerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>0</valor>
+            </Minerio>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>-0.005</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Meteoritos</nome>
+                <valor>0.005</valor>
+            </Meteoritos>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Temperatura>
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>1</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>5</valor>
             </Spin>
             
             <Lapse type="geodinamica">
@@ -403,6 +485,84 @@
 
             
 
+            
+        </actions>
+    </tecnologia>
+    
+    <tecnologia>
+        <nome>Reator de Hidrogénio</nome>
+        <descricao>
+            A energia do hidrogênio é a energia que se obtém da combinação do hidrogênio com o oxigênio produzindo vapor de água e libertando energia que é convertida em eletricidade.
+        </descricao>
+        <imageURL>data/tecnologiasImages/FC.png</imageURL>
+        <categoria>Terrestre</categoria>
+        <custos>
+            <minerio>-1000</minerio>
+            <energia>500</energia>
+        </custos>
+        <actions>
+            <Minerio type="recursos">
+                <nome>Taxa Minerio</nome>
+                <valor>0</valor>
+            </Minerio>
+            
+            <Tsunamis type="catastrofe">
+                <nome>Spin</nome>
+                <valor>-0.005</valor>
+            </Tsunamis>
+            
+            <Vulcoes type="catastrofe">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Vulcoes>
+            
+            <Meteoritos type="catastrofe">
+                <nome>Meteoritos</nome>
+                <valor>0</valor>
+            </Meteoritos>
+            
+            <Temperatura type="geodinamica">
+                <nome>Temperatura</nome>
+                <valor>0</valor>
+            </Temperatura>
+            
+            <Gravidade type="geodinamica">
+                <nome>Gravidade</nome>
+                <valor>0</valor>
+            </Gravidade>
+            
+            
+            <Spin type="geodinamica">
+                <nome>Spin</nome>
+                <valor>0</valor>
+            </Spin>
+            
+            <Lapse type="geodinamica">
+                <nome>Lapse</nome>
+                <valor>0</valor>
+            </Lapse>
+            
+            
+            <CO2 type="atmosfera">
+                <nome>CO2</nome>
+                <valor>0</valor>
+            </CO2>
+            
+            <CH4 type="atmosfera">
+                <nome>CH4</nome>
+                <valor>0</valor>
+                
+            </CH4>
+            
+            <O2 type="atmosfera">
+                <nome>O2</nome>
+                <valor>-50000</valor>
+            </O2>
+            
+            <O3 type="atmosfera">
+                <nome>O3</nome>
+                <valor>0</valor>
+            </O3 type="atmosfera">
             
         </actions>
     </tecnologia>

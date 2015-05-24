@@ -15,19 +15,11 @@ package
 		private var _inputText : TextInput;
 		private var _okButton : Button;
 		private var _cancelarButton : Button;
-		private var _backButton : BackArrow;
 
 		
 		public function InputDialog(parent : MovieClip, descricao : String = "")
 		{
 			super();
-			
-			// seta para volta para tras
-			backButton = new BackArrow();
-			backButton.buttonMode = true;
-			backButton.x = 15;
-			backButton.y = 15;
-			addChild(backButton);
 			
 			var popUpWidth : Number = parent.stage.stageWidth/2;
 			var popUpHeight : Number = parent.stage.stageHeight/2-130;
@@ -89,16 +81,6 @@ package
 		
 		
 		
-		public function get backButton():BackArrow
-		{
-			return _backButton;
-		}
-
-		public function set backButton(value:BackArrow):void
-		{
-			_backButton = value;
-		}
-
 		public function get cancelarButton():Button
 		{
 			return _cancelarButton;
