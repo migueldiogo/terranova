@@ -17,19 +17,16 @@ package
 		private var _list : List;
 		
 		
-		public function LoadDialog(parentMenu : Menu)
+		public function LoadDialog(parentMovieClip : MovieClip)
 		{
 			super();
 
-			var jogadoresNomes : Array = new Array(parentMenu.sharedObject.data.jogadores.length);
 			_list = new List();
 			_list.width = 400;
 			_list.height = 200;
-			_list.x = parentMenu.main.stage.stageWidth/2 - _list.width/2;
-			_list.y = parentMenu.main.stage.stageHeight/2 - _list.height/2;
+			_list.x = parentMovieClip.stage.stageWidth/2 - _list.width/2;
+			_list.y = parentMovieClip.stage.stageHeight/2 - _list.height/2;
 			_list.setRendererStyle("textFormat", Pretty.HEADING_1);
-
-			
 
 			addChild(_list);
 			

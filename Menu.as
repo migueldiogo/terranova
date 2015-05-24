@@ -132,8 +132,19 @@ package
 		
 		
 		public function okInput (e : MouseEvent) {
+			var jogadorErrado : TextField = new TextField();
+			jogadorErrado.defaultTextFormat = Pretty.ERRO;
+			jogadorErrado.x =  inputDialog.inputText.x;
+			jogadorErrado.y = inputDialog.inputText.y + inputDialog.inputText.height + 1;
+			jogadorErrado.width = inputDialog.inputText.width;
+			jogadorErrado.height = 18;
+
+			jogadorErrado.text = "Nome de Jogador inválido ou já existente.";
+			jogadorErrado.visible = false;
+			inputDialog.addChild(jogadorErrado);
+			
 			if (inputDialog.inputText.text == "") {
-				trace("JOGADOR MAL INPUTADO");
+				jogadorErrado.visible = true;
 			}
 			else {
 				var encontrado : Boolean = false;
@@ -144,7 +155,7 @@ package
 				
 				if (encontrado) {
 					trace("JOGADOR JA EXISTE");
-					inputDialog.okButton.label = "MAL";
+					jogadorErrado.visible = true;
 				}
 				else {
 					trace("JOGADOR VALIDO");
@@ -181,7 +192,7 @@ package
 		public function carregaJogoButtonClicked(e : MouseEvent) {
 			
 			// lista nomes de jogadores em cache
-			var loadDialog : LoadDialog = new LoadDialog(this);
+			var loadDialog : LoadDialog = new LoadDialog(this._main);
 			
 			for (var i : uint = 0; i < _sharedObject.data.jogadores.length; i++) {
 				loadDialog.list.addItem({label: _sharedObject.data.jogadores[i].nome, data: i});

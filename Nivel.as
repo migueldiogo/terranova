@@ -22,7 +22,7 @@
 			
 			
 			_imagem = new UILoader();
-			_imagem.source = "media/niveis/nivel" + (_numeroNivel-1) + ".png";
+			_imagem.source = "media/niveis/world_azul.png";
 			_imagem.maintainAspectRatio = true;
 			_imagem.scaleContent = false;
 			_imagem.x = 0;

@@ -11,6 +11,7 @@ package
 		public static var HEADING_2 : TextFormat;
 		public static var BODY_BOLD : TextFormat;
 		public static var BODY : TextFormat;
+		public static var ERRO : TextFormat;
 
 		public static var COLOR_PURPLE_1 : String;
 		public static var COLOR_POPUP : String;
@@ -59,6 +60,11 @@ package
 			COLOR_GREEN_PALE = "0x336633";
 			COLOR_RED_PALE = "0x990033";
 
+			ERRO = new TextFormat();
+			ERRO.color = "0xFF0000";
+			ERRO.bold = false;
+			ERRO.font = "Arial";
+			ERRO.size = 12;
 
 		}
 		

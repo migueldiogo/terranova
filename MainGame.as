@@ -48,16 +48,8 @@
 		 */
 		private var _terceiraCamada : MovieClip;
 		
-		/**
-		 * Um MovieClip - conteudo em segunda camada.
-		 * @see _mainMovieClip
-		 */
 		private var _segundaCamada : MovieClip;
 		
-		/**
-		 * Um MovieClip - conteudo em primeira camada.
-		 * @see _mainMovieClip
-		 */
 		private var _primeiraCamada : MovieClip;
 
 		
@@ -77,17 +69,8 @@
 		 */
 		private var _miniJogoCoolDown : uint = 0;
 
-		/**
-		 * Nível associado à simulação.
-		 */
 		private var _nivel : uint;
-		/**
-		 * Jogador associado à simulação.
-		 */
 		private var _jogador : Jogador;
-		/**
-		 * Tempo record global do nível desta simulação.
-		 */
 		private var _tempoRecordGlobal : uint;
 		/**
 		 * Quantidade de notificações em ecrã.
@@ -105,10 +88,8 @@
 		 * Musica de Bacground
 		 */
 		private var _musicaBackground : Sound;
-		/**
-		 * Canal sonoro
-		 */
 		private var _soundChannel : SoundChannel;
+		private var _gameReport : GameReport;
 		
 		
 		
@@ -180,9 +161,14 @@
 		private var _clockDisplay : TextField;
 		
 		/**
+		 * Icon do Clock.
+		 */
+		private var _clockIcon : UILoader;
+		
+		/**
 		 * Tween para animar alguns elementos.
 		 */
-		private var tween : Tween;
+		private var _tween : Tween;
 
 		
 		
@@ -206,7 +192,7 @@
 		/**
 		 * Instancia do modelo 3D.
 		 */
-		private var sistemaPlanetario : SistemaPlanetario;
+		private var _sistemaPlanetario : SistemaPlanetario;
 		
 
 		/**
@@ -273,37 +259,36 @@
 			_laboratorio.visible = false;
 			
 			
-			
-			
-			_clock = 0;
 			_clockDisplay = new TextField();
-			_clockDisplay.text = intToTime(_clock);
+			_menuButton = new UILoader;
+			_headerRecursos = new Sprite();
+			_minerioIcon = new UILoader();
+			_minerioTextField = new TextField();
+			_energiaIcon = new UILoader();
+			_energiaTextField = new TextField();
 			
+			_clockIcon = new UILoader();
+			_pauseAndPlayButton = new PausePlayButton();
+			_notificacoesSlotsFree = new Vector.<Boolean>();
+
+
+			
+			_timerUpdate = new Timer(1000, 1);
+			_timerUpdate.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaSimulacao);
+			
+			_timerUpdateCGI = new Timer(1000/24, 1);
+			_timerUpdateCGI.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaCGI);
+
 			_planeta = new Planeta(this, _jogador, _nivel);
+			
 			
 			_planeta.resetPlaneta();
 			
-
-
-			
+	
 		}
 		
 
-		/**
-		 * Timer da simulação.
-		 */
-		public function get timerUpdate():Timer
-		{
-			return _timerUpdate;
-		}
 
-		/**
-		 * @private
-		 */
-		public function set timerUpdate(value:Timer):void
-		{
-			_timerUpdate = value;
-		}
 
 		/**
 		 * Carrega as texturas do modelo CGI.
@@ -328,6 +313,7 @@
 		
 		private function texturasCompleted (e : Event) {
 			_loadersTexturasCompleted++;
+			init();
 			initCGI();
 		}
 		
@@ -339,7 +325,7 @@
 		/**
 		 * Inicia modelo 3D após as texturas estarem devidamente carregadas.
 		 */
-		private function initCGI() {
+		public function initCGI() {
 			if (_loadersTexturasCompleted == 3) {
 				_estadoTerraformacaoCGI = 0;
 				_corAtmosferaCGI = 0x000000;
@@ -349,18 +335,18 @@
 
 				
 				_anguloRotacao = 0;
-				sistemaPlanetario = new SistemaPlanetario(_primeiraCamada.stage.stageWidth/2, _primeiraCamada.stage.stageHeight/2 - 50, 40, 40, 155, Bitmap(_loaderTexturaInicial.content).bitmapData, Bitmap(_loaderTexturaFinal.content).bitmapData);
+				_sistemaPlanetario = new SistemaPlanetario(_primeiraCamada.stage.stageWidth/2, _primeiraCamada.stage.stageHeight/2 - 50, 40, 40, 155, Bitmap(_loaderTexturaInicial.content).bitmapData, Bitmap(_loaderTexturaFinal.content).bitmapData);
 				//sistemaPlanetario.setatmosfera(0x66CCCC);
-				sistemaPlanetario.setatmosfera(0x000000)
-				sistemaPlanetario.addLua(55, 290, Bitmap(_loaderTexturaLua.content).bitmapData);
+				_sistemaPlanetario.setatmosfera(0x000000)
+				_sistemaPlanetario.addLua(55, 290, Bitmap(_loaderTexturaLua.content).bitmapData);
 				
-				_segundaCamada.addChild(sistemaPlanetario);
+				_segundaCamada.addChild(_sistemaPlanetario);
 				_segundaCamada.addChild(_barraTerraformacaoCGI);
 				
-				sistemaPlanetario.cacheAsBitmap = true;
+				_sistemaPlanetario.cacheAsBitmap = true;
 				// inicia animacao CGI
 				setTimerCGI();	
-				init();
+				//init();
 			}
 		}
 
@@ -368,7 +354,11 @@
 		 * Inicia o ecrã de jogo.
 		 */
 		public function init() : void {
-
+			
+			// clock a zero
+			_clock = 0;
+			_clockDisplay.text = intToTime(_clock);
+			
 			// importa e formata dados do planeta para o ecra
 			importaDadosDoPlaneta();
 			
@@ -376,7 +366,6 @@
 			importaTecnologiasDoPlaneta();
 	
 			// BUTAO MENU
-			_menuButton = new UILoader;
 			_menuButton.maintainAspectRatio = true;
 			_menuButton.scaleContent = false;
 			_menuButton.source = "media/header/menu_20.png";
@@ -388,9 +377,7 @@
 			_primeiraCamada.addChild(_menuButton);
 
 			// HEADER
-			_headerRecursos = new Sprite();
 				// minerio - icon
-			_minerioIcon = new UILoader();
 			_minerioIcon.scaleContent = false;
 			_minerioIcon.maintainAspectRatio = true;
 			_minerioIcon.source = "media/header/minerio_32.png";
@@ -398,7 +385,6 @@
 			_minerioIcon.y = 0;
 			_headerRecursos.addChild(_minerioIcon);
 				// minerio - label
-			_minerioTextField = new TextField();
 			_minerioTextField.defaultTextFormat = Pretty.HEADING_1;
 			_minerioTextField.selectable = false;
 			_minerioTextField.text = "Minerio: " + _planeta.recursos.minerio;
@@ -408,7 +394,6 @@
 			_minerioTextField.y = 4;
 			_headerRecursos.addChild(_minerioTextField);
 				// energia - icon
-			_energiaIcon = new UILoader();
 			_energiaIcon.scaleContent = false;
 			_energiaIcon.maintainAspectRatio = true;
 			_energiaIcon.source = "media/header/energia_32.png";
@@ -416,7 +401,6 @@
 			_energiaIcon.y = 0;
 			_headerRecursos.addChild(_energiaIcon);
 				// energia - label
-			_energiaTextField = new TextField();
 			_energiaTextField.defaultTextFormat = Pretty.HEADING_1;
 			_energiaTextField.selectable = false;
 			_energiaTextField.text = "Energia: " + _planeta.recursos.energia;
@@ -443,30 +427,29 @@
 			_clockDisplay.text = intToTime(_clock);
 			_primeiraCamada.addChild(_clockDisplay);
 				// icon
-			var clockIcon : UILoader = new UILoader();
-			clockIcon.scaleContent = false;
-			clockIcon.maintainAspectRatio = true;
-			clockIcon.source = "media/header/time.png";
-			clockIcon.x = _clockDisplay.x - 20;
-			clockIcon.y = _clockDisplay.y + 3;
-			_primeiraCamada.addChild(clockIcon);
+			_clockIcon.scaleContent = false;
+			_clockIcon.maintainAspectRatio = true;
+			_clockIcon.source = "media/header/time.png";
+			_clockIcon.x = _clockDisplay.x - 20;
+			_clockIcon.y = _clockDisplay.y + 3;
+			_primeiraCamada.addChild(_clockIcon);
 			
 			// PAUSE AND PLAY BUTTON
-			_pauseAndPlayButton = new PausePlayButton();
+			_pauseAndPlayButton.setPause();
 			_pauseAndPlayButton.addEventListener(MouseEvent.CLICK, pauseAndPlayButtonClicked);
+			_pauseAndPlayButton.addEventListener(MouseEvent.MOUSE_OVER, overButton);
+			_pauseAndPlayButton.addEventListener(MouseEvent.MOUSE_OUT, outButton);
 			_pauseAndPlayButton.scaleX = 0.5;
 			_pauseAndPlayButton.scaleY = 0.5;
 			_pauseAndPlayButton.x = _clockDisplay.x + _clockDisplay.textWidth + 10;
 			_pauseAndPlayButton.y = _menuButton.y - 2;
-			_pauseAndPlayButton.addEventListener(MouseEvent.MOUSE_OVER, overButton);
-			_pauseAndPlayButton.addEventListener(MouseEvent.MOUSE_OUT, outButton);
+
 			_primeiraCamada.addChild(_pauseAndPlayButton);
 			
 			// NOTIFICACOES
 				// quantas notificacoes em ecra
 			_notificacoesOnScreen = 0;
 				// quais os slots livres, usado para indicar qual o slot de notificacao a ocupar
-			_notificacoesSlotsFree = new Vector.<Boolean>();
 			_notificacoesSlotsFree[0] = true;
 			_notificacoesSlotsFree[1] = true;
 			_notificacoesSlotsFree[2] = true;
@@ -476,6 +459,7 @@
 			_musicaBackground.load(new URLRequest("media/musica/Time_in_Music.mp3"));
 			_soundChannel = _musicaBackground.play(0, int.MAX_VALUE);
 			
+			//initCGI();
 
 		}
 		
@@ -491,8 +475,6 @@
 		 * @see atualizaSimulacao
 		 */
 		public function setTimer() : void {
-			_timerUpdate = new Timer(1000, 1);
-			_timerUpdate.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaSimulacao);
 			_timerUpdate.start();
 		}
 		
@@ -501,8 +483,6 @@
 		 * @see atualizaSimulacao
 		 */
 		public function setTimerCGI() : void {
-			_timerUpdateCGI = new Timer(1000/24, 1);
-			_timerUpdateCGI.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaCGI);
 			_timerUpdateCGI.start();
 		}
 		
@@ -543,8 +523,8 @@
 				_corAtmosferaCGI -= 0x000001;
 							
 			// redesenha o CGI
-			sistemaPlanetario.desenha(_anguloRotacao, _anguloRotacao, _anguloRotacao, _estadoTerraformacaoCGI);
-			sistemaPlanetario.setatmosfera(_corAtmosferaCGI);
+			_sistemaPlanetario.desenha(_anguloRotacao, _anguloRotacao, _anguloRotacao, _estadoTerraformacaoCGI);
+			_sistemaPlanetario.setatmosfera(_corAtmosferaCGI);
 			
 			// atualiza barra de terraformacao do CGI
 			_barraTerraformacaoCGI.atualiza(_estadoTerraformacaoCGI);
@@ -688,9 +668,9 @@
 				}
 				
 				// apresenta relatorio de fim de jogo
-				var gameReport : GameReport = new GameReport(_mainMovieClip, _tempoRecordGlobal, tempoRecordPessoal, _clock);
-				gameReport.addEventListener(MouseEvent.CLICK, nextLevelButton);
-				_mainMovieClip.addChild(gameReport);
+				_gameReport = new GameReport(_mainMovieClip, _tempoRecordGlobal, tempoRecordPessoal, _clock);
+				_gameReport.addEventListener(MouseEvent.CLICK, nextLevelButton);
+				_mainMovieClip.addChild(_gameReport);
 				
 				// desfoca ecra de tras
 				_terceiraCamada.filters = [new BlurFilter(10, 10, BitmapFilterQuality.HIGH)];
@@ -698,22 +678,6 @@
 				trace("VITORIA");
 				
 			}
-			
-			/*
-			// se o menu estiver a ser apresentado...
-			if (_menuGame != null) {
-				// se o mini-jogo/expedicao estiver em cooldown...
-				if (miniJogoCoolDown > 0) {
-					// apresenta o cooldown no icon e atualiza-o
-					_menuGame.miniJogoCoolDownCounter.visible = true;
-					_menuGame.miniJogoCoolDownCounter.text = "" + miniJogoCoolDown;
-				}
-				else {
-					// nao apresenta o display do cooldown
-					_menuGame.miniJogoCoolDownCounter.visible = false;
-				}
-			}
-			*/
 
 			
 		}
@@ -802,10 +766,79 @@
 		 * Quando o botão "proximo nivel" no relatório do fim do nível é premido.
 		 */
 		private function nextLevelButton(e : MouseEvent) {
+			_gameReport.removeEventListener(MouseEvent.CLICK, nextLevelButton);
+
 			_soundChannel.stop();
 			_mainMovieClip.removeChild(e.target.parent);
+			_mainMovieClip.removeChild(_primeiraCamada);
 			_mainMovieClip.removeChild(_segundaCamada);
+			_mainMovieClip.removeChild(_terceiraCamada);
 			new Niveis(_mainMovieClip, _jogador);
+		}
+		
+		
+		/**
+		 * Limpa jogo
+		 */
+		public function clean() {
+			_tween.removeEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
+			_loaderTexturaInicial.contentLoaderInfo.removeEventListener(Event.COMPLETE, texturasCompleted);
+			_loaderTexturaLua.contentLoaderInfo.removeEventListener(Event.COMPLETE, texturasCompleted);
+			_loaderTexturaFinal.contentLoaderInfo.removeEventListener(Event.COMPLETE, texturasCompleted);
+			
+			_menuButton.removeEventListener(MouseEvent.CLICK, menuButtonClick);
+			_menuButton.removeEventListener(MouseEvent.MOUSE_OVER, overButton);
+			_menuButton.removeEventListener(MouseEvent.MOUSE_OUT, outButton);
+			
+			_pauseAndPlayButton.removeEventListener(MouseEvent.CLICK, pauseAndPlayButtonClicked);
+			_pauseAndPlayButton.removeEventListener(MouseEvent.MOUSE_OVER, overButton);
+			_pauseAndPlayButton.removeEventListener(MouseEvent.MOUSE_OUT, outButton);
+			_timerUpdate.removeEventListener(TimerEvent.TIMER_COMPLETE, atualizaSimulacao);
+			_timerUpdateCGI.removeEventListener(TimerEvent.TIMER_COMPLETE, atualizaCGI);
+			
+			_timerUpdate.reset();
+			_timerUpdateCGI.reset();
+
+	
+			//_planeta.tecnologias[i].demolirButton.removeEventListener(MouseEvent.CLICK, _planeta.tecnologias[i].vendeTecnologia);
+			//_planeta.tecnologias[i].evoluirButton.removeEventListener(MouseEvent.CLICK, _planeta.tecnologias[i].evoluiTecnologia);
+		}
+		
+		
+		
+		/**
+		 * Reset ao nivel.
+		 */
+		public function reset() {
+			
+			//_soundChannel.stop();
+			_mainMovieClip.removeChild(_primeiraCamada);
+			_mainMovieClip.removeChild(_segundaCamada);
+			_mainMovieClip.removeChild(_terceiraCamada);
+			
+			
+			_primeiraCamada = new MovieClip();
+			_segundaCamada = new MovieClip();
+			_terceiraCamada = new MovieClip();
+			
+			_mainMovieClip.addChild(_terceiraCamada);
+			_mainMovieClip.addChild(_segundaCamada);
+			_mainMovieClip.addChild(_primeiraCamada);
+
+			//new Niveis(_mainMovieClip, _jogador);
+			
+
+
+			clean();
+			
+			_planeta = new Planeta(this, _jogador, _nivel);
+			_planeta.resetPlaneta();
+			
+			_timerUpdate.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaSimulacao);
+			_timerUpdateCGI.addEventListener(TimerEvent.TIMER_COMPLETE, atualizaCGI);
+			
+			//_planeta = new Planeta(this, _jogador, _nivel);
+			
 		}
 		
 		
@@ -826,16 +859,16 @@
 				_primeiraCamada.addChild(_menuGame);
 				
 				// e anima a sua entrada ao palco
-				tween = new Tween(_menuGame, "x", Strong.easeInOut, -40, 10, 0.25, true);
-				tween.start();
+				_tween = new Tween(_menuGame, "x", Strong.easeInOut, -40, 10, 0.25, true);
+				_tween.start();
 	
 			}
 			// mas se sim...
 			else {
 				// ... anima a sua saida do palco
-				tween = new Tween(_menuGame, "x", Strong.easeInOut, 10, -40, 0.25, true);
-				tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
-				tween.start();
+				_tween = new Tween(_menuGame, "x", Strong.easeInOut, 10, -40, 0.25, true);
+				_tween.addEventListener(TweenEvent.MOTION_FINISH, tweenFinish);
+				_tween.start();
 			}
 			
 		}
@@ -866,7 +899,6 @@
 			
 			// dependendo da linha e coluna em que esta, posiciona os dados no seu respetivo lugar
 			for (var i : uint = 0; i<_planeta.dados.length; i++) {
-				_planeta.nivel = i+1;
 				_planeta.dados[i].x = 10 + 160*contadorColunas;
 				_planeta.dados[i].y = 370 + contadorLinhas * 35;
 				_planeta.dados[i].nomeValorTextField.width = 120;
@@ -1028,12 +1060,12 @@
 			_menuGame = value;
 		}
 		
-		public function get container():MovieClip
+		public function get terceiraCamada():MovieClip
 		{
 			return _terceiraCamada;
 		}
 		
-		public function set container(value:MovieClip):void
+		public function set terceiraCamada(value:MovieClip):void
 		{
 			_terceiraCamada = value;
 		}
@@ -1087,6 +1119,122 @@
 		{
 			_mainMovieClip = value;
 		}
+		
+		/**
+		 * Nível associado à simulação.
+		 */
+		public function get nivel():uint
+		{
+			return _nivel;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set nivel(value:uint):void
+		{
+			_nivel = value;
+		}
+		
+		/**
+		 * Timer da simulação.
+		 */
+		public function get timerUpdate():Timer
+		{
+			return _timerUpdate;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set timerUpdate(value:Timer):void
+		{
+			_timerUpdate = value;
+		}
+		
+		
+		/**
+		 * Jogador associado à simulação.
+		 */
+		public function get jogador():Jogador
+		{
+			return _jogador;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set jogador(value:Jogador):void
+		{
+			_jogador = value;
+		}
+		
+		/**
+		 * Tempo record global do nível desta simulação.
+		 */
+		public function get tempoRecordGlobal():uint
+		{
+			return _tempoRecordGlobal;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set tempoRecordGlobal(value:uint):void
+		{
+			_tempoRecordGlobal = value;
+		}
+		
+		/**
+		 * Canal sonoro
+		 */
+		public function get soundChannel():SoundChannel
+		{
+			return _soundChannel;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set soundChannel(value:SoundChannel):void
+		{
+			_soundChannel = value;
+		}
+		
+		/**
+		 * Um MovieClip - conteudo em primeira camada.
+		 * @see _mainMovieClip
+		 */
+		public function get primeiraCamada():MovieClip
+		{
+			return _primeiraCamada;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set primeiraCamada(value:MovieClip):void
+		{
+			_primeiraCamada = value;
+		}
+		
+		/**
+		 * Um MovieClip - conteudo em segunda camada.
+		 * @see _mainMovieClip
+		 */
+		public function get segundaCamada():MovieClip
+		{
+			return _segundaCamada;
+		}
+		
+		/**
+		 * @private
+		 */
+		public function set segundaCamada(value:MovieClip):void
+		{
+			_segundaCamada = value;
+		}
+
 		
 		
 	}

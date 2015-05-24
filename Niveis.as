@@ -111,6 +111,7 @@ package
 				}
 				else {
 					nivel.buttonMode = false;
+					nivel.imagem.source = "media/niveis/world_cinzento.png";
 					nivel.alpha = 0.4;
 					
 				}

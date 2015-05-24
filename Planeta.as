@@ -166,7 +166,7 @@ package
 			_loadersCompleted++;
 			
 			if (_loadersCompleted == 2)
-				_game.init();
+				_game.loadCGI();
 
 		}
 		
